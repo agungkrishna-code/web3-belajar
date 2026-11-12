@@ -50,4 +50,5 @@ Setiap folder berisi `index.html`, `styles.css`, `app.js`, dan `README.md` sendi
 
 ## Lisensi
 
-Belum ditentukan. Tambahkan file `LICENSE` sebelum repo ini dipakai ulang oleh orang lain.
+[MIT](LICENSE) © 2026 agungkrishna-code. Bebas dipakai, diubah, dan dibagikan
+dengan tetap menyertakan notice hak cipta.
