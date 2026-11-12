@@ -1,0 +1,3086 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jembatan: Belajar Next.js, Wagmi, dan Viem untuk Web3</title>
+  <meta name="description" content="Docs belajar frontend Web3 dengan Next.js, TypeScript, Wagmi, Viem, dan MetaMask. Connect wallet, baca saldo, baca kontrak, kirim transaksi, tanda tangan pesan, status transaksi, dan event. Bahasa Indonesia dengan lab simulasi.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23145c43'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='20' fill='%23f4f5f0' text-anchor='middle'%3EJB%3C/text%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("jembatan.theme");
+        var saved = raw;
+        try { saved = JSON.parse(raw); } catch (parseError) {}
+        if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#konten">Lewati ke konten</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#mulai">
+        <span class="brand-mark" aria-hidden="true">JB</span>
+        <span class="brand-text">
+          <strong>Jembatan</strong>
+          <span>Next.js, Wagmi, Viem</span>
+        </span>
+      </a>
+
+      <div class="header-tools">
+        <div class="search" role="search">
+          <label class="sr-only" for="search-input">Cari materi di docs ini</label>
+          <input id="search-input" type="search" placeholder="Cari materi" autocomplete="off" aria-controls="search-results">
+          <div class="search-results" id="search-results" hidden></div>
+        </div>
+
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Ganti ke mode gelap">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="btn-label" id="theme-label">Mode gelap</span>
+        </button>
+
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Buka daftar bab" aria-controls="sidebar" aria-expanded="false">
+          <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false">
+            <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="1.6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navigasi materi">
+      <button class="icon-btn sidebar-close" id="sidebar-close" type="button" aria-label="Tutup daftar bab">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
+          <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.6"></path>
+        </svg>
+      </button>
+
+      <span class="sidebar-kicker">Tahap 5 / Frontend</span>
+      <p class="sidebar-title">Jembatan</p>
+
+      <div class="progress-block">
+        <div class="progress-label">
+          <span>Progres belajar</span>
+          <span id="progress-text">0 dari 18</span>
+        </div>
+        <div class="progress-track" id="progress-track" role="progressbar" aria-label="Progres belajar" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0">
+          <span class="progress-fill" id="progress-fill"></span>
+        </div>
+      </div>
+
+      <nav class="chapter-nav" aria-label="Daftar bab">
+        <p class="nav-group">Orientasi</p>
+        <a class="nav-link" href="#mulai" data-nav="mulai">
+          <span class="nav-num" aria-hidden="true">00</span>
+          <span class="nav-label">Mulai di sini</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#peta" data-nav="peta">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Peta kurikulum</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#cara-pakai" data-nav="cara-pakai">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Cara pakai dan versi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Fondasi frontend</p>
+        <a class="nav-link" href="#nextjs" data-nav="nextjs">
+          <span class="nav-num" aria-hidden="true">01</span>
+          <span class="nav-label">Next.js untuk Web3</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#setup" data-nav="setup">
+          <span class="nav-num" aria-hidden="true">02</span>
+          <span class="nav-label">Menyiapkan proyek</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#batas" data-nav="batas">
+          <span class="nav-num" aria-hidden="true">03</span>
+          <span class="nav-label">Server dan client</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#wagmi" data-nav="wagmi">
+          <span class="nav-num" aria-hidden="true">04</span>
+          <span class="nav-label">Wagmi dan Viem</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#rantai" data-nav="rantai">
+          <span class="nav-num" aria-hidden="true">05</span>
+          <span class="nav-label">Chain dan transport</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Membaca chain</p>
+        <a class="nav-link" href="#connect" data-nav="connect">
+          <span class="nav-num" aria-hidden="true">06</span>
+          <span class="nav-label">Connect wallet</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#akun" data-nav="akun">
+          <span class="nav-num" aria-hidden="true">07</span>
+          <span class="nav-label">Address dan balance</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#baca" data-nav="baca">
+          <span class="nav-num" aria-hidden="true">08</span>
+          <span class="nav-label">Baca kontrak</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Menulis chain</p>
+        <a class="nav-link" href="#tulis" data-nav="tulis">
+          <span class="nav-num" aria-hidden="true">09</span>
+          <span class="nav-label">Kirim transaksi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#tanda-tangan" data-nav="tanda-tangan">
+          <span class="nav-num" aria-hidden="true">10</span>
+          <span class="nav-label">Tanda tangan pesan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#status" data-nav="status">
+          <span class="nav-num" aria-hidden="true">11</span>
+          <span class="nav-label">Status transaksi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#event" data-nav="event">
+          <span class="nav-num" aria-hidden="true">12</span>
+          <span class="nav-label">Event blockchain</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Produksi</p>
+        <a class="nav-link" href="#error" data-nav="error">
+          <span class="nav-num" aria-hidden="true">13</span>
+          <span class="nav-label">Error dan UX</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#struktur" data-nav="struktur">
+          <span class="nav-num" aria-hidden="true">14</span>
+          <span class="nav-label">Struktur proyek</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#testing" data-nav="testing">
+          <span class="nav-num" aria-hidden="true">15</span>
+          <span class="nav-label">Testing dan testnet</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#keamanan" data-nav="keamanan">
+          <span class="nav-num" aria-hidden="true">16</span>
+          <span class="nav-label">Keamanan frontend</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#proyek" data-nav="proyek">
+          <span class="nav-num" aria-hidden="true">17</span>
+          <span class="nav-label">Proyek MiniVault dApp</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Ujian dan rujukan</p>
+        <a class="nav-link" href="#uji" data-nav="uji">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Uji kompetensi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#glosarium" data-nav="glosarium">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Glosarium dan cheatsheet</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#sumber" data-nav="sumber">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Sumber belajar</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <p>Semua lab adalah simulasi di browser ini. Tidak ada wallet, RPC, atau transaksi sungguhan, dan tidak ada data yang dikirim.</p>
+        <p>Progres dan skor tersimpan lokal di perangkatmu.</p>
+        <p><a href="../tools/">Tahap sebelumnya: tooling kontrak</a></p>
+        <p><a href="../solidity/">Solidity dan EVM</a></p>
+        <p><a href="../docs/">Fondasi blockchain</a></p>
+      </div>
+    </aside>
+
+    <div class="scrim" data-close-nav aria-hidden="true"></div>
+
+    <main class="content" id="konten" tabindex="-1">
+      <section class="hero" id="mulai" data-title="Mulai di sini">
+        <div class="hero-copy">
+          <p class="chapter-mark">Tahap 5 / Frontend / Next.js</p>
+          <h1>Rantai tidak punya tombol. Kamu yang membuatnya.</h1>
+          <p class="hero-lead">Kamu sudah punya kontrak dan alat untuk mengujinya. Sekarang kamu membangun antarmuka yang membuat orang bisa memakai kontrak itu: menghubungkan wallet, membaca state, mengirim transaksi, menandatangani pesan, dan menampilkan apa yang sedang terjadi di chain.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#nextjs">Mulai Bab 01</a>
+            <a class="btn btn-quiet" href="#peta">Lihat peta kurikulum</a>
+          </div>
+          <p class="hero-note">17 bab, 12 lab interaktif, 1 proyek akhir, 20 soal uji kompetensi. Tanpa akun, tanpa wallet nyata, tanpa dana.</p>
+        </div>
+
+        <div>
+          <div class="wallet-shell" id="hero-wallet">
+            <div class="wallet-top">
+              <span class="wallet-app">
+                <strong>MiniVault</strong>
+                <small>jembatan-dapp.local</small>
+              </span>
+              <span class="wallet-chip" id="hero-chip">belum terhubung</span>
+            </div>
+            <div class="wallet-body">
+              <div class="wallet-ident">
+                <span class="wallet-avatar" id="hero-avatar" aria-hidden="true">--</span>
+                <span class="wallet-ident-text">
+                  <strong id="hero-account">Belum ada akun</strong>
+                  <span class="wallet-address" id="hero-address">Klik hubungkan untuk memulai</span>
+                </span>
+                <span class="wallet-chip" id="hero-network">Sepolia</span>
+              </div>
+              <dl class="wallet-balances">
+                <div>
+                  <dt>Saldo wallet</dt>
+                  <dd><span id="hero-eth">0.0000</span><small>ETH</small></dd>
+                </div>
+                <div>
+                  <dt>Saldo vault</dt>
+                  <dd><span id="hero-vault">0.0000</span><small>ETH</small></dd>
+                </div>
+              </dl>
+              <ul class="wallet-targets" aria-label="Delapan target tahap 5">
+                <li id="hero-target-connect"><span class="tick" aria-hidden="true">1</span>Connect wallet</li>
+                <li id="hero-target-address"><span class="tick" aria-hidden="true">2</span>Tampilkan address</li>
+                <li id="hero-target-balance"><span class="tick" aria-hidden="true">3</span>Baca saldo ETH</li>
+                <li id="hero-target-read"><span class="tick" aria-hidden="true">4</span>Baca data kontrak</li>
+                <li id="hero-target-write"><span class="tick" aria-hidden="true">5</span>Kirim transaksi</li>
+                <li id="hero-target-sign"><span class="tick" aria-hidden="true">6</span>Tanda tangan pesan</li>
+                <li id="hero-target-status"><span class="tick" aria-hidden="true">7</span>Status transaksi</li>
+                <li id="hero-target-event"><span class="tick" aria-hidden="true">8</span>Event blockchain</li>
+              </ul>
+            </div>
+            <div class="wallet-foot">
+              <p class="inst-note" id="hero-note">Simulasi. Tidak ada wallet nyata yang diminta.</p>
+              <div class="wallet-actions">
+                <button class="btn btn-primary btn-small" id="hero-connect" type="button">Hubungkan</button>
+                <button class="btn btn-quiet btn-small" id="hero-send" type="button" disabled>Kirim 0.01 ETH</button>
+              </div>
+            </div>
+          </div>
+          <p class="hero-wallet-note">Panel ini memakai state simulasi yang sama dengan lab Lab 04 sampai 12. Apa yang kamu lakukan di sini terlihat di lab, dan sebaliknya.</p>
+        </div>
+      </section>
+
+      <section class="home-block" id="peta" data-title="Peta kurikulum">
+        <h2>Dari tombol hubungkan sampai transaksi yang bisa dibaca.</h2>
+        <p class="block-lead">Lima bagian. Fondasi Next.js dan library, lalu membaca chain, lalu menulis dan menandatangani, lalu event dan status, lalu produksi. Delapan target tahap ini muncul berurutan, bukan sekaligus di satu file.</p>
+
+        <ol class="curriculum">
+          <li><a href="#nextjs"><span class="curr-num">01</span><span><span class="curr-title">Next.js untuk Web3</span><span class="curr-desc">Kenapa React, App Router, dan di mana wallet masuk.</span></span></a></li>
+          <li><a href="#setup"><span class="curr-num">02</span><span><span class="curr-title">Menyiapkan proyek</span><span class="curr-desc">create-next-app, TypeScript, dependensi, dan env.</span></span></a></li>
+          <li><a href="#batas"><span class="curr-num">03</span><span><span class="curr-title">Server dan client</span><span class="curr-desc">"use client", provider, hydration, dan kesalahan umum.</span></span></a></li>
+          <li><a href="#wagmi"><span class="curr-num">04</span><span><span class="curr-title">Wagmi dan Viem</span><span class="curr-desc">Hook untuk React, client TypeScript untuk chain.</span></span></a></li>
+          <li><a href="#rantai"><span class="curr-num">05</span><span><span class="curr-title">Chain dan transport</span><span class="curr-desc">Chain yang didukung, RPC, connector, dan konfigurasi.</span></span></a></li>
+          <li><a href="#connect"><span class="curr-num">06</span><span><span class="curr-title">Connect wallet</span><span class="curr-desc">MetaMask, injected connector, popup, dan disconnect.</span></span></a></li>
+          <li><a href="#akun"><span class="curr-num">07</span><span><span class="curr-title">Address dan balance</span><span class="curr-desc">useAccount, useBalance, format, dan state loading.</span></span></a></li>
+          <li><a href="#baca"><span class="curr-num">08</span><span><span class="curr-title">Baca kontrak</span><span class="curr-desc">ABI, useReadContract, argumen, dan decoding hasil.</span></span></a></li>
+          <li><a href="#tulis"><span class="curr-num">09</span><span><span class="curr-title">Kirim transaksi</span><span class="curr-desc">useWriteContract, simulasi, gas, dan konfirmasi wallet.</span></span></a></li>
+          <li><a href="#tanda-tangan"><span class="curr-num">10</span><span><span class="curr-title">Tanda tangan pesan</span><span class="curr-desc">useSignMessage, nonce, verifikasi, dan EIP-712.</span></span></a></li>
+          <li><a href="#status"><span class="curr-num">11</span><span><span class="curr-title">Status transaksi</span><span class="curr-desc">Pending, confirming, confirmed, reverted, replaced.</span></span></a></li>
+          <li><a href="#event"><span class="curr-num">12</span><span><span class="curr-title">Event blockchain</span><span class="curr-desc">useWatchContractEvent, log historis, dan indexing.</span></span></a></li>
+          <li><a href="#error"><span class="curr-num">13</span><span><span class="curr-title">Error dan UX</span><span class="curr-desc">Tolak wallet, chain salah, gas kurang, dan pesan yang jelas.</span></span></a></li>
+          <li><a href="#struktur"><span class="curr-num">14</span><span><span class="curr-title">Struktur proyek</span><span class="curr-desc">Pisahkan config, hooks, komponen, dan kontrak.</span></span></a></li>
+          <li><a href="#testing"><span class="curr-num">15</span><span><span class="curr-title">Testing dan testnet</span><span class="curr-desc">Anvil, import akun, Sepolia, dan faucet.</span></span></a></li>
+          <li><a href="#keamanan"><span class="curr-num">16</span><span><span class="curr-title">Keamanan frontend</span><span class="curr-desc">Signature bukan login otomatis, approval, dan RPC.</span></span></a></li>
+          <li><a href="#proyek"><span class="curr-num">17</span><span><span class="curr-title">Proyek MiniVault dApp</span><span class="curr-desc">Kontrak, frontend, dan delapan target dalam satu alur.</span></span></a></li>
+        </ol>
+
+        <aside class="note">
+          <span class="note-label">Cara membaca</span>
+          <p>Bab 01 sampai 05 memasang fondasi dan konfigurasi. Bab 06 sampai 08 hanya membaca, tidak mengubah state. Bab 09 sampai 12 mulai mengirim dan menandatangani. Bab 13 sampai 17 menyiapkan aplikasi untuk dipakai orang lain. Jangan lompat ke proyek akhir sebelum kamu bisa menjelaskan perbedaan membaca kontrak dan menulis kontrak.</p>
+        </aside>
+      </section>
+
+      <section class="home-block" id="cara-pakai" data-title="Cara pakai dan versi">
+        <h2>Frontend Web3 adalah frontend biasa dengan satu sumber state yang tidak bisa dimanipulasi.</h2>
+        <p class="block-lead">React mengatur tampilan. Wagmi mengubah state wallet dan chain menjadi hook. Viem meng-encode panggilan, membaca chain, dan mengembalikan tipe. MetaMask memegang kunci dan meminta persetujuan. Kontrak menegakkan aturan. Tidak ada satu lapisan pun yang boleh dipercaya untuk semuanya.</p>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Lapisan stack tahap 5 dan pekerjaannya.</caption>
+            <thead>
+              <tr><th scope="col">Lapisan</th><th scope="col">Pekerjaan</th><th scope="col">Yang perlu kamu pahami</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Next.js</td><td>Routing, render, server dan client component</td><td>Batas <code>"use client"</code> dan hidrasi</td></tr>
+              <tr><td>TypeScript</td><td>Tipe ABI, address, dan hasil panggilan</td><td><code>as const</code>, union, dan <code>0x${string}</code></td></tr>
+              <tr><td>Wagmi</td><td>Hook React untuk akun, chain, baca, tulis, tanda tangan</td><td>State loading, error, dan query cache</td></tr>
+              <tr><td>Viem</td><td>Client Ethereum, encoding, decoding, verifikasi</td><td>ABI, transport, dan tipe data chain</td></tr>
+              <tr><td>MetaMask</td><td>Menyimpan kunci dan meminta persetujuan pengguna</td><td>Popup, chain, akun aktif, dan penolakan</td></tr>
+              <tr><td>Solidity</td><td>Aturan, state, event, dan error kontrak</td><td>Fungsi mana yang mengubah state</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="diagram">
+          <svg viewBox="0 0 720 290" role="img" aria-labelledby="arsitektur-title arsitektur-desc">
+            <title id="arsitektur-title">Arsitektur frontend Web3</title>
+            <desc id="arsitektur-desc">Browser menjalankan komponen React dari Next.js. Wagmi memakai Viem untuk menyusun panggilan. Viem berbicara dengan MetaMask atau RPC. MetaMask menandatangani transaksi, lalu RPC meneruskannya ke chain. Kontrak mengeksekusi aturan dan mengeluarkan event yang dibaca kembali oleh Viem.</desc>
+            <rect class="svg-box-accent svg-box" x="12" y="30" width="150" height="66" rx="2"></rect>
+            <text class="svg-label" x="26" y="57">React + Next.js</text>
+            <text class="svg-small" x="26" y="76">komponen dan state tampilan</text>
+
+            <rect class="svg-box" x="204" y="30" width="120" height="66" rx="2"></rect>
+            <text class="svg-label" x="218" y="57">Wagmi</text>
+            <text class="svg-small" x="218" y="76">hook React</text>
+
+            <rect class="svg-box" x="366" y="30" width="120" height="66" rx="2"></rect>
+            <text class="svg-label" x="380" y="57">Viem</text>
+            <text class="svg-small" x="380" y="76">encode dan decode</text>
+
+            <rect class="svg-box" x="528" y="30" width="180" height="66" rx="2"></rect>
+            <text class="svg-label" x="542" y="57">MetaMask / RPC</text>
+            <text class="svg-small" x="542" y="76">tanda tangan dan broadcast</text>
+
+            <rect class="svg-box" x="528" y="178" width="180" height="66" rx="2"></rect>
+            <text class="svg-label" x="542" y="205">Kontrak</text>
+            <text class="svg-small" x="542" y="224">state, event, revert</text>
+
+            <rect class="svg-box" x="204" y="178" width="282" height="66" rx="2"></rect>
+            <text class="svg-label" x="218" y="205">Query cache</text>
+            <text class="svg-small" x="218" y="224">data, loading, error, refetch</text>
+
+            <line class="svg-arrow" x1="162" y1="63" x2="198" y2="63"></line>
+            <path class="svg-arrow-head" d="M198 63l-7 -4v8z"></path>
+            <line class="svg-arrow" x1="324" y1="63" x2="360" y2="63"></line>
+            <path class="svg-arrow-head" d="M360 63l-7 -4v8z"></path>
+            <line class="svg-arrow" x1="486" y1="63" x2="522" y2="63"></line>
+            <path class="svg-arrow-head" d="M522 63l-7 -4v8z"></path>
+
+            <path class="svg-line" d="M618 96v76" stroke-dasharray="4 4"></path>
+            <path class="svg-arrow-head" d="M618 178l-4 -8h8z"></path>
+            <path class="svg-line" d="M528 211H492" stroke-dasharray="4 4"></path>
+            <path class="svg-arrow-head" d="M492 211l8 -4v8z"></path>
+            <path class="svg-line" d="M486 178V96" stroke-dasharray="4 4"></path>
+            <path class="svg-arrow-head" d="M486 96l-4 8h8z"></path>
+
+            <text class="svg-small" x="12" y="130">Transaksi pergi ke kanan. Hasil dan event kembali ke kiri.</text>
+            <text class="svg-small" x="12" y="152">Frontend tidak memegang private key. Ia meminta wallet menandatangani.</text>
+          </svg>
+          <p class="diagram-caption">Wagmi tidak berbicara langsung ke kontrak. Ia memakai Viem untuk menyusun request, wallet untuk menandatangani, dan RPC untuk meneruskan. Membaca kontrak tidak memerlukan tanda tangan.</p>
+        </div>
+
+        <div class="file-tree">jembatan-dapp/               <span class="tree-note">proyek Next.js yang kamu buat sendiri</span>
+|-- app/
+|   |-- layout.tsx         <span class="tree-note">server component</span>
+|   |-- providers.tsx      <span class="tree-note">client component</span>
+|   `-- page.tsx           <span class="tree-note">halaman dApp</span>
+|-- components/
+|   |-- connect-button.tsx
+|   |-- balance-card.tsx
+|   |-- vault-panel.tsx
+|   `-- event-feed.tsx
+|-- lib/
+|   |-- wagmi.ts           <span class="tree-note">config chain dan connector</span>
+|   |-- contract.ts        <span class="tree-note">address dan ABI</span>
+|   `-- format.ts
+|-- .env.local             <span class="tree-note">jangan di-commit</span>
+`-- package.json
+
+web3-belajar/nextjs/       <span class="tree-note">docs yang sedang kamu baca</span>
+
+        <h3>Setelah selesai, kamu bisa:</h3>
+        <ul class="outcomes">
+          <li>Membuat proyek Next.js dengan TypeScript dan memasang Wagmi, Viem, serta TanStack Query.</li>
+          <li>Menjelaskan mengapa provider wallet harus berada di client component.</li>
+          <li>Mengonfigurasi chain, transport RPC, dan connector MetaMask.</li>
+          <li>Menghubungkan wallet, menampilkan address, dan menangani disconnect serta ganti akun.</li>
+          <li>Membaca saldo ETH dan data kontrak dengan hook Wagmi.</li>
+          <li>Mengirim transaksi, menampilkan hash, dan menunggu receipt.</li>
+          <li>Menandatangani pesan dan memverifikasinya di server.</li>
+          <li>Membedakan transaksi pending, confirmed, reverted, replaced, dan dropped.</li>
+          <li>Menampilkan event kontrak secara live dan membaca log historis.</li>
+          <li>Menangani penolakan wallet, chain salah, dan error kontrak dengan pesan yang jelas.</li>
+          <li>Menjelaskan batas keamanan frontend dan kenapa signature bukan login otomatis.</li>
+          <li>Menjalankan dApp terhadap Anvil dan Sepolia tanpa memakai dana nyata.</li>
+        </ul>
+
+        <h3>Asumsi versi</h3>
+        <div class="grid-3">
+          <div>
+            <h4>Next.js App Router</h4>
+            <p>Contoh memakai folder <code>app/</code>, React Server Component default, dan <code>"use client"</code> hanya di komponen yang memakai hook. Page Router tidak dibahas mendalam, tetapi konsep provider dan hook tetap sama.</p>
+          </div>
+          <div>
+            <h4>Wagmi 2 dan Viem 2</h4>
+            <p>API yang dipakai adalah <code>createConfig</code>, <code>useAccount</code>, <code>useReadContract</code>, <code>useWriteContract</code>, dan <code>useWatchContractEvent</code>. Nama hook bisa berubah di versi mayor berikutnya; periksa dokumentasi versi yang kamu pasang.</p>
+          </div>
+          <div>
+            <h4>MetaMask dan Anvil</h4>
+            <p>MetaMask dipakai sebagai wallet injected. Anvil dipakai untuk latihan lokal. Sepolia dipakai untuk testnet. Jangan memakai private key Anvil di mainnet karena kuncinya publik.</p>
+          </div>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Batas simulasi</span>
+          <p>Lab di docs ini tidak memanggil MetaMask, RPC, atau kontrak sungguhan. Angka saldo, hash, gas, dan event adalah simulasi yang diberi label. Untuk mencoba sungguhan, ikuti Bab 15 dan jalankan proyek Next.js di komputermu sendiri dengan Anvil atau Sepolia.</p>
+        </aside>
+
+        <aside class="note">
+          <span class="note-label">Satu aturan yang tidak berubah</span>
+          <p>Frontend tidak boleh menjadi satu-satunya penjaga aturan. Apa pun yang kamu sembunyikan di tombol, orang bisa memanggil kontrak langsung. Validasi di UI berguna untuk pengalaman, tetapi kontrak harus tetap menolak input yang tidak sah.</p>
+        </aside>
+      </section>
+
+      <section class="chapter" id="nextjs" data-chapter="nextjs" data-track="true" data-title="Next.js untuk Web3">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 01<span class="chapter-type">FONDASI</span></p>
+          <h2>Next.js adalah rumah. Wallet adalah tamu yang membawa kuncinya sendiri.</h2>
+          <p class="chapter-lead">Aplikasi Web3 tetap aplikasi web. Ia punya routing, form, state, dan error. Yang berbeda: sebagian state tinggal di chain, dan sebagian izin tinggal di wallet pengguna. Next.js membantumu memisahkan halaman yang bisa dirender di server dari bagian yang harus berjalan di browser.</p>
+          <ul class="goals">
+            <li>Menjelaskan pembagian tugas Next.js, Wagmi, Viem, wallet, dan kontrak.</li>
+            <li>Membedakan data yang boleh dirender di server dan data yang harus dibaca wallet.</li>
+            <li>Memahami kenapa koneksi wallet bukan autentikasi dengan sendirinya.</li>
+            <li>Menyusun urutan delapan target tahap ini menjadi satu alur layar.</li>
+          </ul>
+        </header>
+
+        <h3>Yang berubah dari aplikasi web biasa</h3>
+        <p>Di aplikasi web biasa, server biasanya memegang kebenaran: data pengguna ada di database, sesi ada di cookie, dan tombol dikendalikan oleh role. Di dApp, kebenaran state ada di chain. Frontend hanya membaca salinan dan mengirim permintaan perubahan. Wallet memegang kunci dan meminta pengguna menyetujui setiap perubahan yang mengeluarkan uang atau memberi izin.</p>
+        <p>Artinya ada tiga sumber state yang harus kamu tampilkan dengan jujur:</p>
+        <ul>
+          <li><strong>State chain.</strong> Saldo, pemilik, total deposit, dan event. Bisa berubah kapan saja karena transaksi orang lain.</li>
+          <li><strong>State wallet.</strong> Akun aktif, chain aktif, dan status koneksi. Bisa berubah tanpa aplikasimu melakukan apa pun.</li>
+          <li><strong>State UI.</strong> Tab, input, toast, dan modal. Ini milikmu, tetapi tidak boleh dianggap bukti kebenaran.</li>
+        </ul>
+        <p>Kesalahan pemula adalah menyimpan address hasil connect di <code>localStorage</code> lalu menganggapnya login. Address mudah dipalsukan di sisi klien. Untuk autentikasi, pengguna harus menandatangani pesan dengan nonce yang diterbitkan server, lalu server memverifikasi signature. Itu dibahas di Bab 10 dan Bab 16.</p>
+
+        <h3>Kenapa Next.js, bukan HTML biasa</h3>
+        <p>Untuk satu tombol connect, HTML dan JavaScript biasa cukup. Untuk aplikasi yang tumbuh, Next.js memberi routing, pemisahan server dan client, optimasi aset, dan tempat untuk menaruh logika server seperti verifikasi signature. App Router memaksa kamu memikirkan batas: komponen server tidak bisa memakai hook wallet, sedangkan komponen client tidak bisa membaca secret server.</p>
+        <p>Halaman marketing, dokumentasi, dan daftar kontrak bisa dirender di server. Panel wallet, tombol transaksi, dan event feed harus client. Pemisahan ini bukan gaya penulisan; ia mencegah error hidrasi dan mencegah kunci rahasia masuk ke bundle browser.</p>
+
+        <div class="grid-2">
+          <div>
+            <h4>Cocok untuk Next.js</h4>
+            <ul>
+              <li>Landing page dan dokumentasi yang perlu SEO.</li>
+              <li>Dashboard dengan banyak route dan komponen.</li>
+              <li>Endpoint server untuk verifikasi signature dan metadata.</li>
+              <li>Tim yang sudah memakai React dan TypeScript.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Tetap bisa tanpa Next.js</h4>
+            <ul>
+              <li>Prototipe satu halaman di Remix atau Vite.</li>
+              <li>Widget yang ditempel ke situs yang sudah ada.</li>
+              <li>Aplikasi internal yang tidak butuh SSR.</li>
+              <li>Eksperimen cepat sebelum memilih arsitektur.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Delapan target, satu alur</h3>
+        <p>Target tahap ini terlihat seperti delapan fitur terpisah. Sebenarnya mereka satu alur: pengguna datang, menghubungkan wallet, melihat saldo, membaca state kontrak, memutuskan mengirim transaksi, menandatangani persetujuan, menunggu status, lalu melihat event yang dihasilkan. Setiap langkah punya state loading dan error sendiri.</p>
+        <div class="target-grid">
+          <div><h4>1. Connect wallet</h4><p>Meminta izin akun ke wallet dan menampilkan status koneksi.</p></div>
+          <div><h4>2. Address</h4><p>Menampilkan alamat aktif, format pendek, dan aksi salin.</p></div>
+          <div><h4>3. Balance ETH</h4><p>Membaca saldo native token dan memperbaruinya setelah transaksi.</p></div>
+          <div><h4>4. Baca kontrak</h4><p>Memanggil fungsi view dengan ABI dan argumen bertipe.</p></div>
+          <div><h4>5. Kirim transaksi</h4><p>Menyusun calldata, meminta tanda tangan, dan membayar gas.</p></div>
+          <div><h4>6. Tanda tangan pesan</h4><p>Membuktikan kepemilikan akun tanpa mengubah state chain.</p></div>
+          <div><h4>7. Status transaksi</h4><p>Membedakan menunggu wallet, menunggu blok, berhasil, dan revert.</p></div>
+          <div><h4>8. Event</h4><p>Membaca log baru dan menampilkannya sebagai riwayat aktivitas.</p></div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-head"><span>Alur data yang akan kamu bangun</span><button class="copy-btn" type="button" data-copy-target="code-01-flow">Salin</button></div>
+          <pre><code id="code-01-flow" data-lang="text">pengguna klik "Hubungkan"
+  -> wagmi memanggil connector MetaMask
+  -> MetaMask menampilkan popup izin
+  -> wallet mengembalikan address dan chain
+  -> useAccount memperbarui komponen
+  -> useBalance membaca saldo lewat RPC
+  -> useReadContract membaca balanceOf(address)
+  -> pengguna isi nominal dan klik "Deposit"
+  -> useWriteContract menyusun calldata deposit()
+  -> MetaMask meminta tanda tangan dan biaya gas
+  -> transaksi masuk mempool, hash tersedia
+  -> useWaitForTransactionReceipt menunggu receipt
+  -> receipt sukses, saldo dan event diperbarui
+  -> event feed menampilkan Deposited(user, amount)</code></pre>
+        </div>
+
+        <div class="lab" id="lab-stack">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 01</p>
+            <h3>Letakkan setiap pekerjaan di lapisan yang tepat.</h3>
+            <p>Pilih lapisan yang paling bertanggung jawab untuk setiap tugas. Beberapa tugas terasa seperti bisa dilakukan di dua tempat; pilih tempat yang seharusnya menjadi sumber kebenaran.</p>
+          </div>
+          <div class="lab-body">
+            <div class="stack-task" data-stack-task="route" data-answer="next">
+              <p><strong>Menentukan route /vault dan layout global</strong><small>Halaman, metadata, dan susunan komponen.</small></p>
+              <select aria-label="Lapisan untuk route dan layout">
+                <option value="">Pilih lapisan</option>
+                <option value="next">Next.js</option>
+                <option value="wagmi">Wagmi</option>
+                <option value="viem">Viem</option>
+                <option value="metamask">MetaMask</option>
+                <option value="solidity">Solidity</option>
+                <option value="query">TanStack Query</option>
+              </select>
+            </div>
+            <div class="stack-task" data-stack-task="hook" data-answer="wagmi">
+              <p><strong>Mengubah state akun dan chain menjadi hook React</strong><small>Komponen perlu tahu kapan akun berganti tanpa memanggil RPC sendiri.</small></p>
+              <select aria-label="Lapisan untuk hook akun">
+                <option value="">Pilih lapisan</option>
+                <option value="next">Next.js</option>
+                <option value="wagmi">Wagmi</option>
+                <option value="viem">Viem</option>
+                <option value="metamask">MetaMask</option>
+                <option value="solidity">Solidity</option>
+                <option value="query">TanStack Query</option>
+              </select>
+            </div>
+            <div class="stack-task" data-stack-task="encode" data-answer="viem">
+              <p><strong>Meng-encode calldata dan membaca receipt</strong><small>Mengubah nama fungsi dan argumen menjadi byte yang dikirim ke chain.</small></p>
+              <select aria-label="Lapisan untuk encoding dan receipt">
+                <option value="">Pilih lapisan</option>
+                <option value="next">Next.js</option>
+                <option value="wagmi">Wagmi</option>
+                <option value="viem">Viem</option>
+                <option value="metamask">MetaMask</option>
+                <option value="solidity">Solidity</option>
+                <option value="query">TanStack Query</option>
+              </select>
+            </div>
+            <div class="stack-task" data-stack-task="key" data-answer="metamask">
+              <p><strong>Menyimpan private key dan meminta persetujuan transaksi</strong><small>Kunci tidak boleh masuk ke bundle JavaScript aplikasi.</small></p>
+              <select aria-label="Lapisan untuk kunci dan persetujuan">
+                <option value="">Pilih lapisan</option>
+                <option value="next">Next.js</option>
+                <option value="wagmi">Wagmi</option>
+                <option value="viem">Viem</option>
+                <option value="metamask">MetaMask</option>
+                <option value="solidity">Solidity</option>
+                <option value="query">TanStack Query</option>
+              </select>
+            </div>
+            <div class="stack-task" data-stack-task="rule" data-answer="solidity">
+              <p><strong>Menolak deposit nol dan mengeluarkan event</strong><small>Aturan harus tetap berlaku walau frontend dimodifikasi.</small></p>
+              <select aria-label="Lapisan untuk aturan kontrak">
+                <option value="">Pilih lapisan</option>
+                <option value="next">Next.js</option>
+                <option value="wagmi">Wagmi</option>
+                <option value="viem">Viem</option>
+                <option value="metamask">MetaMask</option>
+                <option value="solidity">Solidity</option>
+                <option value="query">TanStack Query</option>
+              </select>
+            </div>
+            <div class="stack-task" data-stack-task="cache" data-answer="query">
+              <p><strong>Menyimpan cache hasil baca dan mengatur refetch</strong><small>Data kontrak perlu diperbarui tanpa mengatur timer manual di setiap komponen.</small></p>
+              <select aria-label="Lapisan untuk cache query">
+                <option value="">Pilih lapisan</option>
+                <option value="next">Next.js</option>
+                <option value="wagmi">Wagmi</option>
+                <option value="viem">Viem</option>
+                <option value="metamask">MetaMask</option>
+                <option value="solidity">Solidity</option>
+                <option value="query">TanStack Query</option>
+              </select>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="stack-check" type="button">Periksa jawaban</button>
+              <button class="btn btn-quiet" id="stack-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="stack-status" role="status" aria-live="polite">Belum ada jawaban yang diperiksa.</p>
+            <p class="lab-note">Wagmi memakai TanStack Query di balik layar, jadi kamu tidak perlu memasang cache sendiri. Tetapi kamu tetap perlu memahami kapan data dianggap basi, terutama setelah transaksi berhasil.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="setup" data-chapter="setup" data-track="true" data-title="Menyiapkan proyek">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 02<span class="chapter-type">PRAKTIK</span></p>
+          <h2>Mulai dari proyek kosong yang bisa dijalankan.</h2>
+          <p class="chapter-lead">Sebelum berurusan dengan wallet, pastikan proyek Next.js, TypeScript, dan query client berjalan. Error konfigurasi lebih mudah ditemukan saat belum ada transaksi yang terlibat.</p>
+          <ul class="goals">
+            <li>Membuat proyek Next.js App Router dengan TypeScript.</li>
+            <li>Memasang Wagmi, Viem, dan TanStack Query pada versi yang kompatibel.</li>
+            <li>Memahami arti prefix <code>NEXT_PUBLIC_</code> dan kapan nilai itu terlihat di browser.</li>
+            <li>Menjalankan dev server dan memeriksa bahwa halaman merender tanpa error.</li>
+          </ul>
+        </header>
+
+        <h3>Membuat proyek</h3>
+        <p>Jalankan <code>create-next-app</code> dari folder kerja, bukan di dalam folder docs ini. Pilih TypeScript, App Router, dan ESLint. Tailwind opsional; docs ini tidak bergantung padanya. Jika kamu memakai folder <code>src/</code>, sesuaikan path import di contoh.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Terminal</span><button class="copy-btn" type="button" data-copy-target="code-02-init">Salin</button></div>
+          <pre><code id="code-02-init" data-lang="bash">npx create-next-app@latest jembatan-dapp
+# TypeScript: Yes
+# ESLint: Yes
+# Tailwind CSS: pilihanmu
+# src/ directory: No
+# App Router: Yes
+# Turbopack: pilihanmu
+# import alias: @/*
+
+cd jembatan-dapp
+npm install wagmi viem @tanstack/react-query
+npm run dev</code></pre>
+        </div>
+        <p>Buka <code>http://localhost:3000</code>. Kalau halaman default muncul tanpa error di terminal, fondasi proyek sudah siap. Jangan lanjut sebelum langkah ini bersih; menambahkan wallet ke proyek yang sudah error membuat dua masalah bercampur.</p>
+
+        <h3>Membaca package.json</h3>
+        <p>Wagmi membutuhkan React dan Viem. TanStack Query dibutuhkan Wagmi untuk cache dan refetch. Versi mayor harus saling cocok. Jika kamu memakai Wagmi 2, jangan memasang Viem 1 atau React Query 4. Periksa peer dependency dan changelog saat memperbarui.</p>
+        <div class="code-block">
+          <div class="code-head"><span>package.json (bagian penting)</span><button class="copy-btn" type="button" data-copy-target="code-02-package">Salin</button></div>
+          <pre><code id="code-02-package" data-lang="json">{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5",
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19",
+    "viem": "^2",
+    "wagmi": "^2"
+  }
+}</code></pre>
+        </div>
+        <p>Angka versi di contoh adalah rentang, bukan janji. Setelah instalasi, buka <code>package-lock.json</code> atau jalankan <code>npm ls wagmi viem @tanstack/react-query</code> untuk melihat versi yang benar-benar terpasang.</p>
+
+        <h3>TypeScript dan BigInt</h3>
+        <p>Nilai uint256 di Viem dikembalikan sebagai <code>bigint</code>, bukan <code>number</code>. JavaScript modern mendukung BigInt, tetapi target TypeScript yang terlalu lama bisa menolak literal <code>0n</code>. Pastikan <code>tsconfig.json</code> memakai target ES2020 atau lebih baru.</p>
+        <div class="code-block">
+          <div class="code-head"><span>tsconfig.json</span><button class="copy-btn" type="button" data-copy-target="code-02-tsconfig">Salin</button></div>
+          <pre><code id="code-02-tsconfig" data-lang="json">{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "plugins": [{ "name": "next" }],
+    "paths": { "@/*": ["./*"] }
+  }
+}</code></pre>
+        </div>
+
+        <h3>Environment variable yang aman</h3>
+        <p>Next.js hanya mengekspos variable berprefix <code>NEXT_PUBLIC_</code> ke browser. Alamat kontrak dan chain id aman untuk publik. API key RPC yang dibatasi kuota sebaiknya tidak memakai prefix itu; taruh di server dan sediakan route proxy, atau pakai endpoint publik yang memang untuk klien.</p>
+        <div class="code-block">
+          <div class="code-head"><span>.env.local</span><button class="copy-btn" type="button" data-copy-target="code-02-env">Salin</button></div>
+          <pre><code id="code-02-env" data-lang="bash"># Alamat publik, aman terlihat di browser
+NEXT_PUBLIC_VAULT_ADDRESS=0x0000000000000000000000000000000000000000
+NEXT_PUBLIC_CHAIN_ID=11155111
+
+# Jangan beri prefix NEXT_PUBLIC_ pada secret
+# RPC_API_KEY=...
+# SIGNER_PRIVATE_KEY=...</code></pre>
+        </div>
+        <aside class="warn">
+          <span class="note-label">Jangan commit .env.local</span>
+          <p>File <code>.env.local</code> biasanya sudah masuk <code>.gitignore</code>. Periksa lagi. Private key yang pernah masuk riwayat git harus dianggap bocor, walau kamu menghapus filenya kemudian. Buat akun baru dan pindahkan dana.</p>
+        </aside>
+
+        <h3>Struktur awal yang disarankan</h3>
+        <p>Buat empat folder sebelum menulis fitur: <code>lib/</code> untuk konfigurasi, <code>components/</code> untuk UI, <code>app/</code> untuk route, dan <code>contracts/</code> untuk ABI serta alamat. Struktur ini mencegah satu file berisi config, hook, dan markup sekaligus.</p>
+        <div class="file-tree">jembatan-dapp/
+|-- app/
+|   |-- layout.tsx
+|   |-- page.tsx
+|   `-- providers.tsx
+|-- components/
+|   `-- connect-button.tsx
+|-- contracts/
+|   |-- mini-vault.abi.ts
+|   `-- addresses.ts
+|-- lib/
+|   `-- wagmi.ts
+`-- public/</div>
+        <p>Belum ada yang bisa diklik. Itu normal. Bab berikutnya memasang provider dan config, lalu komponen pertama yang memakai hook.</p>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="batas" data-chapter="batas" data-track="true" data-title="Server dan client">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 03<span class="chapter-type">FONDASI</span></p>
+          <h2>Wallet hanya ada di browser. Jangan pura-pura ia ada di server.</h2>
+          <p class="chapter-lead">Di App Router, komponen adalah server component kecuali kamu menandainya client. Hook Wagmi membutuhkan browser, event listener, dan context React. Menaruhnya di server component menghasilkan error yang terlihat rumit, padahal penyebabnya satu baris.</p>
+          <ul class="goals">
+            <li>Menentukan kapan sebuah file perlu <code>"use client"</code>.</li>
+            <li>Menempatkan provider Wagmi dan TanStack Query dengan benar.</li>
+            <li>Mengenali error hidrasi dan penyebab umumnya.</li>
+            <li>Membedakan komponen yang butuh data chain dari komponen statis.</li>
+          </ul>
+        </header>
+
+        <h3>Tiga jenis file di proyek ini</h3>
+        <p>Pertama, server component: layout, halaman marketing, dan komponen yang hanya menampilkan teks. Kedua, client component: provider, tombol connect, panel transaksi, dan event feed. Ketiga, modul biasa: konfigurasi, ABI, dan fungsi format yang tidak memakai hook. Modul biasa bisa diimpor dari kedua sisi selama tidak menyentuh <code>window</code> saat dievaluasi.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Batas praktis yang perlu dihafal.</caption>
+            <thead>
+              <tr><th scope="col">File</th><th scope="col">Jenis</th><th scope="col">Alasan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>app/layout.tsx</code></td><td>Server</td><td>Menyusun html, body, metadata, dan provider.</td></tr>
+              <tr><td><code>app/providers.tsx</code></td><td>Client</td><td>Memakai WagmiProvider dan QueryClientProvider.</td></tr>
+              <tr><td><code>app/page.tsx</code></td><td>Server atau client</td><td>Server jika hanya menampilkan teks; client jika memakai hook.</td></tr>
+              <tr><td><code>components/connect-button.tsx</code></td><td>Client</td><td>Memakai useAccount, useConnect, dan event klik.</td></tr>
+              <tr><td><code>lib/wagmi.ts</code></td><td>Modul biasa</td><td>createConfig dan ABI; tidak memakai hook React.</td></tr>
+              <tr><td><code>app/api/verify/route.ts</code></td><td>Server</td><td>Memverifikasi signature dan memegang secret server.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Provider di root layout</h3>
+        <p>Provider harus membungkus semua komponen yang memakai hook Wagmi. Tempat paling aman adalah root layout. Karena provider memakai hook dan menyimpan QueryClient, file provider diberi <code>"use client"</code>. Layout tetap server component dan mengimpor provider seperti komponen biasa.</p>
+        <div class="code-block">
+          <div class="code-head"><span>app/providers.tsx</span><button class="copy-btn" type="button" data-copy-target="code-03-providers">Salin</button></div>
+          <pre><code id="code-03-providers" data-lang="tsx">"use client";
+
+import { useState, type ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { WagmiProvider } from "wagmi";
+import { config } from "@/lib/wagmi";
+
+export function Providers({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(() =&gt; new QueryClient());
+
+  return (
+    &lt;WagmiProvider config={config}&gt;
+      &lt;QueryClientProvider client={queryClient}&gt;
+        {children}
+      &lt;/QueryClientProvider&gt;
+    &lt;/WagmiProvider&gt;
+  );
+}</code></pre>
+        </div>
+        <p>Mengapa <code>useState(() =&gt; new QueryClient())</code>? Di server dan saat hot reload, modul bisa dievaluasi ulang. Membuat QueryClient di level modul berisiko berbagi cache antar request. Dengan state lazy, setiap pohon React mendapat client sendiri.</p>
+        <div class="code-block">
+          <div class="code-head"><span>app/layout.tsx</span><button class="copy-btn" type="button" data-copy-target="code-03-layout">Salin</button></div>
+          <pre><code id="code-03-layout" data-lang="tsx">import type { Metadata } from "next";
+import { Providers } from "./providers";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "MiniVault",
+  description: "dApp latihan Next.js, Wagmi, dan Viem",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly&lt;{ children: React.ReactNode }&gt;) {
+  return (
+    &lt;html lang="id"&gt;
+      &lt;body&gt;
+        &lt;Providers&gt;{children}&lt;/Providers&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  );
+}</code></pre>
+        </div>
+
+        <h3>Hidrasi: saat server dan browser tidak sepakat</h3>
+        <p>Hidrasi adalah proses React mencocokkan HTML dari server dengan pohon komponen di browser. Wallet tidak ada saat server merender. Jika markup awal di server berbeda dengan markup setelah wallet membaca <code>window.ethereum</code>, React melaporkan hydration mismatch.</p>
+        <p>Wagmi menyediakan opsi <code>ssr: true</code> pada config dan penyimpanan cookie untuk state koneksi. Untuk aplikasi kecil, pola yang paling mudah: render tampilan netral di server, lalu tampilkan status wallet setelah komponen client terpasang. Jangan membaca <code>window</code> di luar <code>useEffect</code> atau event handler.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Pola aman untuk status koneksi</span><button class="copy-btn" type="button" data-copy-target="code-03-hydrate">Salin</button></div>
+          <pre><code id="code-03-hydrate" data-lang="tsx">"use client";
+
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+
+export function WalletStatus() {
+  const { address, isConnected } = useAccount();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() =&gt; setMounted(true), []);
+
+  if (!mounted) {
+    return &lt;span className="wallet-chip"&gt;memeriksa wallet...&lt;/span&gt;;
+  }
+
+  return (
+    &lt;span className="wallet-chip" data-on={isConnected}&gt;
+      {isConnected &amp;&amp; address ? address : "belum terhubung"}
+    &lt;/span&gt;
+  );
+}</code></pre>
+        </div>
+        <aside class="note">
+          <span class="note-label">Bukan hanya soal wallet</span>
+          <p>Tanggal, <code>Math.random()</code>, dan <code>localStorage</code> juga bisa menyebabkan mismatch. Aturan umumnya: nilai yang hanya diketahui browser jangan dipakai saat render pertama. Tampilkan placeholder yang sama di server dan klien, lalu perbarui setelah mount.</p>
+        </aside>
+
+        <div class="lab" id="lab-boundary">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 02</p>
+            <h3>Tentukan file mana yang butuh "use client".</h3>
+            <p>Setiap kartu berisi file dari proyek. Pilih server atau client, lalu periksa. Ingat: file yang mengimpor hook atau API browser harus client; file yang hanya menyusun markup dan metadata tetap server.</p>
+          </div>
+          <div class="lab-body">
+            <div class="boundary-card" data-boundary="layout" data-answer="server">
+              <span><strong>app/layout.tsx</strong><span>Menyusun html, body, metadata, dan mengimpor Providers.</span></span>
+              <span class="seg" role="group" aria-label="Jenis untuk app/layout.tsx">
+                <button type="button" data-value="server" aria-pressed="false">server</button>
+                <button type="button" data-value="client" aria-pressed="false">client</button>
+              </span>
+            </div>
+            <div class="boundary-card" data-boundary="providers" data-answer="client">
+              <span><strong>app/providers.tsx</strong><span>Memakai WagmiProvider, QueryClientProvider, dan useState.</span></span>
+              <span class="seg" role="group" aria-label="Jenis untuk app/providers.tsx">
+                <button type="button" data-value="server" aria-pressed="false">server</button>
+                <button type="button" data-value="client" aria-pressed="false">client</button>
+              </span>
+            </div>
+            <div class="boundary-card" data-boundary="button" data-answer="client">
+              <span><strong>components/connect-button.tsx</strong><span>Memakai useAccount, useConnect, dan onClick.</span></span>
+              <span class="seg" role="group" aria-label="Jenis untuk connect-button.tsx">
+                <button type="button" data-value="server" aria-pressed="false">server</button>
+                <button type="button" data-value="client" aria-pressed="false">client</button>
+              </span>
+            </div>
+            <div class="boundary-card" data-boundary="api" data-answer="server">
+              <span><strong>app/api/verify/route.ts</strong><span>Memverifikasi signature dengan secret dan mengembalikan JSON.</span></span>
+              <span class="seg" role="group" aria-label="Jenis untuk route verify">
+                <button type="button" data-value="server" aria-pressed="false">server</button>
+                <button type="button" data-value="client" aria-pressed="false">client</button>
+              </span>
+            </div>
+            <div class="boundary-card" data-boundary="abi" data-answer="server">
+              <span><strong>contracts/mini-vault.abi.ts</strong><span>Konstanta ABI dan alamat; tidak memakai hook atau window.</span></span>
+              <span class="seg" role="group" aria-label="Jenis untuk ABI">
+                <button type="button" data-value="server" aria-pressed="false">server</button>
+                <button type="button" data-value="client" aria-pressed="false">client</button>
+              </span>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="boundary-check" type="button">Periksa</button>
+              <button class="btn btn-quiet" id="boundary-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="boundary-status" role="status" aria-live="polite">Belum ada pilihan.</p>
+            <p class="lab-note">Modul ABI bisa diimpor dari server maupun client. Yang menentukan bukan kata "ABI", tetapi apakah modul itu menyentuh API browser saat dievaluasi. Menambahkan "use client" pada semua file menghilangkan manfaat server component dan tidak memperbaiki error.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="wagmi" data-chapter="wagmi" data-track="true" data-title="Wagmi dan Viem">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 04<span class="chapter-type">FONDASI</span></p>
+          <h2>Wagmi mengurus React. Viem mengurus Ethereum.</h2>
+          <p class="chapter-lead">Keduanya sering disebut bersamaan, tetapi pekerjaannya berbeda. Wagmi memberi hook yang reaktif terhadap akun, chain, dan cache. Viem memberi client dan tipe untuk menyusun panggilan, membaca chain, dan memverifikasi data. Kamu akan memakai keduanya, kadang di file yang sama.</p>
+          <ul class="goals">
+            <li>Membedakan pekerjaan hook Wagmi dan client Viem.</li>
+            <li>Mengonfigurasi Wagmi dengan <code>createConfig</code> dan transport.</li>
+            <li>Mendaftarkan tipe config agar hook mendapat inferensi TypeScript.</li>
+            <li>Memakai <code>usePublicClient</code> dan <code>useWalletClient</code> saat hook belum cukup.</li>
+          </ul>
+        </header>
+
+        <h3>Dua lapisan, satu tujuan</h3>
+        <p>Viem adalah library TypeScript untuk Ethereum. Ia meng-encode ABI, mengirim JSON-RPC, membaca receipt, dan mengembalikan hasil bertipe. Ia tidak tahu apa-apa tentang React. Wagmi adalah lapisan React di atas Viem: ia menyimpan koneksi wallet, menyediakan hook, dan memakai TanStack Query untuk cache.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Kapan memakai yang mana.</caption>
+            <thead>
+              <tr><th scope="col">Kebutuhan</th><th scope="col">Pakai</th><th scope="col">Contoh</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Menampilkan akun aktif di komponen</td><td>Wagmi</td><td><code>useAccount()</code></td></tr>
+              <tr><td>Membaca fungsi view dan refetch otomatis</td><td>Wagmi</td><td><code>useReadContract()</code></td></tr>
+              <tr><td>Mengirim transaksi dan menunggu receipt</td><td>Wagmi</td><td><code>useWriteContract()</code>, <code>useWaitForTransactionReceipt()</code></td></tr>
+              <tr><td>Memanggil RPC di luar React atau di server</td><td>Viem</td><td><code>createPublicClient()</code></td></tr>
+              <tr><td>Memverifikasi signature di API route</td><td>Viem</td><td><code>verifyMessage()</code></td></tr>
+              <tr><td>Meng-encode calldata secara manual</td><td>Viem</td><td><code>encodeFunctionData()</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Config adalah pusat koneksi</h3>
+        <p>Satu file config menyimpan daftar chain, transport RPC, dan connector. Semua hook membaca config ini lewat context. Jangan membuat config baru di dalam komponen; itu membuat cache dan koneksi terpisah.</p>
+        <div class="code-block">
+          <div class="code-head"><span>lib/wagmi.ts</span><button class="copy-btn" type="button" data-copy-target="code-04-config">Salin</button></div>
+          <pre><code id="code-04-config" data-lang="ts">import { createConfig, http } from "wagmi";
+import { mainnet, sepolia, anvil } from "wagmi/chains";
+import { injected } from "wagmi/connectors";
+
+export const config = createConfig({
+  chains: [sepolia, mainnet, anvil],
+  connectors: [injected()],
+  transports: {
+    [sepolia.id]: http(),
+    [mainnet.id]: http(),
+    [anvil.id]: http("http://127.0.0.1:8545"),
+  },
+  ssr: true,
+});
+
+declare module "wagmi" {
+  interface Register {
+    config: typeof config;
+  }
+}</code></pre>
+        </div>
+        <p>Blok <code>declare module "wagmi"</code> mendaftarkan tipe config. Tanpa itu, TypeScript tidak tahu chain mana yang tersedia dan hasil hook menjadi terlalu umum. Ini bukan dekorasi; ia yang membuat <code>chainId</code> dan <code>useSwitchChain</code> punya tipe yang benar.</p>
+
+        <h3>Hook yang akan sering kamu pakai</h3>
+        <div class="hook-list">
+          <div><code>useAccount</code><span>Address, chain, connector, dan status koneksi.</span></div>
+          <div><code>useConnect</code><span>Daftar connector dan fungsi connect.</span></div>
+          <div><code>useDisconnect</code><span>Memutuskan koneksi dari sisi aplikasi.</span></div>
+          <div><code>useBalance</code><span>Saldo native token untuk address tertentu.</span></div>
+          <div><code>useReadContract</code><span>Memanggil fungsi view dengan ABI dan argumen.</span></div>
+          <div><code>useWriteContract</code><span>Menyusun dan meminta tanda tangan transaksi tulis.</span></div>
+          <div><code>useWaitForTransactionReceipt</code><span>Menunggu transaksi masuk blok dan membaca receipt.</span></div>
+          <div><code>useSignMessage</code><span>Menandatangani pesan off-chain.</span></div>
+          <div><code>useSwitchChain</code><span>Meminta wallet berpindah chain.</span></div>
+          <div><code>useWatchContractEvent</code><span>Berlangganan event baru dari kontrak.</span></div>
+        </div>
+
+        <h3>Saat hook belum cukup</h3>
+        <p>Kadang kamu butuh client mentah: memanggil beberapa fungsi sekaligus, membaca log historis, atau menyiapkan data di server. Wagmi menyediakan <code>usePublicClient</code> untuk client baca dan <code>useWalletClient</code> untuk client yang bisa menandatangani. Di server, buat public client Viem sendiri.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Memakai public client dari komponen</span><button class="copy-btn" type="button" data-copy-target="code-04-client">Salin</button></div>
+          <pre><code id="code-04-client" data-lang="tsx">"use client";
+
+import { usePublicClient } from "wagmi";
+import { parseAbiItem } from "viem";
+
+const depositedEvent = parseAbiItem(
+  "event Deposited(address indexed user, uint256 amount)"
+);
+
+export function useHistoricalDeposits(address: `0x${string}`) {
+  const publicClient = usePublicClient();
+
+  return async () =&gt; {
+    if (!publicClient) return [];
+    return publicClient.getLogs({
+      address,
+      event: depositedEvent,
+      fromBlock: 0n,
+      toBlock: "latest",
+    });
+  };
+}</code></pre>
+        </div>
+        <aside class="note">
+          <span class="note-label">Jangan mencampur cache</span>
+          <p>Jika kamu mengambil data dengan <code>publicClient</code> langsung, hasilnya tidak otomatis masuk cache TanStack Query. Komponen lain yang memakai <code>useReadContract</code> tidak akan ikut diperbarui. Pilih satu jalur untuk satu data, atau bungkus panggilan manual dengan <code>useQuery</code> dan query key yang konsisten.</p>
+        </aside>
+
+        <h3>BigInt, desimal, dan tampilan</h3>
+        <p>Chain tidak mengenal angka desimal. Saldo 0.01 ETH dikirim sebagai <code>10000000000000000n</code> wei. Viem menyediakan <code>parseEther</code>, <code>formatEther</code>, <code>parseUnits</code>, dan <code>formatUnits</code>. Jangan memakai <code>Number</code> untuk nilai wei; presisi 18 desimal melebihi batas aman floating point.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Konversi yang benar</span><button class="copy-btn" type="button" data-copy-target="code-04-units">Salin</button></div>
+          <pre><code id="code-04-units" data-lang="ts">import { formatEther, parseEther, formatUnits } from "viem";
+
+const wei = parseEther("0.01");       // 10000000000000000n
+const eth = formatEther(wei);           // "0.01"
+
+const usdc = 1_250_000n;                // 1.25 USDC, 6 desimal
+const tampil = formatUnits(usdc, 6);    // "1.25"</code></pre>
+        </div>
+        <p>Untuk input pengguna, validasi string sebelum <code>parseEther</code>. String kosong, koma desimal, dan nominal negatif akan melempar error. Tampilkan pesan yang menunjuk input, bukan stack trace.</p>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="rantai" data-chapter="rantai" data-track="true" data-title="Chain dan transport">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 05<span class="chapter-type">PRAKTIK</span></p>
+          <h2>Satu aplikasi, beberapa chain, satu chain aktif.</h2>
+          <p class="chapter-lead">Config menentukan chain apa yang dikenali aplikasi, endpoint RPC mana yang dipakai untuk membaca, dan connector mana yang boleh dipakai wallet. Kesalahan di sini biasanya muncul sebagai "chain tidak dikenali" atau saldo yang tidak pernah berubah.</p>
+          <ul class="goals">
+            <li>Mendaftarkan chain testnet, mainnet, dan lokal dengan benar.</li>
+            <li>Memilih transport RPC dan memahami konsekuensi endpoint publik.</li>
+            <li>Membedakan connector injected, MetaMask, dan WalletConnect.</li>
+            <li>Menangani chain aktif yang berbeda dari chain aplikasi.</li>
+          </ul>
+        </header>
+
+        <h3>Chain adalah konfigurasi, bukan tebakan</h3>
+        <p>Setiap chain punya chain id. Sepolia 11155111, Ethereum mainnet 1, Anvil 31337. Jika chain tidak ada di array <code>chains</code>, Wagmi tidak bisa membuat transport dan hook akan menolak. Daftarkan hanya chain yang benar-benar kamu dukung; setiap tambahan membawa RPC, eksplorer, dan risiko salah jaringan.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Chain dan transport dengan env</span><button class="copy-btn" type="button" data-copy-target="code-05-chains">Salin</button></div>
+          <pre><code id="code-05-chains" data-lang="ts">import { createConfig, http, fallback } from "wagmi";
+import { sepolia, mainnet, anvil } from "wagmi/chains";
+import { injected } from "wagmi/connectors";
+
+const sepoliaRpc = process.env.NEXT_PUBLIC_SEPOLIA_RPC;
+
+export const config = createConfig({
+  chains: [sepolia, mainnet, anvil],
+  connectors: [injected()],
+  transports: {
+    [sepolia.id]: sepoliaRpc
+      ? fallback([http(sepoliaRpc), http()])
+      : http(),
+    [mainnet.id]: http(),
+    [anvil.id]: http("http://127.0.0.1:8545"),
+  },
+  ssr: true,
+});</code></pre>
+        </div>
+        <p><code>fallback</code> mencoba endpoint pertama lalu pindah ke berikutnya jika gagal. Ini berguna untuk RPC publik yang kadang membatasi laju. Namun fallback bukan jaminan konsistensi: dua RPC bisa tertinggal beberapa blok. Untuk pembacaan penting, gunakan satu sumber yang jelas dan bandingkan saat nilainya mencurigakan.</p>
+
+        <h3>Transport bukan sekadar URL</h3>
+        <p><code>http()</code> tanpa argumen memakai RPC default chain. <code>http("https://...")</code> memakai endpoint sendiri. Ada juga transport <code>webSocket</code> untuk subscription, dan <code>custom</code> untuk provider wallet. Untuk sebagian besar dApp, HTTP cukup. WebSocket berguna jika kamu butuh event instan dalam jumlah besar, tetapi menambah kompleksitas reconnect.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Pilihan transport dan kapan dipakai.</caption>
+            <thead>
+              <tr><th scope="col">Transport</th><th scope="col">Kelebihan</th><th scope="col">Kekurangan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>http()</code></td><td>Sederhana, cocok untuk baca dan kirim.</td><td>Event baru butuh polling.</td></tr>
+              <tr><td><code>webSocket()</code></td><td>Push event dan subscription.</td><td>Koneksi bisa putus; perlu reconnect.</td></tr>
+              <tr><td><code>fallback()</code></td><td>Ketahanan saat satu RPC gagal.</td><td>Data bisa tertinggal antar endpoint.</td></tr>
+              <tr><td><code>custom()</code></td><td>Memakai provider wallet yang sudah ada.</td><td>Tergantung wallet; tidak cocok untuk server.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Connector: siapa yang memegang kunci</h3>
+        <p><code>injected()</code> memakai provider yang disuntikkan wallet ke <code>window.ethereum</code>. <code>metaMask()</code> dari paket connector memakai MetaMask SDK dan mendukung tautan mobile. <code>walletConnect()</code> memungkinkan wallet di ponsel terhubung lewat QR, tetapi membutuhkan project id dan paket tambahan.</p>
+        <p>Jika pengguna punya beberapa wallet extension, <code>window.ethereum</code> bisa berasal dari wallet yang tidak mereka maksud. Wagmi mendukung penemuan multi-provider EIP-6963; tampilkan pilihan wallet jika kamu mendukung lebih dari satu. Untuk latihan, satu connector injected sudah cukup.</p>
+
+        <div class="lab" id="lab-config">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 03</p>
+            <h3>Susun config, lalu lihat akibatnya.</h3>
+            <p>Pilih chain, transport, dan connector. Kode di bawah diperbarui. Perhatikan peringatan yang muncul: beberapa kombinasi valid secara sintaks, tetapi buruk untuk produksi.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row field-row-3">
+              <div class="field">
+                <label for="cfg-chain">Chain</label>
+                <select id="cfg-chain">
+                  <option value="sepolia">Sepolia (11155111)</option>
+                  <option value="anvil">Anvil (31337)</option>
+                  <option value="mainnet">Ethereum (1)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="cfg-transport">Transport</label>
+                <select id="cfg-transport">
+                  <option value="default">http() default</option>
+                  <option value="custom">http(env RPC)</option>
+                  <option value="fallback">fallback([env, default])</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="cfg-connector">Connector</label>
+                <select id="cfg-connector">
+                  <option value="injected">injected()</option>
+                  <option value="metamask">metaMask()</option>
+                  <option value="walletconnect">walletConnect()</option>
+                </select>
+              </div>
+            </div>
+
+            <label class="check-row" for="cfg-ssr">
+              <input id="cfg-ssr" type="checkbox" checked>
+              <span><strong>Aktifkan ssr: true</strong><small>Menyiapkan state untuk hidrasi Next.js.</small></span>
+            </label>
+
+            <div class="code-block">
+              <div class="code-head"><span>lib/wagmi.ts</span><button class="copy-btn" type="button" data-copy-target="cfg-code">Salin</button></div>
+              <pre><code id="cfg-code" data-lang="ts"></code></pre>
+            </div>
+
+            <p class="status" id="cfg-status" role="status" aria-live="polite"></p>
+            <p class="lab-note">Kode ini belum memakai API key nyata. Di proyek sungguhan, jangan menaruh secret RPC di <code>NEXT_PUBLIC_</code>. Untuk latihan lokal, endpoint Anvil tidak butuh kunci dan aman.</p>
+          </div>
+        </div>
+
+        <h3>Chain aktif dan chain yang diminta</h3>
+        <p>Pengguna bisa berada di chain berbeda dari yang aplikasimu dukung. Jangan menganggap <code>useAccount().chainId</code> selalu sama dengan chain target. Bandingkan, tampilkan peringatan, dan tawarkan tombol pindah. Jika transaksi dikirim ke chain yang salah, dana bisa tidak terlihat di aplikasi atau masuk ke kontrak yang tidak kamu maksud.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Meminta pindah chain</span><button class="copy-btn" type="button" data-copy-target="code-05-switch">Salin</button></div>
+          <pre><code id="code-05-switch" data-lang="tsx">"use client";
+
+import { useAccount, useSwitchChain } from "wagmi";
+import { sepolia } from "wagmi/chains";
+
+export function NetworkGuard() {
+  const { chainId } = useAccount();
+  const { switchChain, isPending, error } = useSwitchChain();
+
+  if (chainId === sepolia.id) return null;
+
+  return (
+    &lt;div role="alert"&gt;
+      &lt;p&gt;Wallet kamu berada di chain lain. Pindah ke Sepolia untuk melanjutkan.&lt;/p&gt;
+      &lt;button
+        type="button"
+        onClick={() =&gt; switchChain({ chainId: sepolia.id })}
+        disabled={isPending}
+      &gt;
+        {isPending ? "Menunggu wallet..." : "Pindah ke Sepolia"}
+      &lt;/button&gt;
+      {error ? &lt;p&gt;{error.message}&lt;/p&gt; : null}
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </div>
+        <p>Wallet bisa menolak perpindahan chain. Itu bukan error aplikasi; itu keputusan pengguna. Tampilkan pesan yang bisa ditindaklanjuti, jangan mengulang popup otomatis. Jika wallet belum memiliki chain tersebut, MetaMask biasanya menawarkan menambahkannya.</p>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="connect" data-chapter="connect" data-track="true" data-title="Connect wallet">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 06<span class="chapter-type">PRAKTIK</span></p>
+          <h2>Connect adalah permintaan izin, bukan login.</h2>
+          <p class="chapter-lead">Tombol hubungkan meminta wallet mengungkapkan address dan mengizinkan aplikasi mengirim permintaan tanda tangan. Ia tidak memindahkan dana, tidak memberi akses ke kunci, dan tidak membuktikan siapa pengguna sampai ada signature yang diverifikasi.</p>
+          <ul class="goals">
+            <li>Membuat tombol connect dengan connector injected.</li>
+            <li>Menangani state menunggu, penolakan, dan disconnect.</li>
+            <li>Menampilkan address pendek dan aksi salin.</li>
+            <li>Memahami apa yang sebenarnya disetujui pengguna saat connect.</li>
+          </ul>
+        </header>
+
+        <h3>Alur yang terlihat oleh pengguna</h3>
+        <p>Pengguna klik tombol. Aplikasi memanggil connector. Wallet menampilkan popup berisi domain, akun yang diminta, dan izin. Jika pengguna setuju, wallet mengembalikan address dan chain. Jika menolak, promise gagal dengan error yang biasanya berisi kode 4001. Setelah terhubung, aplikasi bisa membaca saldo dan meminta tanda tangan, tetapi setiap permintaan baru tetap butuh persetujuan.</p>
+        <div class="code-block">
+          <div class="code-head"><span>components/connect-button.tsx</span><button class="copy-btn" type="button" data-copy-target="code-06-connect">Salin</button></div>
+          <pre><code id="code-06-connect" data-lang="tsx">"use client";
+
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { injected } from "wagmi/connectors";
+
+function shortAddress(address: string) {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+export function ConnectButton() {
+  const { address, isConnecting, isConnected } = useAccount();
+  const { connect, isPending, error } = useConnect();
+  const { disconnect } = useDisconnect();
+
+  if (isConnected &amp;&amp; address) {
+    return (
+      &lt;div className="connected"&gt;
+        &lt;code title={address}&gt;{shortAddress(address)}&lt;/code&gt;
+        &lt;button type="button" onClick={() =&gt; disconnect()}&gt;
+          Putuskan
+        &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;button
+        type="button"
+        onClick={() =&gt; connect({ connector: injected() })}
+        disabled={isPending || isConnecting}
+      &gt;
+        {isPending || isConnecting ? "Menunggu wallet..." : "Hubungkan wallet"}
+      &lt;/button&gt;
+      {error ? &lt;p role="alert"&gt;{error.message}&lt;/p&gt; : null}
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </div>
+        <p>Contoh di atas membuat connector saat klik. Untuk aplikasi nyata, lebih baik mengambil connector dari hasil <code>useConnect()</code> atau mendefinisikannya sekali di config. Membuat objek baru pada setiap render bisa membuat referensi tidak stabil. Gunakan connector yang sudah terdaftar.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Versi yang memakai connector terdaftar</span><button class="copy-btn" type="button" data-copy-target="code-06-connector">Salin</button></div>
+          <pre><code id="code-06-connector" data-lang="tsx">"use client";
+
+import { useConnect } from "wagmi";
+
+export function ConnectButton() {
+  const { connectors, connect, isPending, error } = useConnect();
+  const injectedConnector = connectors.find(
+    (connector) =&gt; connector.id === "injected"
+  );
+
+  return (
+    &lt;button
+      type="button"
+      disabled={!injectedConnector || isPending}
+      onClick={() =&gt; {
+        if (injectedConnector) connect({ connector: injectedConnector });
+      }}
+    &gt;
+      {isPending ? "Menunggu wallet..." : "Hubungkan MetaMask"}
+    &lt;/button&gt;
+  );
+}</code></pre>
+        </div>
+
+        <h3>Yang tidak dilakukan connect</h3>
+        <ul>
+          <li><strong>Tidak membuktikan identitas.</strong> Siapa pun bisa menghubungkan address yang bukan miliknya jika wallet-nya diatur begitu. Bukti datang dari signature.</li>
+          <li><strong>Tidak memberi izin transfer.</strong> Persetujuan token (approval) adalah transaksi terpisah.</li>
+          <li><strong>Tidak menyimpan sesi di server.</strong> Aplikasi hanya tahu wallet terhubung di browser ini.</li>
+          <li><strong>Tidak membaca saldo secara otomatis tanpa RPC.</strong> Connect hanya memberi address; pembacaan tetap lewat provider atau RPC.</li>
+          <li><strong>Tidak melindungi dari situs palsu.</strong> Domain yang dilihat pengguna di popup wallet adalah pertahanan utama. Pastikan domain produksi benar.</li>
+        </ul>
+
+        <div class="lab" id="lab-connect">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 04</p>
+            <h3>Simulasikan popup wallet dan pergantian akun.</h3>
+            <p>Klik hubungkan, pilih salah satu akun uji, lalu lihat bagaimana address, saldo, dan seluruh lab lain mengikuti. Coba putuskan dan sambungkan akun yang berbeda.</p>
+          </div>
+          <div class="lab-body">
+            <div class="wallet-mini">
+              <div class="wallet-mini-text">
+                <strong id="connect-address">Belum terhubung</strong>
+                <span id="connect-meta">Wallet: MetaMask (simulasi) &middot; Chain: Sepolia</span>
+              </div>
+              <button class="btn btn-primary btn-small" id="connect-btn" type="button">Hubungkan wallet</button>
+            </div>
+
+            <div class="account-picker" id="connect-accounts" hidden>
+              <button class="account-btn" type="button" data-account="acc1">
+                <strong>Akun uji 1</strong>
+                <span>0x7a9f...4c21 &middot; 1.842 ETH</span>
+              </button>
+              <button class="account-btn" type="button" data-account="acc2">
+                <strong>Akun uji 2</strong>
+                <span>0x3b2c...9e80 &middot; 0.64 ETH</span>
+              </button>
+            </div>
+
+            <div class="lab-actions" aria-label="Simulasi chain wallet">
+              <span class="hint">Chain wallet:</span>
+              <button class="btn btn-quiet btn-small" type="button" data-connect-chain="11155111" aria-pressed="true">Sepolia</button>
+              <button class="btn btn-quiet btn-small" type="button" data-connect-chain="31337" aria-pressed="false">Anvil</button>
+              <button class="btn btn-quiet btn-small" type="button" data-connect-chain="1" aria-pressed="false">Ethereum</button>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-quiet" id="connect-disconnect" type="button" disabled>Putuskan koneksi</button>
+              <button class="btn btn-quiet" id="connect-account" type="button" disabled>Ganti akun</button>
+            </div>
+            <p class="status" id="connect-status" role="status" aria-live="polite">Belum ada koneksi. Klik hubungkan untuk memulai.</p>
+            <p class="lab-note">Popup tidak benar-benar muncul. Lab meniru tiga keadaan penting: menunggu persetujuan, pengguna menolak (lewati pemilihan), dan akun berganti. Di aplikasi nyata, ketiganya harus punya tampilan yang jelas.</p>
+          </div>
+        </div>
+
+        <h3>Menangani penolakan dan ganti akun</h3>
+        <p>Pengguna berhak menolak. Jangan menampilkan "gagal" merah besar; itu bukan kegagalan sistem. Tampilkan pesan netral: "Koneksi dibatalkan di wallet." Untuk ganti akun, Wagmi memperbarui <code>useAccount</code> otomatis lewat event wallet. Pastikan data turunan, seperti saldo dan kontrak, memakai address terbaru sebagai query key. Jika tidak, kamu bisa menampilkan saldo akun lama di bawah address akun baru.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Membaca error connect dengan manusiawi</span><button class="copy-btn" type="button" data-copy-target="code-06-errors">Salin</button></div>
+          <pre><code id="code-06-errors" data-lang="tsx">function connectErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : "";
+
+  if (message.includes("User rejected")) {
+    return "Koneksi dibatalkan di wallet.";
+  }
+  if (message.includes("No injected provider")) {
+    return "MetaMask tidak terdeteksi. Pasang extension atau buka di browser wallet.";
+  }
+  return "Wallet tidak bisa dihubungkan. Coba lagi.";
+}</code></pre>
+        </div>
+        <aside class="warn">
+          <span class="note-label">Jangan menyimpan address sebagai sesi</span>
+          <p>Menulis <code>localStorage.setItem("user", address)</code> lalu menganggap pengguna sudah login adalah lubang keamanan. Address bisa diganti siapa pun lewat devtools. Untuk sesi, terbitkan nonce dari server, minta signature, verifikasi, lalu buat cookie HttpOnly dengan masa berlaku.</p>
+        </aside>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="akun" data-chapter="akun" data-track="true" data-title="Address dan balance">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 07<span class="chapter-type">PRAKTIK</span></p>
+          <h2>Address adalah identitas, balance adalah potret sesaat.</h2>
+          <p class="chapter-lead">Setelah wallet terhubung, kamu punya address. Tetapi saldo tidak ikut terkirim bersama address. Saldo harus dibaca dari chain, bisa berubah karena transaksi orang lain, dan bisa berbeda di setiap blok. Tampilkan sebagai data yang punya waktu dan sumber.</p>
+          <ul class="goals">
+            <li>Menampilkan address aktif dengan format pendek dan aksi salin.</li>
+            <li>Membaca saldo native token memakai <code>useBalance</code>.</li>
+            <li>Menangani loading, error, dan refetch tanpa mengubah state global.</li>
+            <li>Membedakan saldo wallet dan saldo di dalam kontrak.</li>
+          </ul>
+        </header>
+
+        <h3>Address: panjang, mudah salah, dan publik</h3>
+        <p>Address Ethereum adalah 20 byte, ditulis sebagai 42 karakter heksadesimal. Ia publik dan aman ditampilkan. Yang tidak boleh ditampilkan adalah private key atau seed phrase. Untuk UI, tampilkan versi pendek <code>0x7a9f...4c21</code> dengan elemen <code>title</code> berisi alamat lengkap, dan tombol salin.</p>
+        <p>Jangan memotong address dengan asumsi jumlah karakter. Beberapa alamat bisa terlihat mirip di empat karakter terakhir. Untuk transaksi bernilai besar, tampilkan alamat lengkap atau minta pengguna memeriksa di wallet. Ini bukan paranoia; ada serangan alamat mirip yang mengandalkan mata manusia.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Menampilkan akun aktif</span><button class="copy-btn" type="button" data-copy-target="code-07-account">Salin</button></div>
+          <pre><code id="code-07-account" data-lang="tsx">"use client";
+
+import { useAccount, useEnsName } from "wagmi";
+
+export function AccountBadge() {
+  const { address, chain, isConnected } = useAccount();
+  const { data: ensName } = useEnsName({ address });
+
+  if (!isConnected || !address) {
+    return &lt;span&gt;Belum terhubung&lt;/span&gt;;
+  }
+
+  return (
+    &lt;span&gt;
+      &lt;strong&gt;{ensName ?? `${address.slice(0, 6)}...${address.slice(-4)}`}&lt;/strong&gt;
+      &lt;small&gt;{chain?.name}&lt;/small&gt;
+    &lt;/span&gt;
+  );
+}</code></pre>
+        </div>
+        <p>ENS opsional. Jangan jadikan ENS satu-satunya label; resolusi bisa gagal atau berubah. Address tetap sumber kebenaran. Jika memakai ENS, tampilkan address di sampingnya atau di tooltip.</p>
+
+        <h3>Saldo native: wei di chain, ETH di layar</h3>
+        <p>Saldo ETH disimpan dalam wei. <code>useBalance</code> mengembalikan <code>value</code> sebagai bigint, <code>decimals</code>, <code>symbol</code>, dan <code>formatted</code>. Jangan memformat sendiri dengan pembagian floating point. Pakai <code>formatEther</code> atau field <code>formatted</code>.</p>
+        <div class="code-block">
+          <div class="code-head"><span>components/balance-card.tsx</span><button class="copy-btn" type="button" data-copy-target="code-07-balance">Salin</button></div>
+          <pre><code id="code-07-balance" data-lang="tsx">"use client";
+
+import { useAccount, useBalance } from "wagmi";
+import { formatEther } from "viem";
+
+export function BalanceCard() {
+  const { address, chainId } = useAccount();
+  const { data, isLoading, isError, refetch, isFetching } = useBalance({
+    address,
+    query: { enabled: Boolean(address) },
+  });
+
+  if (!address) return &lt;p&gt;Hubungkan wallet untuk melihat saldo.&lt;/p&gt;;
+  if (isLoading) return &lt;p&gt;Membaca saldo...&lt;/p&gt;;
+  if (isError) {
+    return (
+      &lt;div role="alert"&gt;
+        &lt;p&gt;Saldo tidak bisa dibaca dari RPC.&lt;/p&gt;
+        &lt;button type="button" onClick={() =&gt; refetch()}&gt;Coba lagi&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;
+        &lt;strong&gt;{data ? formatEther(data.value) : "0"}&lt;/strong&gt;
+        {" "}{data?.symbol ?? "ETH"}
+      &lt;/p&gt;
+      &lt;button type="button" onClick={() =&gt; refetch()} disabled={isFetching}&gt;
+        {isFetching ? "Memperbarui..." : "Perbarui"}
+      &lt;/button&gt;
+      &lt;small&gt;Chain id {chainId}&lt;/small&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </div>
+        <p>Query key Wagmi sudah memasukkan address dan chain id. Saat pengguna berganti akun atau chain, hook otomatis membaca ulang. Kamu tidak perlu menambahkan <code>address</code> ke dependency manual. Namun jika memakai query sendiri, lakukan itu sendiri.</p>
+
+        <h3>Saldo wallet bukan saldo kontrak</h3>
+        <p>Di MiniVault, ada dua angka yang mirip: saldo ETH di wallet dan saldo deposit di kontrak. Setelah deposit, saldo wallet turun sebesar nominal plus gas, sedangkan saldo vault naik sebesar nominal. Jangan menampilkan salah satunya sebagai "total kekayaan" tanpa label.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Dua saldo, dua sumber.</caption>
+            <thead>
+              <tr><th scope="col">Angka</th><th scope="col">Sumber</th><th scope="col">Berubah saat</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Saldo wallet</td><td><code>useBalance</code> / RPC</td><td>Transfer masuk, keluar, bayar gas.</td></tr>
+              <tr><td>Saldo vault</td><td><code>balanceOf(address)</code> di kontrak</td><td>Deposit, withdraw, atau aturan kontrak lain.</td></tr>
+              <tr><td>Total deposit</td><td><code>totalDeposits()</code></td><td>Semua deposit dan withdraw di kontrak.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab" id="lab-balance">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 05</p>
+            <h3>Baca saldo dari state wallet yang sama.</h3>
+            <p>Lab ini memakai akun yang kamu hubungkan di Lab 04 atau panel atas. Ganti akun, lalu baca ulang. Perhatikan bahwa nilai wei dan ETH berasal dari angka yang sama.</p>
+          </div>
+          <div class="lab-body">
+            <div class="wallet-mini">
+              <div class="wallet-mini-text">
+                <strong id="balance-owner">Belum terhubung</strong>
+                <span id="balance-meta">Hubungkan wallet di Lab 04 untuk memulai.</span>
+              </div>
+              <button class="btn btn-primary btn-small" id="balance-refresh" type="button">Baca saldo</button>
+            </div>
+
+            <dl class="readout-grid">
+              <div><dt>Saldo (ETH)</dt><dd id="balance-eth">--</dd></div>
+              <div><dt>Saldo (wei)</dt><dd id="balance-wei">--</dd></div>
+              <div><dt>Dibaca di blok</dt><dd id="balance-block">--</dd></div>
+            </dl>
+
+            <p class="status" id="balance-status" role="status" aria-live="polite">Belum ada pembacaan.</p>
+            <p class="lab-note">RPC bisa terlambat beberapa blok. Kalau saldo terlihat tidak berubah setelah transaksi, cek receipt dan tunggu blok berikutnya sebelum menyimpulkan transaksi gagal.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="baca" data-chapter="baca" data-track="true" data-title="Baca kontrak">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 08<span class="chapter-type">PRAKTIK</span></p>
+          <h2>ABI adalah kontrak antara JavaScript dan bytecode.</h2>
+          <p class="chapter-lead">Kontrak tidak mengenal nama fungsi saat runtime. Ia mengenal selector empat byte dan argumen yang di-encode. ABI memberi tahu Viem cara mengubah <code>balanceOf(address)</code> menjadi byte yang benar, lalu mengubah hasilnya kembali menjadi bigint.</p>
+          <ul class="goals">
+            <li>Menulis ABI minimal sebagai konstanta TypeScript.</li>
+            <li>Memanggil fungsi view dengan <code>useReadContract</code>.</li>
+            <li>Menangani alamat kosong, ABI salah, dan hasil bigint.</li>
+            <li>Memakai <code>useReadContracts</code> untuk beberapa pembacaan sekaligus.</li>
+          </ul>
+        </header>
+
+        <h3>Fungsi view tidak mengubah state</h3>
+        <p>Fungsi <code>view</code> dan <code>pure</code> bisa dipanggil tanpa transaksi. Tidak ada gas, tidak ada tanda tangan, dan tidak ada perubahan state. Hasilnya dibaca dari node yang mungkin sedikit tertinggal. Ini cocok untuk saldo, total supply, pemilik, dan konfigurasi.</p>
+        <p>Fungsi yang mengubah state, seperti <code>deposit</code> atau <code>withdraw</code>, membutuhkan transaksi bertanda tangan dan biaya gas. Keduanya memakai ABI yang sama, tetapi jalur pemanggilannya berbeda.</p>
+
+        <h3>ABI minimal untuk MiniVault</h3>
+        <div class="code-block">
+          <div class="code-head"><span>contracts/mini-vault.abi.ts</span><button class="copy-btn" type="button" data-copy-target="code-08-abi">Salin</button></div>
+          <pre><code id="code-08-abi" data-lang="ts">export const miniVaultAbi = [
+  {
+    type: "function",
+    name: "balanceOf",
+    stateMutability: "view",
+    inputs: [{ name: "user", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "totalDeposits",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "deposit",
+    stateMutability: "payable",
+    inputs: [],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "withdraw",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "amount", type: "uint256" }],
+    outputs: [],
+  },
+  {
+    type: "event",
+    name: "Deposited",
+    inputs: [
+      { name: "user", type: "address", indexed: true },
+      { name: "amount", type: "uint256", indexed: false },
+    ],
+  },
+] as const;</code></pre>
+        </div>
+        <p><code>as const</code> penting. Tanpa itu, TypeScript memperlakukan nama fungsi sebagai string biasa dan kamu kehilangan autocomplete serta pemeriksaan argumen. Dengan <code>as const</code>, Viem bisa menyimpulkan bahwa <code>balanceOf</code> menerima satu address dan mengembalikan uint256.</p>
+
+        <h3>Membaca satu nilai</h3>
+        <div class="code-block">
+          <div class="code-head"><span>components/vault-balance.tsx</span><button class="copy-btn" type="button" data-copy-target="code-08-read">Salin</button></div>
+          <pre><code id="code-08-read" data-lang="tsx">"use client";
+
+import { useAccount, useReadContract } from "wagmi";
+import { formatEther } from "viem";
+import { miniVaultAbi } from "@/contracts/mini-vault.abi";
+import { vaultAddress } from "@/contracts/addresses";
+
+export function VaultBalance() {
+  const { address } = useAccount();
+
+  const { data, isLoading, isError, error, refetch } = useReadContract({
+    address: vaultAddress,
+    abi: miniVaultAbi,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+    query: {
+      enabled: Boolean(address),
+      refetchInterval: 4_000,
+    },
+  });
+
+  if (!address) return &lt;p&gt;Hubungkan wallet dulu.&lt;/p&gt;
+  if (isLoading) return &lt;p&gt;Membaca vault...&lt;/p&gt;;
+  if (isError) {
+    return (
+      &lt;div role="alert"&gt;
+        &lt;p&gt;Gagal membaca kontrak: {error.message}&lt;/p&gt;
+        &lt;button type="button" onClick={() =&gt; refetch()}&gt;Coba lagi&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;p&gt;
+      Saldo vault: &lt;strong&gt;{data === undefined ? "--" : formatEther(data)} ETH&lt;/strong&gt;
+    &lt;/p&gt;
+  );
+}</code></pre>
+        </div>
+        <p>Argumen <code>args</code> harus sesuai urutan dan tipe ABI. Jika ABI mengatakan address tetapi kamu mengirim string biasa, TypeScript menolak. Jika ABI salah, panggilan bisa revert atau mengembalikan data yang tidak masuk akal. Alamat kontrak dan ABI harus berasal dari build yang sama.</p>
+        <aside class="warn">
+          <span class="note-label">ABI tidak membuktikan kontrak</span>
+          <p>Siapa pun bisa membuat ABI yang terlihat benar untuk alamat yang salah. ABI hanya menjelaskan antarmuka. Pastikan alamat kontrak berasal dari deploy yang kamu percaya, dan verifikasi source code di explorer atau Sourcify.</p>
+        </aside>
+
+        <h3>Beberapa pembacaan sekaligus</h3>
+        <p>Jika kamu perlu saldo vault dan total deposit, dua <code>useReadContract</code> sudah cukup. Untuk banyak panggilan, <code>useReadContracts</code> menggabungkannya dan memberi hasil bertipe. Ini mengurangi jumlah render dan memudahkan menampilkan satu state loading.</p>
+        <div class="code-block">
+          <div class="code-head"><span>useReadContracts</span><button class="copy-btn" type="button" data-copy-target="code-08-multi">Salin</button></div>
+          <pre><code id="code-08-multi" data-lang="tsx">const { data, isLoading } = useReadContracts({
+  contracts: address
+    ? [
+        {
+          address: vaultAddress,
+          abi: miniVaultAbi,
+          functionName: "balanceOf",
+          args: [address],
+        },
+        {
+          address: vaultAddress,
+          abi: miniVaultAbi,
+          functionName: "totalDeposits",
+        },
+      ]
+    : [],
+  query: { enabled: Boolean(address) },
+});
+
+const vaultBalance = data?.[0]?.result;
+const totalDeposits = data?.[1]?.result;</code></pre>
+        </div>
+
+        <div class="lab" id="lab-read">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 06</p>
+            <h3>Panggil fungsi view dan bandingkan hasil mentah dengan format.</h3>
+            <p>Pilih fungsi, lalu baca. Untuk <code>balanceOf</code>, lab memakai akun yang terhubung. Perhatikan bahwa hasil kontrak adalah uint256 dalam wei, bukan string "0.25 ETH".</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row">
+              <div class="field">
+                <label for="read-function">Fungsi kontrak</label>
+                <select id="read-function">
+                  <option value="balanceOf">balanceOf(address)</option>
+                  <option value="totalDeposits">totalDeposits()</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="read-arg">Argumen</label>
+                <input id="read-arg" type="text" readonly value="0x7a9f...4c21">
+              </div>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="read-call" type="button">Baca kontrak</button>
+            </div>
+            <p class="status" id="read-status" role="status" aria-live="polite">Belum ada panggilan.</p>
+
+            <dl class="readout-grid">
+              <div><dt>Hasil mentah (uint256)</dt><dd id="read-raw">--</dd></div>
+              <div><dt>Setelah formatEther</dt><dd id="read-formatted">--</dd></div>
+              <div><dt>Blok</dt><dd id="read-block">--</dd></div>
+            </dl>
+            <p class="lab-note">Jika kamu mengganti argumen menjadi address lain, hasilnya akan berbeda. Kontrak menghitung berdasarkan address yang dikirim, bukan berdasarkan wallet yang sedang terhubung.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="tulis" data-chapter="tulis" data-track="true" data-title="Kirim transaksi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 09<span class="chapter-type">PRAKTIK</span></p>
+          <h2>Transaksi adalah permintaan yang tidak bisa ditarik kembali.</h2>
+          <p class="chapter-lead">Membaca kontrak hanya mengirim pertanyaan. Menulis kontrak mengirim permintaan yang, jika ditambang, mengubah state secara permanen. Frontend harus memperlambat pengguna di titik ini: tampilkan nominal, tujuan, fungsi, dan biaya sebelum wallet meminta tanda tangan.</p>
+          <ul class="goals">
+            <li>Menyusun transaksi deposit dengan <code>useWriteContract</code>.</li>
+            <li>Mensimulasikan transaksi sebelum meminta tanda tangan.</li>
+            <li>Menampilkan hash, status menunggu, dan receipt.</li>
+            <li>Mencegah klik ganda dan memperbarui data setelah sukses.</li>
+          </ul>
+        </header>
+
+        <h3>Isi sebuah transaksi</h3>
+        <p>Transaksi berisi pengirim, penerima, nilai ETH, data calldata, gas limit, harga gas, nonce, dan chain id. Untuk memanggil <code>deposit()</code>, penerima adalah alamat kontrak, nilai adalah nominal, dan calldata adalah selector fungsi. Wallet menambahkan nonce dan menandatangani; kamu tidak mengisinya sendiri.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Yang dikirim ke kontrak</span><button class="copy-btn" type="button" data-copy-target="code-09-anatomy">Salin</button></div>
+          <pre><code id="code-09-anatomy" data-lang="text">to:       0xVAULT...
+value:    10000000000000000 wei  (0.01 ETH)
+data:     0xd0e30db0              (deposit())
+gasLimit: 60.000                (estimasi, bukan jaminan)
+chainId:  11155111              (Sepolia)
+nonce:    diatur wallet
+from:     address akun aktif</code></pre>
+        </div>
+        <p>Selector <code>0xd0e30db0</code> adalah empat byte pertama Keccak-256 dari <code>deposit()</code>. Kamu tidak perlu menghafalnya; Viem menghitungnya dari ABI. Contoh di atas hanya membantu membaca explorer.</p>
+
+        <h3>Simulasikan sebelum menandatangani</h3>
+        <p><code>useSimulateContract</code> menjalankan panggilan terhadap state terbaru tanpa mengirim transaksi. Jika kontrak akan revert, simulasi memberi error sebelum wallet terbuka. Ini menghemat waktu dan memberi pesan yang lebih jelas. Simulasi bukan jaminan: state bisa berubah sebelum transaksi masuk blok.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Simulasi deposit</span><button class="copy-btn" type="button" data-copy-target="code-09-simulate">Salin</button></div>
+          <pre><code id="code-09-simulate" data-lang="tsx">"use client";
+
+import { useAccount, useSimulateContract } from "wagmi";
+import { parseEther } from "viem";
+import { miniVaultAbi } from "@/contracts/mini-vault.abi";
+import { vaultAddress } from "@/contracts/addresses";
+
+export function useDepositSimulation(amount: string) {
+  const { address } = useAccount();
+  const valid = /^\d+(\.\d{1,18})?$/.test(amount) &amp;&amp; Number(amount) &gt; 0;
+
+  return useSimulateContract({
+    address: vaultAddress,
+    abi: miniVaultAbi,
+    functionName: "deposit",
+    value: valid ? parseEther(amount) : undefined,
+    query: { enabled: Boolean(address) &amp;&amp; valid },
+  });
+}</code></pre>
+        </div>
+        <p>Validasi regex di atas hanya menerima titik desimal dan maksimal 18 angka di belakang koma. Ini bukan validasi keamanan; kontrak tetap harus menolak nilai nol. Tetapi ia mencegah error parsing yang membingungkan.</p>
+
+        <h3>Kirim dan tunggu receipt</h3>
+        <p><code>useWriteContract</code> mengembalikan <code>writeContract</code> dan <code>data</code> berisi hash setelah wallet menandatangani. Setelah itu, <code>useWaitForTransactionReceipt</code> memantau hash sampai transaksi masuk blok. Jangan menganggap hash berarti sukses; hash hanya berarti transaksi diterima wallet dan dikirim ke mempool.</p>
+        <div class="code-block">
+          <div class="code-head"><span>components/deposit-form.tsx</span><button class="copy-btn" type="button" data-copy-target="code-09-write">Salin</button></div>
+          <pre><code id="code-09-write" data-lang="tsx">"use client";
+
+import { useEffect, useState } from "react";
+import {
+  useAccount,
+  useSimulateContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
+import { parseEther } from "viem";
+import { useQueryClient } from "@tanstack/react-query";
+import { miniVaultAbi } from "@/contracts/mini-vault.abi";
+import { vaultAddress } from "@/contracts/addresses";
+
+export function DepositForm() {
+  const [amount, setAmount] = useState("0.01");
+  const { address } = useAccount();
+  const queryClient = useQueryClient();
+
+  const validAmount =
+    /^\d+(\.\d{1,18})?$/.test(amount) &amp;&amp; Number(amount) &gt; 0;
+  const amountWei = validAmount ? parseEther(amount) : 0n;
+
+  const { data: simulation, error: simulateError } = useSimulateContract({
+    address: vaultAddress,
+    abi: miniVaultAbi,
+    functionName: "deposit",
+    value: amountWei,
+    query: { enabled: Boolean(address) &amp;&amp; validAmount },
+  });
+
+  const { writeContract, data: hash, isPending, error: writeError } =
+    useWriteContract();
+
+  const { isLoading: isConfirming, data: receipt } =
+    useWaitForTransactionReceipt({ hash });
+
+  useEffect(() =&gt; {
+    if (receipt?.status !== "success") return;
+    queryClient.invalidateQueries();
+  }, [receipt?.status, queryClient]);
+
+  return (
+    &lt;form
+      onSubmit={(event) =&gt; {
+        event.preventDefault();
+        if (!simulation?.request) return;
+        writeContract(simulation.request);
+      }}
+    &gt;
+      &lt;label&gt;
+        Nominal (ETH)
+        &lt;input
+          inputMode="decimal"
+          value={amount}
+          onChange={(event) =&gt; setAmount(event.target.value)}
+        /&gt;
+      &lt;/label&gt;
+
+      &lt;button
+        type="submit"
+        disabled={!simulation?.request || isPending || isConfirming}
+      &gt;
+        {isPending
+          ? "Menunggu wallet..."
+          : isConfirming
+            ? "Menunggu konfirmasi..."
+            : "Deposit"}
+      &lt;/button&gt;
+
+      {simulateError ? &lt;p role="alert"&gt;{simulateError.message}&lt;/p&gt; : null}
+      {writeError ? &lt;p role="alert"&gt;{writeError.message}&lt;/p&gt; : null}
+      {hash ? &lt;p&gt;Hash: &lt;code&gt;{hash}&lt;/code&gt;&lt;/p&gt; : null}
+      {receipt?.status === "success" ? &lt;p&gt;Deposit berhasil.&lt;/p&gt; : null}
+      {receipt?.status === "reverted" ? &lt;p&gt;Transaksi revert.&lt;/p&gt; : null}
+    &lt;/form&gt;
+  );
+}</code></pre>
+        </div>
+        <aside class="note">
+          <span class="note-label">Efek samping setelah sukses</span>
+          <p><code>invalidateQueries</code> dijalankan di <code>useEffect</code> ketika receipt sukses. Jangan mengubah state atau memicu query saat render. Pola ini juga mencegah saldo lama tertinggal setelah transaksi selesai.</p>
+        </aside>
+
+        <h3>Mencegah dua transaksi untuk satu klik</h3>
+        <p>Nonaktifkan tombol selama <code>isPending</code> (menunggu wallet) dan <code>isConfirming</code> (menunggu blok). Jangan hanya mengandalkan disabled visual; cek juga di handler. Pengguna bisa menekan Enter atau memanggil handler lewat keyboard. Simpan hash terakhir dan tampilkan tombol "Lihat di explorer" alih-alih mengirim ulang tanpa berpikir.</p>
+        <p>Jika pengguna ingin deposit lagi setelah sukses, sediakan tombol baru yang jelas. Mengulang otomatis setelah receipt adalah cara cepat membuat dua deposit yang tidak diinginkan.</p>
+
+        <div class="lab" id="lab-write">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 07</p>
+            <h3>Simulasikan, kirim, lalu lihat saldo berubah.</h3>
+            <p>Masukkan nominal, simulasikan, lalu kirim. Lab menampilkan calldata, estimasi gas, hash, status, dan receipt. Saldo wallet dan saldo vault mengikuti transaksi.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row">
+              <div class="field">
+                <label for="write-amount">Nominal deposit (ETH)</label>
+                <input id="write-amount" type="text" inputmode="decimal" value="0.01" autocomplete="off">
+                <p class="hint">Coba 0 untuk melihat error kontrak, atau nominal lebih besar dari saldo untuk melihat error dana.</p>
+              </div>
+              <div class="field">
+                <span class="field-label">Akun pengirim</span>
+                <p class="mono" id="write-owner">Belum terhubung</p>
+                <p class="hint">Hubungkan wallet di Lab 04. Lab ini memakai akun yang sama.</p>
+              </div>
+            </div>
+
+            <div class="calldata-box">
+              <span class="cd-label">Calldata</span>
+              <span id="write-calldata">Pilih nominal lalu simulasikan.</span>
+            </div>
+
+            <div class="gas-row" id="write-gas">
+              <span>Estimasi gas: <strong>--</strong></span>
+              <span>Biaya maksimum: <strong>--</strong></span>
+              <span>Chain: <strong id="write-chain">Sepolia</strong></span>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-quiet" id="write-simulate" type="button">Simulasikan</button>
+              <button class="btn btn-primary" id="write-send" type="button" disabled>Kirim deposit</button>
+              <button class="btn btn-quiet" id="write-reset" type="button">Reset</button>
+            </div>
+
+            <p class="status" id="write-status" role="status" aria-live="polite">Belum ada simulasi.</p>
+
+            <dl class="readout-grid">
+              <div><dt>Hash</dt><dd id="write-hash">--</dd></div>
+              <div><dt>Status</dt><dd id="write-txstatus">--</dd></div>
+              <div><dt>Blok</dt><dd id="write-block">--</dd></div>
+            </dl>
+            <p class="lab-note">Lab tidak meminta tanda tangan wallet. Di aplikasi nyata, popup MetaMask muncul setelah tombol kirim dan pengguna bisa menolak. Penolakan bukan bug; tampilkan pesan yang tenang.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="tanda-tangan" data-chapter="tanda-tangan" data-track="true" data-title="Tanda tangan pesan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 10<span class="chapter-type">PRAKTIK</span></p>
+          <h2>Signature membuktikan kunci, bukan niat baik.</h2>
+          <p class="chapter-lead">Menandatangani pesan tidak mengubah state dan tidak membutuhkan gas. Ia hanya membuktikan bahwa pemegang kunci untuk sebuah address menyetujui isi pesan tertentu. Itu berguna untuk login, izin off-chain, dan meta-transaction, asalkan server memverifikasi dan pesannya tidak bisa dipakai ulang.</p>
+          <ul class="goals">
+            <li>Menandatangani pesan dengan <code>useSignMessage</code>.</li>
+            <li>Membedakan <code>personal_sign</code>, <code>eth_sign</code>, dan EIP-712.</li>
+            <li>Memverifikasi signature di server dengan Viem.</li>
+            <li>Mencegah replay dengan nonce, domain, dan masa berlaku.</li>
+          </ul>
+        </header>
+
+        <h3>Tiga jenis tanda tangan yang sering tertukar</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Jangan memakai yang salah untuk pekerjaan yang salah.</caption>
+            <thead>
+              <tr><th scope="col">Jenis</th><th scope="col">Dipakai untuk</th><th scope="col">Catatan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>personal_sign</code> (EIP-191)</td><td>Pesan teks, login sederhana, persetujuan off-chain.</td><td>Wallet menambahkan prefix sebelum menandatangani. Viem <code>verifyMessage</code> menangani prefix ini.</td></tr>
+              <tr><td><code>eth_sign</code></td><td>Tidak untuk aplikasi normal.</td><td>Menandatangani data mentah tanpa prefix yang aman. Banyak wallet memblokirnya. Jangan pakai.</td></tr>
+              <tr><td>EIP-712</td><td>Struktur bertipe, order, permit, dan login yang lebih kaya.</td><td>Domain memisahkan aplikasi dan chain. Lebih aman untuk data terstruktur.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Menandatangani pesan login</h3>
+        <p>Pesan harus berisi konteks yang mencegah pemakaian ulang: domain aplikasi, chain id, address, nonce sekali pakai, waktu terbit, dan waktu kedaluwarsa. Jangan hanya menandatangani "Login". Pesan seperti itu bisa dipakai di aplikasi lain atau diulang di sesi lain.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Menandatangani pesan dengan Wagmi</span><button class="copy-btn" type="button" data-copy-target="code-10-sign">Salin</button></div>
+          <pre><code id="code-10-sign" data-lang="tsx">"use client";
+
+import { useAccount, useSignMessage } from "wagmi";
+
+export function LoginButton({ nonce }: { nonce: string }) {
+  const { address } = useAccount();
+  const { signMessageAsync, isPending, error } = useSignMessage();
+
+  async function login() {
+    if (!address) return;
+
+    const message = [
+      "Jembatan ingin memverifikasi kepemilikan wallet.",
+      `Domain: jembatan.example`,
+      `Address: ${address}`,
+      `Chain: 11155111`,
+      `Nonce: ${nonce}`,
+      `Terbit: ${new Date().toISOString()}`,
+    ].join("\n");
+
+    const signature = await signMessageAsync({ message });
+
+    await fetch("/api/verify", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ address, message, signature }),
+      credentials: "include",
+    });
+  }
+
+  return (
+    &lt;button type="button" onClick={login} disabled={!address || isPending}&gt;
+      {isPending ? "Menunggu tanda tangan..." : "Masuk dengan wallet"}
+    &lt;/button&gt;
+  );
+}</code></pre>
+        </div>
+        <p><code>signMessageAsync</code> mengembalikan signature setelah pengguna menyetujui. Signature berbentuk 65 byte heksadesimal: r, s, dan v. Ia bukan transaksi, jadi tidak ada hash transaksi dan tidak ada biaya gas. Jangan menyimpannya sebagai pengganti sesi; verifikasi dulu, lalu terbitkan cookie sesi.</p>
+
+        <h3>Verifikasi di server</h3>
+        <p>Server harus menyimpan nonce yang diterbitkan, memeriksa apakah nonce masih berlaku, lalu memanggil <code>verifyMessage</code>. Jika valid, nonce dihapus dan sesi dibuat. Jangan memverifikasi di browser lalu mengirim boolean "valid" ke server; penyerang bisa mengirim true tanpa signature.</p>
+        <div class="code-block">
+          <div class="code-head"><span>app/api/verify/route.ts</span><button class="copy-btn" type="button" data-copy-target="code-10-verify">Salin</button></div>
+          <pre><code id="code-10-verify" data-lang="ts">import { NextResponse } from "next/server";
+import { verifyMessage, isAddress } from "viem";
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  const { address, message, signature } = body;
+
+  if (!isAddress(address) || typeof message !== "string") {
+    return NextResponse.json({ error: "Input tidak valid" }, { status: 400 });
+  }
+
+  const valid = await verifyMessage({
+    address,
+    message,
+    signature,
+  });
+
+  if (!valid) {
+    return NextResponse.json({ error: "Signature tidak valid" }, { status: 401 });
+  }
+
+  // Di produksi: cek nonce, domain, chain, dan waktu kedaluwarsa.
+  // Lalu buat sesi HttpOnly, bukan mengembalikan "loggedIn: true" saja.
+  return NextResponse.json({ ok: true });
+}</code></pre>
+        </div>
+        <aside class="warn">
+          <span class="note-label">Signature bukan otorisasi transaksi</span>
+          <p>Menandatangani pesan login tidak memberi izin memindahkan token. Namun signature pada payload tertentu bisa dipakai untuk permit atau order jika protokolnya mendukung. Selalu tampilkan isi yang ditandatangani, dan jangan menandatangani data yang tidak kamu pahami. Wallet drainer sering meminta signature yang terlihat tidak berbahaya.</p>
+        </aside>
+
+        <h3>EIP-712 untuk data terstruktur</h3>
+        <p>EIP-712 menandatangani objek bertipe dengan domain yang memuat nama aplikasi, versi, chain id, dan verifying contract. Wallet menampilkan field, bukan blob heksadesimal. Gunakan untuk order, permit, dan login yang membutuhkan struktur. Wagmi menyediakan <code>useSignTypedData</code>; Viem menyediakan <code>verifyTypedData</code> di server.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Bentuk domain EIP-712</span><button class="copy-btn" type="button" data-copy-target="code-10-712">Salin</button></div>
+          <pre><code id="code-10-712" data-lang="ts">const domain = {
+  name: "Jembatan",
+  version: "1",
+  chainId: 11155111,
+  verifyingContract: "0xVAULT...",
+} as const;
+
+const types = {
+  Login: [
+    { name: "wallet", type: "address" },
+    { name: "nonce", type: "string" },
+    { name: "expiresAt", type: "uint256" },
+  ],
+} as const;
+
+const message = {
+  wallet: address,
+  nonce,
+  expiresAt: Math.floor(Date.now() / 1000) + 300,
+};</code></pre>
+        </div>
+
+        <div class="lab" id="lab-sign">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 08</p>
+            <h3>Tanda tangani pesan, verifikasi, lalu ubah isinya.</h3>
+            <p>Lab memakai Web Crypto ECDSA P-256 untuk menunjukkan alur tanda tangan dan verifikasi. Ini bukan secp256k1 milik Ethereum, tetapi sifatnya sama: mengubah satu karakter pesan membuat signature tidak lagi valid.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field">
+              <label for="sign-message">Pesan yang ditandatangani</label>
+              <textarea id="sign-message" rows="4">Login ke Jembatan
+Domain: jembatan.local
+Chain: 11155111
+Nonce: 8f31c2</textarea>
+              <p class="hint">Ubah isi pesan sebelum menandatangani jika ingin. Setelah ditandatangani, coba ubah lagi lalu verifikasi.</p>
+            </div>
+
+            <div class="sign-message" id="sign-preview" aria-live="polite"></div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="sign-btn" type="button">Tanda tangani</button>
+              <button class="btn btn-quiet" id="sign-verify" type="button" disabled>Verifikasi</button>
+              <button class="btn btn-quiet" id="sign-tamper" type="button" disabled>Ubah pesan</button>
+            </div>
+
+            <p class="status" id="sign-status" role="status" aria-live="polite">Belum ada signature.</p>
+
+            <div class="sig-output" id="sign-output" hidden>
+              <span>Pesan saat ditandatangani</span>
+              <div id="sign-signed-message"></div>
+              <span>Digest SHA-256</span>
+              <div id="sign-digest"></div>
+              <span>Signature</span>
+              <div id="sign-signature"></div>
+            </div>
+
+            <p class="lab-note">Di Ethereum, signature <code>personal_sign</code> memakai Keccak-256 dan secp256k1, bukan SHA-256 dan P-256. Yang penting untuk dipahami: verifikasi membutuhkan pesan asli, signature, dan address. Mengubah pesan membatalkan kecocokan.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="status" data-chapter="status" data-track="true" data-title="Status transaksi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 11<span class="chapter-type">PRAKTIK</span></p>
+          <h2>Hash bukan bukti sukses. Receipt yang menentukan.</h2>
+          <p class="chapter-lead">Ada banyak keadaan antara klik dan perubahan saldo. Transaksi bisa menunggu wallet, ditolak, masuk mempool, diganti dengan biaya lebih tinggi, hilang, masuk blok, lalu revert. UI yang baik menampilkan keadaan itu tanpa menyamakan semuanya menjadi "berhasil" atau "gagal".</p>
+          <ul class="goals">
+            <li>Memetakan siklus hidup transaksi dari wallet sampai receipt.</li>
+            <li>Memakai <code>useWaitForTransactionReceipt</code> dengan benar.</li>
+            <li>Membedakan revert, replaced, dropped, dan penolakan wallet.</li>
+            <li>Memperbarui saldo dan event setelah konfirmasi.</li>
+          </ul>
+        </header>
+
+        <h3>Keadaan yang harus dibedakan</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Status transaksi dan arti bagi pengguna.</caption>
+            <thead>
+              <tr><th scope="col">Keadaan</th><th scope="col">Arti</th><th scope="col">Yang ditampilkan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Menunggu wallet</td><td>Popup terbuka; belum ada tanda tangan.</td><td>Tombol nonaktif, pesan "periksa wallet".</td></tr>
+              <tr><td>Ditolak wallet</td><td>Pengguna membatalkan atau menolak.</td><td>Pesan netral, bukan error sistem.</td></tr>
+              <tr><td>Pending</td><td>Hash ada, transaksi di mempool.</td><td>Hash dan tautan explorer; saldo belum berubah.</td></tr>
+              <tr><td>Mined, sukses</td><td>Receipt status <code>success</code>.</td><td>Perbarui saldo, event, dan form.</td></tr>
+              <tr><td>Mined, revert</td><td>Receipt status <code>reverted</code>; gas tetap dibayar.</td><td>Alasan revert jika bisa didecode.</td></tr>
+              <tr><td>Replaced</td><td>Transaksi lain dengan nonce sama menggantikannya.</td><td>Hash lama tidak akan selesai; pantau hash baru.</td></tr>
+              <tr><td>Dropped</td><td>Hilang dari mempool karena timeout atau biaya.</td><td>Tawarkan kirim ulang, jangan mengulang otomatis.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Menunggu receipt</h3>
+        <div class="code-block">
+          <div class="code-head"><span>Status yang bisa dibaca dari hook</span><button class="copy-btn" type="button" data-copy-target="code-11-receipt">Salin</button></div>
+          <pre><code id="code-11-receipt" data-lang="tsx">"use client";
+
+import { useWaitForTransactionReceipt } from "wagmi";
+
+export function TxStatus({ hash }: { hash?: `0x${string}` }) {
+  const { data: receipt, isLoading, isError, error } =
+    useWaitForTransactionReceipt({ hash });
+
+  if (!hash) return &lt;p&gt;Belum ada transaksi.&lt;/p&gt;;
+  if (isLoading) return &lt;p&gt;Menunggu transaksi masuk blok...&lt;/p&gt;;
+  if (isError) return &lt;p role="alert"&gt;Gagal memantau: {error.message}&lt;/p&gt;;
+
+  if (!receipt) return null;
+
+  return receipt.status === "success" ? (
+    &lt;p&gt;Berhasil di blok {receipt.blockNumber.toString()}.&lt;/p&gt;
+  ) : (
+    &lt;p role="alert"&gt;Transaksi revert. Gas tetap dibayar.&lt;/p&gt;
+  );
+}</code></pre>
+        </div>
+        <p><code>isLoading</code> di sini berarti menunggu receipt, bukan menunggu wallet. Untuk menunggu wallet, pakai <code>isPending</code> dari <code>useWriteContract</code>. Menampilkan keduanya sebagai "loading" membuat pengguna tidak tahu harus melihat popup atau menunggu jaringan.</p>
+
+        <h3>Konfirmasi dan finalitas</h3>
+        <p>Satu blok bukan finalitas absolut. Reorg bisa membatalkan blok terbaru. Untuk transaksi bernilai besar, tunggu beberapa konfirmasi atau gunakan finality check sesuai chain. Di L2, finalitas ke L1 punya waktu berbeda dan biaya berbeda; baca dokumentasi chain yang kamu pakai. Jangan menulis "selesai permanen" setelah satu blok.</p>
+
+        <h3>Reorg dan log yang dihapus</h3>
+        <p>Event bisa memiliki field <code>removed: true</code> jika blok tempat ia berada dibatalkan. Indexer yang baik menangani ini. Frontend yang hanya menambahkan log ke array tanpa memeriksa <code>removed</code> bisa menampilkan riwayat yang tidak lagi ada di chain. Untuk saldo dan kepemilikan, tetap baca state kontrak; event adalah jejak, bukan pengganti state.</p>
+
+        <div class="lab" id="lab-status">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 09</p>
+            <h3>Baca empat akhir yang berbeda.</h3>
+            <p>Pilih skenario. Timeline menunjukkan di langkah mana transaksi berhenti, apa yang dilihat pengguna, dan data apa yang masih bisa dipercaya.</p>
+          </div>
+          <div class="lab-body">
+            <div class="account-picker">
+              <button class="btn btn-quiet btn-small" type="button" data-status-scenario="success">Sukses</button>
+              <button class="btn btn-quiet btn-small" type="button" data-status-scenario="revert">Revert</button>
+              <button class="btn btn-quiet btn-small" type="button" data-status-scenario="replaced">Replaced</button>
+              <button class="btn btn-quiet btn-small" type="button" data-status-scenario="dropped">Dropped</button>
+            </div>
+
+            <ul class="timeline" id="status-timeline">
+              <li><span class="tl-dot" aria-hidden="true">1</span><span class="tl-main"><strong>Wallet diminta</strong><span>Pengguna melihat popup dan biaya.</span></span><span class="tl-state">menunggu</span></li>
+            </ul>
+
+            <p class="status" id="status-detail" role="status" aria-live="polite">Pilih skenario untuk melihat detail.</p>
+            <div class="code-block">
+              <div class="code-head"><span>Pemetaan state di UI</span><button class="copy-btn" type="button" data-copy-target="code-11-map">Salin</button></div>
+              <pre><code id="code-11-map" data-lang="text">isPending          -> "Menunggu wallet..."
+hash && isLoading  -> "Menunggu konfirmasi..." + hash
+receipt.success    -> "Berhasil" + refresh query
+receipt.reverted   -> "Revert" + alasan jika ada
+error 4001         -> "Dibatalkan di wallet"
+replaced           -> tampilkan hash pengganti
+dropped            -> tawarkan kirim ulang</code></pre>
+            </div>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="event" data-chapter="event" data-track="true" data-title="Event blockchain">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 12<span class="chapter-type">PRAKTIK</span></p>
+          <h2>Event adalah catatan masa lalu yang bisa dibaca ulang.</h2>
+          <p class="chapter-lead">Kontrak dapat mengeluarkan event saat state berubah. Event lebih murah daripada storage dan mudah diindeks, tetapi tidak bisa dibaca oleh kontrak lain. Frontend memakainya untuk riwayat aktivitas, notifikasi, dan analitik. Untuk keputusan yang bergantung pada state terkini, tetap panggil fungsi view.</p>
+          <ul class="goals">
+            <li>Menjelaskan struktur log: address, topic, data, dan blok.</li>
+            <li>Berlangganan event baru dengan <code>useWatchContractEvent</code>.</li>
+            <li>Membaca log historis dengan <code>getLogs</code>.</li>
+            <li>Menghindari ketergantungan pada event untuk kebenaran state.</li>
+          </ul>
+        </header>
+
+        <h3>Bagaimana event disimpan</h3>
+        <p>Event tidak disimpan di storage kontrak. Saat dieksekusi, EVM menghasilkan log yang menempel pada receipt. Log berisi alamat kontrak, topik (signature event dan parameter <code>indexed</code>), data untuk parameter non-indexed, nomor blok, hash transaksi, dan indeks log. Node menyimpan log dan bisa menyaringnya berdasarkan alamat dan topik.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Event di kontrak</span><button class="copy-btn" type="button" data-copy-target="code-12-sol">Salin</button></div>
+          <pre><code id="code-12-sol" data-lang="solidity">event Deposited(address indexed user, uint256 amount);
+event Withdrawn(address indexed user, uint256 amount);
+
+function deposit() external payable {
+    if (msg.value == 0) revert ZeroAmount();
+    balanceOf[msg.sender] += msg.value;
+    totalDeposits += msg.value;
+    emit Deposited(msg.sender, msg.value);
+}</code></pre>
+        </div>
+        <p>Parameter <code>indexed</code> masuk ke topik dan bisa difilter. Parameter non-indexed masuk ke data dan tidak bisa difilter langsung. Topik pertama adalah hash signature event, misalnya <code>Deposited(address,uint256)</code>. Karena itu nama dan tipe parameter harus konsisten dengan ABI.</p>
+
+        <h3>Berlangganan event baru</h3>
+        <div class="code-block">
+          <div class="code-head"><span>components/event-feed.tsx</span><button class="copy-btn" type="button" data-copy-target="code-12-watch">Salin</button></div>
+          <pre><code id="code-12-watch" data-lang="tsx">"use client";
+
+import { useState } from "react";
+import { useWatchContractEvent } from "wagmi";
+import { formatEther } from "viem";
+import { miniVaultAbi } from "@/contracts/mini-vault.abi";
+import { vaultAddress } from "@/contracts/addresses";
+
+type DepositLog = {
+  user: `0x${string}`;
+  amount: bigint;
+  blockNumber: bigint;
+  transactionHash: `0x${string}`;
+};
+
+export function EventFeed() {
+  const [logs, setLogs] = useState&lt;DepositLog[]&gt;([]);
+
+  useWatchContractEvent({
+    address: vaultAddress,
+    abi: miniVaultAbi,
+    eventName: "Deposited",
+    poll: true,
+    onLogs(incoming) {
+      setLogs((previous) =&gt; [
+        ...incoming.map((log) =&gt; ({
+          user: log.args.user,
+          amount: log.args.amount,
+          blockNumber: log.blockNumber,
+          transactionHash: log.transactionHash,
+        })),
+        ...previous,
+      ]);
+    },
+  });
+
+  return (
+    &lt;ul&gt;
+      {logs.map((log) =&gt; (
+        &lt;li key={`${log.transactionHash}-${log.blockNumber}`}&gt;
+          {log.user} deposit {formatEther(log.amount)} ETH di blok{" "}
+          {log.blockNumber.toString()}
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</code></pre>
+        </div>
+        <p>Hook ini hanya menangkap event baru setelah komponen aktif. Ia tidak memuat riwayat lama. Jika halaman di-refresh, daftar kosong lagi. Opsi <code>poll: true</code> membuat Wagmi memeriksa log baru secara berkala saat transport HTTP tidak menyediakan subscription. Untuk riwayat, gabungkan dengan <code>getLogs</code> atau indexer. Untuk aplikasi produksi dengan banyak event, indexer seperti Ponder, Subsquid, atau The Graph lebih tepat daripada memindai rantai di browser.</p>
+
+        <h3>Membaca log historis</h3>
+        <div class="code-block">
+          <div class="code-head"><span>getLogs dengan Viem</span><button class="copy-btn" type="button" data-copy-target="code-12-logs">Salin</button></div>
+          <pre><code id="code-12-logs" data-lang="ts">import { parseAbiItem } from "viem";
+import { publicClient } from "@/lib/public-client";
+import { vaultAddress } from "@/contracts/addresses";
+
+const deposited = parseAbiItem(
+  "event Deposited(address indexed user, uint256 amount)"
+);
+
+const logs = await publicClient.getLogs({
+  address: vaultAddress,
+  event: deposited,
+  fromBlock: 8_000_000n,
+  toBlock: "latest",
+  args: {
+    user: "0x7a9f...4c21",
+  },
+});</code></pre>
+        </div>
+        <p>Rentang blok yang terlalu besar bisa ditolak RPC publik. Bagi menjadi beberapa permintaan, gunakan <code>fromBlock</code> yang masuk akal, atau serahkan ke indexer. Jangan memindai dari blok 0 di setiap page load.</p>
+        <aside class="note">
+          <span class="note-label">Event bukan state</span>
+          <p>Event bisa dihapus oleh reorg, tidak bisa dibaca kontrak, dan tidak menjamin saldo saat ini. Gunakan event untuk menampilkan "apa yang terjadi", dan <code>balanceOf</code> untuk "berapa sekarang". Dua pertanyaan itu berbeda dan bisa punya jawaban berbeda saat ada transaksi baru.</p>
+        </aside>
+
+        <div class="lab" id="lab-events">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 10</p>
+            <h3>Berlangganan, jeda, dan filter event.</h3>
+            <p>Feed di bawah berbagi event dengan Lab 07. Kirim deposit, jeda langganan, lalu kirim lagi. Event yang masuk saat jeda akan dihitung dan muncul setelah langganan dilanjutkan.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row">
+              <div class="field">
+                <label for="events-filter">Filter event</label>
+                <select id="events-filter">
+                  <option value="all">Semua event</option>
+                  <option value="Deposited">Deposited</option>
+                  <option value="Withdrawn">Withdrawn</option>
+                </select>
+              </div>
+              <div class="field">
+                <span class="field-label">Langganan</span>
+                <div class="lab-actions">
+                  <button class="btn btn-quiet btn-small" id="events-toggle" type="button" aria-pressed="true">Jeda</button>
+                  <button class="btn btn-quiet btn-small" id="events-emit" type="button">Kirim deposit 0.005</button>
+                </div>
+                <p class="hint" id="events-watch-state">useWatchContractEvent aktif (simulasi).</p>
+              </div>
+            </div>
+
+            <ul class="event-feed" id="events-feed" aria-live="polite"></ul>
+
+            <p class="status" id="events-status" role="status" aria-live="polite">Menunggu event.</p>
+            <p class="lab-note">Event yang tampil sudah didecode: address pengguna dan nominal ETH. Di chain, datanya masih berupa topik dan byte. ABI dan Viem yang mengubahnya menjadi objek yang bisa dibaca.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="error" data-chapter="error" data-track="true" data-title="Error dan UX">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 13<span class="chapter-type">PRODUKSI</span></p>
+          <h2>Error yang baik memberi tahu apa yang bisa dilakukan berikutnya.</h2>
+          <p class="chapter-lead">Di Web3, kegagalan datang dari banyak tempat: wallet, RPC, kontrak, nonce, saldo, dan jaringan. Semuanya bisa muncul sebagai objek error yang panjang. Tugasmu bukan menampilkan objek itu, tetapi menerjemahkannya menjadi keputusan: coba lagi, ganti chain, perbaiki input, atau berhenti.</p>
+          <ul class="goals">
+            <li>Mengelompokkan error berdasarkan sumber dan tindakan yang mungkin.</li>
+            <li>Menangani penolakan wallet tanpa menakut-nakuti pengguna.</li>
+            <li>Menampilkan alasan revert dan hash transaksi yang bisa diperiksa.</li>
+            <li>Merancang state loading yang membedakan wallet dan jaringan.</li>
+          </ul>
+        </header>
+
+        <h3>Lima sumber error</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Mulai dari sumbernya, bukan dari teks error.</caption>
+            <thead>
+              <tr><th scope="col">Sumber</th><th scope="col">Contoh</th><th scope="col">Tindakan UI</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Pengguna / wallet</td><td>User rejected, popup ditutup</td><td>Pesan netral, biarkan mencoba lagi.</td></tr>
+              <tr><td>Jaringan / RPC</td><td>429, timeout, failed to fetch</td><td>Tawarkan coba lagi dan endpoint alternatif.</td></tr>
+              <tr><td>Kontrak</td><td>ZeroAmount, InsufficientBalance</td><td>Tampilkan alasan dan perbaiki input.</td></tr>
+              <tr><td>Transaksi</td><td>Reverted, replaced, dropped, nonce too low</td><td>Tampilkan hash, status, dan opsi kirim ulang.</td></tr>
+              <tr><td>Aplikasi</td><td>ABI salah, address kosong, hydration mismatch</td><td>Perbaiki kode; jangan menyalahkan pengguna.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Membaca error wallet</h3>
+        <p>Viem membungkus error dengan tipe dan cause. Untuk penolakan pengguna, kode 4001 biasanya ada di dalam cause. Jangan mencocokkan seluruh string, tetapi periksa kode dan nama error jika tersedia. Tetap sediakan fallback generik.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Helper error yang bisa ditindaklanjuti</span><button class="copy-btn" type="button" data-copy-target="code-13-error">Salin</button></div>
+          <pre><code id="code-13-error" data-lang="ts">type UiError = { title: string; detail: string; retry: boolean };
+
+export function toUiError(error: unknown): UiError {
+  const message = error instanceof Error ? error.message : String(error);
+
+  if (message.includes("User rejected") || message.includes("4001")) {
+    return {
+      title: "Dibatalkan di wallet",
+      detail: "Tidak ada transaksi yang dikirim. Kamu bisa mencoba lagi.",
+      retry: true,
+    };
+  }
+
+  if (message.includes("insufficient funds")) {
+    return {
+      title: "Saldo tidak cukup",
+      detail: "Saldo harus menutup nominal dan biaya gas.",
+      retry: false,
+    };
+  }
+
+  if (message.includes("Chain mismatch")) {
+    return {
+      title: "Chain tidak sesuai",
+      detail: "Pindah ke Sepolia sebelum mengirim transaksi.",
+      retry: false,
+    };
+  }
+
+  if (message.includes("429")) {
+    return {
+      title: "RPC sedang membatasi permintaan",
+      detail: "Tunggu sebentar, lalu muat ulang data.",
+      retry: true,
+    };
+  }
+
+  return {
+    title: "Permintaan gagal",
+    detail: "Coba lagi. Jika tetap gagal, periksa wallet dan jaringan.",
+    retry: true,
+  };
+}</code></pre>
+        </div>
+        <p>Jangan pernah menampilkan private key, seed phrase, atau isi request mentah ke UI. Error bisa memuat data sensitif dari provider. Log detail ke konsol saat pengembangan, tetapi kirim pesan yang sudah disaring ke pengguna.</p>
+
+        <h3>State loading yang jujur</h3>
+        <ul>
+          <li><strong>Menunggu wallet.</strong> Popup terbuka. Teks: "Periksa wallet dan setujui transaksi."</li>
+          <li><strong>Menunggu konfirmasi.</strong> Hash sudah ada. Tampilkan hash dan tautan explorer.</li>
+          <li><strong>Memuat data.</strong> Query sedang berjalan. Skeleton atau teks, bukan spinner tanpa akhir.</li>
+          <li><strong>Memperbarui.</strong> Data lama masih tampil; beri tanda kecil agar pengguna tidak mengira angka berubah drastis.</li>
+          <li><strong>Gagal.</strong> Tampilkan tindakan: coba lagi, ganti chain, atau kembali.</li>
+        </ul>
+
+        <div class="lab" id="lab-errors">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 11</p>
+            <h3>Pilih pesan yang layak ditampilkan.</h3>
+            <p>Setiap skenario punya satu pesan yang paling jujur dan bisa ditindaklanjuti. Pilih, lalu periksa. Pesan yang terlalu teknis dan pesan yang terlalu optimistis sama-sama merugikan.</p>
+          </div>
+          <div class="lab-body">
+            <div class="stack-task" data-ux-task="reject" data-answer="cancel">
+              <p><strong>Pengguna menutup popup MetaMask</strong><small>Tidak ada transaksi yang terkirim.</small></p>
+              <select aria-label="Pesan untuk popup ditutup">
+                <option value="">Pilih pesan</option>
+                <option value="cancel">Transaksi dibatalkan di wallet. Tidak ada dana yang berpindah.</option>
+                <option value="network">Koneksi blockchain gagal. Periksa internet.</option>
+                <option value="fail">Transaksi gagal. Hubungi admin.</option>
+              </select>
+            </div>
+            <div class="stack-task" data-ux-task="chain" data-answer="switch">
+              <p><strong>Wallet berada di Ethereum mainnet, aplikasi butuh Sepolia</strong><small>Saldo dan kontrak bisa terlihat, tetapi transaksi akan salah jaringan.</small></p>
+              <select aria-label="Pesan untuk chain salah">
+                <option value="">Pilih pesan</option>
+                <option value="reload">Muat ulang halaman untuk memperbaiki jaringan.</option>
+                <option value="switch">Wallet kamu di chain lain. Pindah ke Sepolia untuk melanjutkan.</option>
+                <option value="ignore">Lanjutkan saja; wallet akan memilih chain otomatis.</option>
+              </select>
+            </div>
+            <div class="stack-task" data-ux-task="zero" data-answer="amount">
+              <p><strong>Kontrak revert dengan custom error ZeroAmount</strong><small>Pengguna menekan deposit tanpa mengisi nominal.</small></p>
+              <select aria-label="Pesan untuk deposit nol">
+                <option value="">Pilih pesan</option>
+                <option value="amount">Nominal deposit harus lebih dari 0 ETH.</option>
+                <option value="gas">Gas tidak cukup untuk transaksi ini.</option>
+                <option value="contract">Kontrak rusak. Coba kontrak lain.</option>
+              </select>
+            </div>
+            <div class="stack-task" data-ux-task="reverted" data-answer="reverted">
+              <p><strong>Transaksi masuk blok dengan status reverted</strong><small>Gas sudah dibayar, state tidak berubah.</small></p>
+              <select aria-label="Pesan untuk transaksi revert">
+                <option value="">Pilih pesan</option>
+                <option value="pending">Transaksi masih menunggu. Sabar.</option>
+                <option value="reverted">Transaksi gagal di chain. Gas tetap dibayar. Periksa detail dan coba lagi.</option>
+                <option value="success">Transaksi berhasil, tunggu sinkronisasi.</option>
+              </select>
+            </div>
+            <div class="stack-task" data-ux-task="rpc" data-answer="busy">
+              <p><strong>RPC membalas 429 Too Many Requests</strong><small>Data saldo tidak bisa dimuat.</small></p>
+              <select aria-label="Pesan untuk RPC sibuk">
+                <option value="">Pilih pesan</option>
+                <option value="busy">Data chain sedang sibuk. Coba lagi sebentar atau gunakan RPC lain.</option>
+                <option value="wallet">Wallet tidak terpasang. Pasang MetaMask.</option>
+                <option value="wrong">Alamat kontrak salah. Periksa ABI.</option>
+              </select>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="ux-check" type="button">Periksa pesan</button>
+              <button class="btn btn-quiet" id="ux-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="ux-status" role="status" aria-live="polite">Belum ada pilihan.</p>
+            <p class="lab-note">Pesan yang baik menjawab tiga hal: apa yang terjadi, apakah dana berpindah, dan apa langkah berikutnya. Hindari "unknown error" jika kamu masih bisa membedakan sumbernya.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="struktur" data-chapter="struktur" data-track="true" data-title="Struktur proyek">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 14<span class="chapter-type">PRODUKSI</span></p>
+          <h2>Pisahkan yang berubah karena chain dari yang berubah karena desain.</h2>
+          <p class="chapter-lead">Saat fitur bertambah, file besar menjadi tempat semua bug berkumpul. Struktur yang baik membuat alamat, ABI, konfigurasi, hook, dan tampilan punya rumah sendiri. Kamu bisa mengganti chain tanpa menyentuh markup, dan mengganti markup tanpa menyentuh ABI.</p>
+          <ul class="goals">
+            <li>Menyusun folder yang scalable untuk dApp kecil dan menengah.</li>
+            <li>Memisahkan konfigurasi chain, alamat kontrak, dan ABI.</li>
+            <li>Membuat hook domain untuk menggabungkan beberapa hook Wagmi.</li>
+            <li>Menjaga komponen server tetap bebas dari kode wallet.</li>
+          </ul>
+        </header>
+
+        <h3>Struktur yang dipakai proyek akhir</h3>
+        <div class="file-tree">jembatan-dapp/
+|-- app/
+|   |-- layout.tsx
+|   |-- providers.tsx
+|   |-- page.tsx
+|   `-- api/
+|       `-- verify/route.ts
+|-- components/
+|   |-- connect-button.tsx
+|   |-- account-card.tsx
+|   |-- balance-card.tsx
+|   |-- vault-panel.tsx
+|   |-- tx-status.tsx
+|   |-- sign-message.tsx
+|   `-- event-feed.tsx
+|-- contracts/
+|   |-- mini-vault.abi.ts
+|   `-- addresses.ts
+|-- lib/
+|   |-- wagmi.ts
+|   |-- public-client.ts
+|   |-- format.ts
+|   `-- errors.ts
+`-- types/
+    `-- vault.ts</div>
+
+        <h3>Alamat per chain</h3>
+        <p>Alamat kontrak berbeda di setiap chain. Jangan menyimpan satu alamat global tanpa chain id. Buat peta yang eksplisit dan gagal dengan jelas jika chain tidak didukung.</p>
+        <div class="code-block">
+          <div class="code-head"><span>contracts/addresses.ts</span><button class="copy-btn" type="button" data-copy-target="code-14-addresses">Salin</button></div>
+          <pre><code id="code-14-addresses" data-lang="ts">import { sepolia, anvil } from "wagmi/chains";
+
+export const vaultAddresses = {
+  [sepolia.id]: (process.env.NEXT_PUBLIC_VAULT_ADDRESS ??
+    "0x0000000000000000000000000000000000000000") as `0x${string}`,
+  [anvil.id]: "0x5FbDB2315678afecb367f032d93F642f64180aa3" as `0x${string}`,
+} as const;
+
+export function getVaultAddress(chainId?: number) {
+  if (!chainId) return undefined;
+  return vaultAddresses[chainId as keyof typeof vaultAddresses];
+}</code></pre>
+        </div>
+        <p>Nilai default nol alamat berguna untuk mencegah crash saat env belum diisi, tetapi jangan sampai UI mengirim transaksi ke alamat nol tanpa peringatan. Validasi dengan <code>isAddress</code> dan tampilkan pesan konfigurasi jika kosong.</p>
+
+        <h3>Hook domain, bukan hook di mana-mana</h3>
+        <p>Jika lima komponen memanggil <code>useReadContract</code> untuk data yang sama, pindahkan ke satu hook domain. Hook itu boleh memanggil beberapa hook Wagmi dan mengembalikan bentuk yang nyaman untuk UI. Ini mengurangi duplikasi query key dan memusatkan penanganan error.</p>
+        <div class="code-block">
+          <div class="code-head"><span>hooks/use-vault.ts</span><button class="copy-btn" type="button" data-copy-target="code-14-hook">Salin</button></div>
+          <pre><code id="code-14-hook" data-lang="ts">"use client";
+
+import { useAccount, useReadContract } from "wagmi";
+import { formatEther } from "viem";
+import { miniVaultAbi } from "@/contracts/mini-vault.abi";
+import { getVaultAddress } from "@/contracts/addresses";
+
+export function useVault() {
+  const { address, chainId } = useAccount();
+  const vault = getVaultAddress(chainId);
+
+  const balanceQuery = useReadContract({
+    address: vault,
+    abi: miniVaultAbi,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+    query: { enabled: Boolean(address &amp;&amp; vault) },
+  });
+
+  return {
+    vault,
+    rawBalance: balanceQuery.data,
+    balance: balanceQuery.data === undefined
+      ? undefined
+      : formatEther(balanceQuery.data),
+    isLoading: balanceQuery.isLoading,
+    isError: balanceQuery.isError,
+    refetch: balanceQuery.refetch,
+  };
+}</code></pre>
+        </div>
+        <p>Perhatikan <code>getVaultAddress(chainId)</code>. Jika pengguna berganti chain, hook membaca alamat yang berbeda dan query otomatis berubah. Jangan mengunci alamat di module scope jika aplikasi mendukung lebih dari satu chain.</p>
+
+        <h3>Konfigurasi dan validasi environment</h3>
+        <p>Letakkan validasi env di satu file. Jangan menyebar <code>process.env</code> ke komponen. Untuk nilai publik, validasi saat modul dimuat. Untuk secret server, validasi di route atau modul server saja.</p>
+        <div class="code-block">
+          <div class="code-head"><span>lib/env.ts</span><button class="copy-btn" type="button" data-copy-target="code-14-env">Salin</button></div>
+          <pre><code id="code-14-env" data-lang="ts">import { isAddress } from "viem";
+
+const rawVault = process.env.NEXT_PUBLIC_VAULT_ADDRESS;
+
+export const publicEnv = {
+  vaultAddress: rawVault &amp;&amp; isAddress(rawVault) ? rawVault : null,
+  chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID ?? 11155111),
+};
+
+if (!publicEnv.vaultAddress) {
+  console.warn("NEXT_PUBLIC_VAULT_ADDRESS belum diisi atau tidak valid.");
+}</code></pre>
+        </div>
+        <aside class="note">
+          <span class="note-label">Jangan memvalidasi secret dengan NEXT_PUBLIC_</span>
+          <p>Jika kamu menaruh API key di variabel berprefix <code>NEXT_PUBLIC_</code>, nilainya masuk ke bundle dan bisa dibaca semua pengunjung. Gunakan route server sebagai proxy, atau endpoint RPC yang memang dirancang untuk akses publik.</p>
+        </aside>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="testing" data-chapter="testing" data-track="true" data-title="Testing dan testnet">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 15<span class="chapter-type">PRODUKSI</span></p>
+          <h2>Uji di chain yang bisa di-reset sebelum memakai chain yang tidak bisa.</h2>
+          <p class="chapter-lead">Anvil memberi chain lokal dengan akun berisi ETH, blok instan, dan state yang bisa dihapus. Sepolia memberi lingkungan yang lebih mirip produksi dengan faucet. Mulai dari Anvil, lalu pindah ke Sepolia setelah alur utama stabil.</p>
+          <ul class="goals">
+            <li>Menjalankan Anvil dan menghubungkan MetaMask ke chain lokal.</li>
+            <li>Men-deploy MiniVault dan mengisi alamat kontrak di env.</li>
+            <li>Mendapatkan ETH Sepolia dari faucet dan menguji alur utama.</li>
+            <li>Membedakan bug frontend, bug kontrak, dan masalah RPC.</li>
+          </ul>
+        </header>
+
+        <h3>Anvil: chain lokal dengan akun uji</h3>
+        <div class="code-block">
+          <div class="code-head"><span>Terminal</span><button class="copy-btn" type="button" data-copy-target="code-15-anvil">Salin</button></div>
+          <pre><code id="code-15-anvil" data-lang="bash">anvil
+# RPC: http://127.0.0.1:8545
+# Chain id: 31337
+# Akun 0: 0xf39F...2266
+# Private key akun 0 (publik, hanya untuk latihan):
+# 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80</code></pre>
+        </div>
+        <p>Impor private key akun 0 ke MetaMask, lalu tambahkan network dengan RPC <code>http://127.0.0.1:8545</code> dan chain id <code>31337</code>. Jangan memakai akun ini di mainnet. Private key Anvil adalah konstanta publik; siapa pun yang tahu alamatnya bisa menguras dana jika kamu mengirim aset nyata ke sana.</p>
+        <p>Deploy kontrak dari proyek Foundry Stage 4:</p>
+        <div class="code-block">
+          <div class="code-head"><span>Deploy ke Anvil</span><button class="copy-btn" type="button" data-copy-target="code-15-deploy">Salin</button></div>
+          <pre><code id="code-15-deploy" data-lang="bash">forge create src/MiniVault.sol:MiniVault \
+  --rpc-url http://127.0.0.1:8545 \
+  --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+
+# salin Deployed to: 0x...
+# lalu di .env.local
+NEXT_PUBLIC_VAULT_ADDRESS=0x...
+NEXT_PUBLIC_CHAIN_ID=31337</code></pre>
+        </div>
+
+        <h3>Sepolia: testnet dengan faucet</h3>
+        <p>Sepolia adalah testnet Ethereum. Chain id-nya 11155111. ETH di sana tidak bernilai nyata, tetapi tetap jangan memakai private key yang menyimpan aset. Ambil ETH dari faucet resmi atau penyedia yang kamu percaya, lalu deploy kontrak yang sama. Periksa alamat kontrak di explorer sebelum menempelkannya ke env.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Deploy ke Sepolia</span><button class="copy-btn" type="button" data-copy-target="code-15-sepolia">Salin</button></div>
+          <pre><code id="code-15-sepolia" data-lang="bash"># gunakan keystore, bukan private key di shell history
+cast wallet import deployer --interactive
+
+forge create src/MiniVault.sol:MiniVault \
+  --rpc-url $SEPOLIA_RPC \
+  --account deployer \
+  --broadcast
+
+# verifikasi source
+forge verify-contract 0xALAMAT src/MiniVault.sol:MiniVault \
+  --chain sepolia \
+  --etherscan-api-key $ETHERSCAN_API_KEY</code></pre>
+        </div>
+
+        <h3>Apa yang diuji manual</h3>
+        <ol>
+          <li>Connect wallet di browser tanpa extension, dengan extension tapi terkunci, dan setelah unlock.</li>
+          <li>Tolak popup connect, lalu coba lagi.</li>
+          <li>Ganti akun di wallet dan pastikan saldo serta vault mengikuti.</li>
+          <li>Pindah ke chain yang salah, lalu gunakan tombol switch.</li>
+          <li>Deposit nominal valid, nol, dan lebih besar dari saldo.</li>
+          <li>Tolak transaksi di wallet dan pastikan tidak ada hash yang dibuat.</li>
+          <li>Tunggu konfirmasi dan pastikan saldo, total deposit, dan event berubah.</li>
+          <li>Tanda tangani pesan, ubah pesan, lalu verifikasi harus gagal.</li>
+          <li>Refresh halaman dan pastikan state tidak berisi data akun lama.</li>
+          <li>Matikan Anvil di tengah alur dan lihat pesan error RPC.</li>
+        </ol>
+
+        <aside class="note">
+          <span class="note-label">Testing otomatis</span>
+          <p>Unit test untuk format dan validasi tidak membutuhkan wallet. Untuk end-to-end, alat seperti Playwright bisa memakai wallet mock atau lingkungan khusus. Jangan mengandalkan test yang menekan tombol connect di MetaMask asli di CI; itu rapuh dan menyimpan rahasia. Uji logika kontrak di Foundry, uji UI dengan state mock, dan uji jalur wallet secara manual di testnet.</p>
+        </aside>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="keamanan" data-chapter="keamanan" data-track="true" data-title="Keamanan frontend">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 16<span class="chapter-type">PRODUKSI</span></p>
+          <h2>Frontend tidak memegang dana. Ia memegang perhatian pengguna.</h2>
+          <p class="chapter-lead">Sebagian besar kerugian di Web3 bukan berasal dari bug Solidity, melainkan dari tanda tangan yang disetujui pengguna di situs yang salah, izin token yang terlalu luas, dan alamat tujuan yang tertukar. Frontend adalah titik di mana keputusan itu terjadi. Kamu punya tanggung jawab untuk membuat keputusan itu terlihat.</p>
+          <ul class="goals">
+            <li>Memetakan ancaman yang relevan untuk frontend dApp.</li>
+            <li>Membedakan izin connect, signature, approval, dan transaksi.</li>
+            <li>Menampilkan detail transaksi sebelum tanda tangan.</li>
+            <li>Menjelaskan batas frontend dan pentingnya kontrak yang aman.</li>
+          </ul>
+        </header>
+
+        <h3>Model ancaman singkat</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Ancaman umum dan pertahanan yang realistis.</caption>
+            <thead>
+              <tr><th scope="col">Ancaman</th><th scope="col">Contoh</th><th scope="col">Pertahanan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Phishing domain</td><td>Situs mirip dengan domain berbeda satu huruf.</td><td>Domain benar, pendidikan pengguna, wallet menampilkan origin.</td></tr>
+              <tr><td>Wallet drainer</td><td>Signature atau approval yang memberi akses aset.</td><td>Batasi approval, tampilkan isi signature, jangan menandatangani buta.</td></tr>
+              <tr><td>Address poisoning</td><td>Alamat mirip di riwayat transfer.</td><td>Tampilkan alamat lengkap untuk nilai besar, verifikasi di wallet.</td></tr>
+              <tr><td>RPC tidak jujur</td><td>Node mengembalikan state palsu atau tertinggal.</td><td>Percayai kontrak dan beberapa RPC untuk keputusan penting.</td></tr>
+              <tr><td>Supply chain</td><td>Paket npm berbahaya atau typosquatting.</td><td>Lockfile, audit, versi pinned, review dependensi.</td></tr>
+              <tr><td>Secret bocor</td><td>API key atau private key di bundle.</td><td>Hanya <code>NEXT_PUBLIC_</code> untuk nilai publik; secret di server.</td></tr>
+              <tr><td>XSS</td><td>HTML dari input pengguna dieksekusi.</td><td>Escape, CSP, hindari <code>dangerouslySetInnerHTML</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Empat izin yang berbeda</h3>
+        <p>Pengguna sering menganggap semuanya "connect". Padahal empat tindakan ini punya risiko berbeda:</p>
+        <ul>
+          <li><strong>Connect.</strong> Wallet mengungkap address. Tidak memindahkan aset. Bisa diputuskan kapan saja.</li>
+          <li><strong>Signature pesan.</strong> Membuktikan persetujuan atas teks atau struktur. Tidak mengubah state, tetapi bisa memberi izin jika protokol memakainya.</li>
+          <li><strong>Approval token.</strong> Transaksi yang memberi kontrak lain izin menarik token sampai jumlah tertentu. Ini bisa mengosongkan token jika penerima jahat.</li>
+          <li><strong>Transaksi.</strong> Mengubah state dan membayar gas. Bisa memindahkan ETH atau token sesuai fungsi yang dipanggil.</li>
+        </ul>
+        <p>Untuk aplikasi MiniVault, deposit adalah transaksi dengan nilai ETH. Tidak ada approval token. Jika kelak kamu menambahkan token ERC-20, tampilkan jumlah approval, penerima, dan batasnya. Jangan meminta unlimited approval hanya karena lebih mudah.</p>
+
+        <h3>Tampilkan apa yang akan ditandatangani</h3>
+        <p>Sebelum memanggil <code>writeContract</code>, tampilkan fungsi, alamat kontrak, nominal, dan chain. Jika memungkinkan, gunakan simulasi untuk menampilkan perubahan yang diharapkan. Jangan hanya menampilkan tombol "Deposit" tanpa nominal.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Ringkasan sebelum tanda tangan</span><button class="copy-btn" type="button" data-copy-target="code-16-summary">Salin</button></div>
+          <pre><code id="code-16-summary" data-lang="tsx">&lt;section aria-label="Ringkasan transaksi"&gt;
+  &lt;dl&gt;
+    &lt;div&gt;&lt;dt&gt;Fungsi&lt;/dt&gt;&lt;dd&gt;deposit()&lt;/dd&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;dt&gt;Kontrak&lt;/dt&gt;&lt;dd&gt;&lt;code&gt;{vaultAddress}&lt;/code&gt;&lt;/dd&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;dt&gt;Nominal&lt;/dt&gt;&lt;dd&gt;{amount} ETH&lt;/dd&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;dt&gt;Chain&lt;/dt&gt;&lt;dd&gt;Sepolia&lt;/dd&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;dt&gt;Estimasi gas&lt;/dt&gt;&lt;dd&gt;{gasEstimate}&lt;/dd&gt;&lt;/div&gt;
+  &lt;/dl&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+
+        <h3>Jangan memverifikasi signature di klien saja</h3>
+        <p>Signature harus diverifikasi di server dengan pesan asli dan address yang diklaim. Klien bisa mengirim apa pun. Jika server hanya menerima <code>{ valid: true }</code>, penyerang tidak perlu menandatangani apa pun. Gunakan nonce sekali pakai yang disimpan server, periksa domain dan chain, dan tetapkan masa berlaku.</p>
+        <p>Untuk login, EIP-4361 (Sign-In with Ethereum) mendefinisikan format pesan yang memuat domain, address, statement, URI, versi, chain id, nonce, dan waktu. Kamu bisa memakai library yang sudah menangani parsing dan verifikasi, bukan menulis format sendiri tanpa alasan.</p>
+
+        <h3>Batas yang harus diakui</h3>
+        <ul>
+          <li>Frontend tidak bisa mencegah pengguna menandatangani transaksi jahat di situs lain.</li>
+          <li>Frontend tidak bisa menyembunyikan fungsi kontrak yang publik.</li>
+          <li>Frontend tidak bisa menjamin RPC mengembalikan data benar.</li>
+          <li>Frontend tidak bisa menggantikan audit kontrak dan test yang kuat.</li>
+          <li>Frontend tidak bisa memulihkan dana yang sudah dikirim ke alamat salah.</li>
+        </ul>
+        <aside class="warn">
+          <span class="note-label">Sebelum mainnet</span>
+          <p>Gunakan multisig untuk kontrak yang memegang dana, batasi approval, pasang monitoring event, dan siapkan prosedur pause atau migrasi. Uji di testnet dengan akun baru. Jangan memakai private key yang pernah muncul di screenshot, terminal, atau repositori.</p>
+        </aside>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="proyek" data-chapter="proyek" data-track="true" data-title="Proyek MiniVault dApp">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 17<span class="chapter-type">PROYEK</span></p>
+          <h2>Delapan target, satu halaman yang bisa dipakai.</h2>
+          <p class="chapter-lead">Proyek akhir menggabungkan semua bab: kontrak MiniVault, config Wagmi, provider, tombol connect, kartu saldo, panel deposit, status transaksi, signature, dan event feed. Tidak ada fitur baru; yang baru adalah cara semuanya disusun agar bisa dibaca dan diuji.</p>
+          <ul class="goals">
+            <li>Men-deploy kontrak MiniVault ke Anvil atau Sepolia.</li>
+            <li>Menyusun halaman dApp dengan komponen yang terpisah.</li>
+            <li>Menghubungkan delapan target ke satu state wallet.</li>
+            <li>Menguji alur sukses dan jalur gagal sebelum menyerahkan hasil.</li>
+          </ul>
+        </header>
+
+        <h3>Kontrak MiniVault</h3>
+        <div class="code-block">
+          <div class="code-head"><span>src/MiniVault.sol</span><button class="copy-btn" type="button" data-copy-target="code-17-contract">Salin</button></div>
+          <pre><code id="code-17-contract" data-lang="solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+contract MiniVault {
+    mapping(address =&gt; uint256) public balanceOf;
+    uint256 public totalDeposits;
+
+    event Deposited(address indexed user, uint256 amount);
+    event Withdrawn(address indexed user, uint256 amount);
+
+    error ZeroAmount();
+    error InsufficientBalance(uint256 available, uint256 requested);
+
+    function deposit() external payable {
+        if (msg.value == 0) revert ZeroAmount();
+        balanceOf[msg.sender] += msg.value;
+        totalDeposits += msg.value;
+        emit Deposited(msg.sender, msg.value);
+    }
+
+    function withdraw(uint256 amount) external {
+        uint256 available = balanceOf[msg.sender];
+        if (amount == 0) revert ZeroAmount();
+        if (amount &gt; available) {
+            revert InsufficientBalance(available, amount);
+        }
+
+        balanceOf[msg.sender] = available - amount;
+        totalDeposits -= amount;
+        emit Withdrawn(msg.sender, amount);
+
+        (bool ok, ) = msg.sender.call{value: amount}("");
+        require(ok, "ETH transfer failed");
+    }
+}</code></pre>
+        </div>
+        <p>Kontrak ini menjaga urutan checks-effects-interactions: saldo dikurangi sebelum ETH dikirim. Untuk produksi, tambahkan reentrancy guard, batas ukuran, dan test yang lebih lengkap. Latihan ini fokus pada frontend; jangan menganggap kontrak contoh ini sudah diaudit.</p>
+
+        <h3>Halaman utama</h3>
+        <p>Halaman disusun sebagai client component karena seluruh isinya bergantung pada wallet. Jika kamu ingin sebagian halaman tetap server-rendered, pecah menjadi komponen client yang lebih kecil dan biarkan teks penjelasan di server.</p>
+        <div class="code-block">
+          <div class="code-head"><span>app/page.tsx</span><button class="copy-btn" type="button" data-copy-target="code-17-page">Salin</button></div>
+          <pre><code id="code-17-page" data-lang="tsx">"use client";
+
+import { ConnectButton } from "@/components/connect-button";
+import { AccountCard } from "@/components/account-card";
+import { BalanceCard } from "@/components/balance-card";
+import { VaultPanel } from "@/components/vault-panel";
+import { TxStatus } from "@/components/tx-status";
+import { SignMessage } from "@/components/sign-message";
+import { EventFeed } from "@/components/event-feed";
+
+export default function HomePage() {
+  return (
+    &lt;main&gt;
+      &lt;header&gt;
+        &lt;h1&gt;MiniVault&lt;/h1&gt;
+        &lt;ConnectButton /&gt;
+      &lt;/header&gt;
+
+      &lt;section&gt;
+        &lt;AccountCard /&gt;
+        &lt;BalanceCard /&gt;
+      &lt;/section&gt;
+
+      &lt;section&gt;
+        &lt;VaultPanel /&gt;
+        &lt;TxStatus /&gt;
+      &lt;/section&gt;
+
+      &lt;section&gt;
+        &lt;SignMessage /&gt;
+      &lt;/section&gt;
+
+      &lt;section&gt;
+        &lt;EventFeed /&gt;
+      &lt;/section&gt;
+    &lt;/main&gt;
+  );
+}</code></pre>
+        </div>
+
+        <h3>Urutan implementasi yang disarankan</h3>
+        <ol class="steps">
+          <li><strong>Config dan provider.</strong><p>Pastikan halaman bisa dirender dan tombol connect muncul sebelum menambah fitur lain.</p></li>
+          <li><strong>Connect dan address.</strong><p>Uji connect, disconnect, ganti akun, dan refresh halaman. Belum ada transaksi.</p></li>
+          <li><strong>Saldo dan baca kontrak.</strong><p>Tampilkan saldo wallet dan vault. Uji dengan akun berbeda dan chain berbeda.</p></li>
+          <li><strong>Deposit dan status.</strong><p>Simulasikan, kirim, tampilkan hash, tunggu receipt, lalu refresh saldo dan event.</p></li>
+          <li><strong>Signature.</strong><p>Tambahkan login message dengan nonce. Verifikasi di server jika kamu punya route.</p></li>
+          <li><strong>Event dan UX.</strong><p>Tambahkan feed, filter, state error, dan pesan yang jelas untuk setiap jalur gagal.</p></li>
+        </ol>
+
+        <h3>Checklist delapan target</h3>
+        <p>Centang setelah kamu benar-benar mencobanya di proyek sendiri, bukan hanya membaca kode. Progres checklist disimpan di perangkat ini.</p>
+
+        <div class="lab" id="lab-checklist">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 12</p>
+            <h3>Checklist kesiapan dApp.</h3>
+            <p>Delapan target tahap 5 beserta bukti minimum yang harus kamu lihat sendiri.</p>
+          </div>
+          <div class="lab-body">
+            <ul class="checklist" id="checklist">
+              <li><label><input type="checkbox" data-check="connect"><span><strong>Connect wallet</strong><small>Tombol connect membuka MetaMask, menampilkan state menunggu, dan menangani penolakan.</small></span></label></li>
+              <li><label><input type="checkbox" data-check="address"><span><strong>Tampilkan address</strong><small>Address aktif terlihat, bisa disalin, dan berubah saat akun wallet diganti.</small></span></label></li>
+              <li><label><input type="checkbox" data-check="balance"><span><strong>Baca saldo ETH</strong><small>Saldo wallet tampil dalam ETH dan wei, dengan loading dan error RPC.</small></span></label></li>
+              <li><label><input type="checkbox" data-check="read"><span><strong>Baca data kontrak</strong><small><code>balanceOf</code> dan <code>totalDeposits</code> tampil dari kontrak, bukan angka hardcode.</small></span></label></li>
+              <li><label><input type="checkbox" data-check="write"><span><strong>Kirim transaksi</strong><small>Deposit mengubah saldo wallet dan vault, dengan hash yang bisa dibuka di explorer.</small></span></label></li>
+              <li><label><input type="checkbox" data-check="sign"><span><strong>Tanda tangan pesan</strong><small>Pesan dengan nonce ditandatangani dan diverifikasi; mengubah pesan membuat verifikasi gagal.</small></span></label></li>
+              <li><label><input type="checkbox" data-check="status"><span><strong>Status transaksi</strong><small>UI membedakan menunggu wallet, menunggu blok, sukses, revert, dan penolakan.</small></span></label></li>
+              <li><label><input type="checkbox" data-check="event"><span><strong>Event blockchain</strong><small>Event Deposited muncul setelah transaksi, dengan argumen dan nomor blok yang benar.</small></span></label></li>
+            </ul>
+            <p class="status" id="checklist-status" role="status" aria-live="polite">0 dari 8 target dicentang.</p>
+            <p class="lab-note">Jika salah satu belum bisa kamu tunjukkan di proyek sendiri, kembali ke bab terkait. Membaca kode yang benar tidak sama dengan sudah menjalankannya.</p>
+          </div>
+        </div>
+
+        <h3>Kriteria selesai</h3>
+        <ul class="outcomes">
+          <li>Proyek berjalan dengan <code>npm run dev</code> tanpa error di terminal dan konsol browser.</li>
+          <li>Wallet bisa connect, disconnect, dan berganti akun tanpa me-refresh halaman.</li>
+          <li>Saldo wallet dan vault berasal dari chain, bukan nilai simulasi di kode.</li>
+          <li>Deposit menghasilkan hash, receipt sukses, perubahan saldo, dan event baru.</li>
+          <li>Penolakan wallet, nominal nol, saldo kurang, dan chain salah punya pesan yang berbeda.</li>
+          <li>Signature diverifikasi di server atau dijelaskan mengapa belum ada verifikasi server.</li>
+          <li>Tidak ada private key, seed phrase, atau API key rahasia di repositori atau bundle.</li>
+          <li>Kamu bisa menjelaskan setiap hook yang dipakai dan data apa yang dibacanya.</li>
+        </ul>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="uji" data-chapter="uji" data-track="true" data-title="Uji kompetensi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Ujian<span class="chapter-type">UJIAN</span></p>
+          <h2>Uji kompetensi.</h2>
+          <p class="chapter-lead">Dua puluh soal tentang Next.js, Wagmi, Viem, wallet, transaksi, dan event. Fokusnya bukan hafalan nama hook, tetapi memahami data apa yang bergerak dan siapa yang berwenang.</p>
+          <ul class="goals">
+            <li>Menguji pemahaman alur, state, dan batas keamanan.</li>
+            <li>Mengenali UI yang terlihat benar tetapi menyembunyikan status penting.</li>
+            <li>Mendapatkan skor minimal 16 dari 20 untuk lulus.</li>
+          </ul>
+        </header>
+
+        <form id="quiz-form" novalidate></form>
+
+        <div class="lab-actions">
+          <button class="btn btn-primary" id="quiz-submit" type="submit" form="quiz-form">Periksa jawaban</button>
+          <button class="btn btn-quiet" id="quiz-retry" type="button">Coba lagi</button>
+        </div>
+        <p class="status" id="quiz-status" role="status" aria-live="polite">Belum ada jawaban yang diperiksa.</p>
+        <div id="quiz-result" tabindex="-1" aria-live="polite"></div>
+
+        <aside class="note">
+          <span class="note-label">Setelah lulus</span>
+          <p>Ambil kontrak MiniVault, deploy ke Anvil, lalu bangun halaman yang benar-benar memakai wallet. Uji connect, deposit, signature, status, dan event tanpa melihat docs ini. Jika ada langkah yang macet, baca bab terkait, bukan menyalin proyek akhir.</p>
+        </aside>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="glosarium" data-chapter="glosarium" data-title="Glosarium dan cheatsheet">
+        <header class="chapter-head">
+          <p class="chapter-mark">Referensi<span class="chapter-type">RUJUKAN</span></p>
+          <h2>Glosarium dan cheatsheet.</h2>
+          <p class="chapter-lead">Tempat kembali ketika nama hook, tipe, atau state lupa. Bukan untuk dibaca sekali duduk.</p>
+        </header>
+
+        <h3>Glosarium</h3>
+        <dl class="glossary">
+          <div><dt>ABI</dt><dd>Deskripsi antarmuka kontrak: fungsi, event, argumen, dan return. Viem memakai ABI untuk encode dan decode.</dd></div>
+          <div><dt>Address</dt><dd>Identitas 20 byte di Ethereum, ditulis 42 karakter heksadesimal. Publik dan aman ditampilkan.</dd></div>
+          <div><dt>Approval</dt><dd>Izin yang diberikan pemilik token kepada alamat lain untuk menarik token hingga batas tertentu.</dd></div>
+          <div><dt>BigInt</dt><dd>Tipe JavaScript untuk bilangan bulat besar. Viem mengembalikan uint256 sebagai bigint.</dd></div>
+          <div><dt>Calldata</dt><dd>Data yang dikirim bersama transaksi: selector fungsi dan argumen yang di-encode.</dd></div>
+          <div><dt>Chain id</dt><dd>Angka identitas chain. Sepolia 11155111, Ethereum 1, Anvil 31337.</dd></div>
+          <div><dt>Connector</dt><dd>Adaptor yang menghubungkan aplikasi ke wallet, misalnya injected, MetaMask SDK, atau WalletConnect.</dd></div>
+          <div><dt>Confirmation</dt><dd>Jumlah blok setelah blok transaksi. Semakin banyak, semakin kecil kemungkinan reorg membatalkannya.</dd></div>
+          <div><dt>Dropped</dt><dd>Transaksi yang hilang dari mempool dan tidak masuk blok. Bisa karena biaya terlalu rendah atau node membuangnya.</dd></div>
+          <div><dt>EIP-191</dt><dd>Standar prefix untuk menandatangani pesan teks, dipakai <code>personal_sign</code>.</dd></div>
+          <div><dt>EIP-712</dt><dd>Standar tanda tangan data terstruktur dengan domain dan tipe.</dd></div>
+          <div><dt>EIP-4361</dt><dd>Sign-In with Ethereum. Format pesan login yang memuat domain, address, nonce, dan chain.</dd></div>
+          <div><dt>EIP-6963</dt><dd>Standar penemuan beberapa provider wallet di browser.</dd></div>
+          <div><dt>Event log</dt><dd>Catatan yang dihasilkan kontrak saat dieksekusi. Berisi topik, data, blok, dan hash transaksi.</dd></div>
+          <div><dt>Gas</dt><dd>Biaya komputasi transaksi. Dibayar dalam ETH dan tetap dikenakan walau transaksi revert.</dd></div>
+          <div><dt>Hash transaksi</dt><dd>Identitas transaksi. Adanya hash belum berarti transaksi berhasil.</dd></div>
+          <div><dt>Hydration</dt><dd>Proses React mencocokkan HTML server dengan komponen browser. Perbedaan markup memicu hydration mismatch.</dd></div>
+          <div><dt>Injected provider</dt><dd>Provider wallet yang disuntikkan ke <code>window.ethereum</code> oleh extension atau browser wallet.</dd></div>
+          <div><dt>Log</dt><dd>Lihat event log. Bisa difilter berdasarkan alamat, topik, dan rentang blok.</dd></div>
+          <div><dt>Mempool</dt><dd>Kumpulan transaksi yang menunggu untuk dimasukkan ke blok.</dd></div>
+          <div><dt>Nonce</dt><dd>Penghitung transaksi per akun. Juga dipakai sebagai nilai sekali pakai dalam pesan login.</dd></div>
+          <div><dt>Public client</dt><dd>Client Viem untuk membaca chain tanpa private key.</dd></div>
+          <div><dt>Query key</dt><dd>Kunci cache TanStack Query. Wagmi memasukkan address dan chain ke key untuk data kontrak.</dd></div>
+          <div><dt>Receipt</dt><dd>Bukti transaksi setelah masuk blok. Berisi status success atau reverted, gas used, dan log.</dd></div>
+          <div><dt>Reorg</dt><dd>Reorganisasi blok yang membatalkan blok sebelumnya. Log bisa ditandai <code>removed</code>.</dd></div>
+          <div><dt>Replaced</dt><dd>Transaksi dengan nonce yang sama digantikan transaksi lain, biasanya dengan biaya lebih tinggi.</dd></div>
+          <div><dt>RPC</dt><dd>Endpoint JSON-RPC yang menghubungkan frontend ke node Ethereum.</dd></div>
+          <div><dt>Selector</dt><dd>Empat byte pertama hash signature fungsi, dipakai untuk menunjuk fungsi di calldata.</dd></div>
+          <div><dt>Simulate</dt><dd>Menjalankan panggilan terhadap state tanpa mengirim transaksi, untuk memprediksi revert dan gas.</dd></div>
+          <div><dt>SSR</dt><dd>Server-side rendering. Di Wagmi, opsi <code>ssr</code> membantu hidrasi state koneksi.</dd></div>
+          <div><dt>Topic</dt><dd>Nilai 32 byte di log. Topik pertama adalah signature event; parameter indexed mengisi topik berikutnya.</dd></div>
+          <div><dt>Transport</dt><dd>Jalur komunikasi ke chain: HTTP, WebSocket, fallback, atau custom provider.</dd></div>
+          <div><dt>Wallet client</dt><dd>Client Viem yang bisa meminta tanda tangan dan mengirim transaksi melalui wallet.</dd></div>
+          <div><dt>Wei</dt><dd>Satuan terkecil ETH. 1 ETH = 10<sup>18</sup> wei.</dd></div>
+        </dl>
+
+        <h3>Cheatsheet</h3>
+        <div class="cheat-grid">
+          <div>
+            <h3>Instalasi</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Terminal</span><button class="copy-btn" type="button" data-copy-target="cheat-5-1">Salin</button></div>
+              <pre><code id="cheat-5-1" data-lang="bash">npx create-next-app@latest jembatan-dapp
+cd jembatan-dapp
+npm install wagmi viem @tanstack/react-query
+npm run dev</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Config</h3>
+            <div class="code-block">
+              <div class="code-head"><span>lib/wagmi.ts</span><button class="copy-btn" type="button" data-copy-target="cheat-5-2">Salin</button></div>
+              <pre><code id="cheat-5-2" data-lang="ts">import { createConfig, http } from "wagmi";
+import { sepolia, anvil } from "wagmi/chains";
+import { injected } from "wagmi/connectors";
+
+export const config = createConfig({
+  chains: [sepolia, anvil],
+  connectors: [injected()],
+  transports: {
+    [sepolia.id]: http(),
+    [anvil.id]: http("http://127.0.0.1:8545"),
+  },
+  ssr: true,
+});</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Connect dan akun</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Hook</span><button class="copy-btn" type="button" data-copy-target="cheat-5-3">Salin</button></div>
+              <pre><code id="cheat-5-3" data-lang="ts">const { address, chainId, isConnected } = useAccount();
+const { connect, connectors, isPending } = useConnect();
+const { disconnect } = useDisconnect();
+const { switchChain } = useSwitchChain();
+
+connect({ connector: connectors[0] });
+disconnect();
+switchChain({ chainId: 11155111 });</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Baca data</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Hook</span><button class="copy-btn" type="button" data-copy-target="cheat-5-4">Salin</button></div>
+              <pre><code id="cheat-5-4" data-lang="ts">const balance = useBalance({
+  address,
+  query: { enabled: Boolean(address) },
+});
+
+const vault = useReadContract({
+  address: vaultAddress,
+  abi: miniVaultAbi,
+  functionName: "balanceOf",
+  args: address ? [address] : undefined,
+  query: { enabled: Boolean(address) },
+});</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Tulis dan status</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Hook</span><button class="copy-btn" type="button" data-copy-target="cheat-5-5">Salin</button></div>
+              <pre><code id="cheat-5-5" data-lang="ts">const { writeContract, data: hash, isPending } = useWriteContract();
+const { data: receipt, isLoading } = useWaitForTransactionReceipt({ hash });
+
+writeContract({
+  address: vaultAddress,
+  abi: miniVaultAbi,
+  functionName: "deposit",
+  value: parseEther("0.01"),
+});
+
+// receipt?.status === "success" | "reverted"</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Tanda tangan</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Hook dan server</span><button class="copy-btn" type="button" data-copy-target="cheat-5-6">Salin</button></div>
+              <pre><code id="cheat-5-6" data-lang="ts">const { signMessageAsync } = useSignMessage();
+const signature = await signMessageAsync({ message });
+
+// server
+const valid = await verifyMessage({
+  address,
+  message,
+  signature,
+});</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Event</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Langganan</span><button class="copy-btn" type="button" data-copy-target="cheat-5-7">Salin</button></div>
+              <pre><code id="cheat-5-7" data-lang="ts">useWatchContractEvent({
+  address: vaultAddress,
+  abi: miniVaultAbi,
+  eventName: "Deposited",
+  poll: true,
+  onLogs(logs) {
+    console.log(logs);
+  },
+});</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Konversi</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Viem</span><button class="copy-btn" type="button" data-copy-target="cheat-5-8">Salin</button></div>
+              <pre><code id="cheat-5-8" data-lang="ts">parseEther("0.01");      // 10000000000000000n
+formatEther(10000000000000000n); // "0.01"
+
+parseUnits("1.25", 6);  // 1250000n
+formatUnits(1250000n, 6); // "1.25"</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Anvil</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Terminal</span><button class="copy-btn" type="button" data-copy-target="cheat-5-9">Salin</button></div>
+              <pre><code id="cheat-5-9" data-lang="bash">anvil
+# RPC http://127.0.0.1:8545
+# chain id 31337
+# akun uji berisi 10.000 ETH
+
+forge create src/MiniVault.sol:MiniVault \
+  --rpc-url http://127.0.0.1:8545 \
+  --private-key 0xac09...ff80</code></pre>
+            </div>
+          </div>
+
+          <div>
+            <h3>Error yang sering muncul</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Catatan</span><button class="copy-btn" type="button" data-copy-target="cheat-5-10">Salin</button></div>
+              <pre><code id="cheat-5-10" data-lang="text">User rejected request        -> penolakan wallet, bukan bug
+insufficient funds           -> saldo < nominal + gas
+Chain mismatch               -> bandingkan chainId, minta switch
+nonce too low                -> transaksi lain sudah memakai nonce
+429 Too Many Requests        -> RPC membatasi, coba lagi
+hydration mismatch           -> jangan baca window saat render server
+ABI encoding error           -> tipe argumen tidak cocok dengan ABI</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <aside class="note">
+          <span class="note-label">Cara memakai cheatsheet</span>
+          <p>Jangan menyalin semua potongan sekaligus. Pilih satu alur, jalankan di proyek latihan, lalu baca error yang muncul. Kode yang tidak kamu pahami error-nya belum kamu kuasai.</p>
+        </aside>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="sumber" data-chapter="sumber" data-title="Sumber belajar">
+        <header class="chapter-head">
+          <p class="chapter-mark">Rujukan<span class="chapter-type">SUMBER</span></p>
+          <h2>Sumber belajar.</h2>
+          <p class="chapter-lead">Dokumentasi resmi lebih cepat berubah daripada docs ini. Saat ada perbedaan, dokumentasi versi yang kamu pakai menang.</p>
+        </header>
+
+        <ul class="sources">
+          <li><a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">Next.js Documentation</a><span>App Router, server dan client component, environment variable, dan deployment.</span></li>
+          <li><a href="https://react.dev/" target="_blank" rel="noopener noreferrer">React Documentation</a><span>State, effect, hook, dan pola komponen.</span></li>
+          <li><a href="https://wagmi.sh/" target="_blank" rel="noopener noreferrer">Wagmi Documentation</a><span>Config, provider, hook connect, baca, tulis, tanda tangan, dan event.</span></li>
+          <li><a href="https://viem.sh/" target="_blank" rel="noopener noreferrer">Viem Documentation</a><span>Client, ABI, transport, format unit, dan verifikasi signature.</span></li>
+          <li><a href="https://tanstack.com/query/latest" target="_blank" rel="noopener noreferrer">TanStack Query</a><span>Cache, query key, refetch, dan state loading.</span></li>
+          <li><a href="https://docs.metamask.io/" target="_blank" rel="noopener noreferrer">MetaMask Developer Docs</a><span>Provider, connect, jaringan, dan API wallet.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-1193" target="_blank" rel="noopener noreferrer">EIP-1193</a><span>Ethereum provider JavaScript API.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-6963" target="_blank" rel="noopener noreferrer">EIP-6963</a><span>Penemuan beberapa provider wallet.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-191" target="_blank" rel="noopener noreferrer">EIP-191</a><span>Format tanda tangan data dan pesan.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-712" target="_blank" rel="noopener noreferrer">EIP-712</a><span>Tanda tangan data terstruktur.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-4361" target="_blank" rel="noopener noreferrer">EIP-4361</a><span>Sign-In with Ethereum.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-1559" target="_blank" rel="noopener noreferrer">EIP-1559</a><span>Mekanisme base fee dan priority fee.</span></li>
+          <li><a href="https://chainlist.org/" target="_blank" rel="noopener noreferrer">Chainlist</a><span>Chain id dan RPC untuk jaringan EVM.</span></li>
+          <li><a href="https://www.alchemy.com/faucets/ethereum-sepolia" target="_blank" rel="noopener noreferrer">Sepolia faucet</a><span>ETH gratis untuk latihan testnet.</span></li>
+          <li><a href="https://getfoundry.sh/reference/anvil/" target="_blank" rel="noopener noreferrer">Anvil reference</a><span>Node lokal, akun uji, fork, dan state.</span></li>
+          <li><a href="https://ponder.sh/" target="_blank" rel="noopener noreferrer">Ponder</a><span>Indexer event untuk aplikasi produksi.</span></li>
+          <li><a href="https://thegraph.com/docs/" target="_blank" rel="noopener noreferrer">The Graph</a><span>Indexing dan query data on-chain.</span></li>
+          <li><a href="https://docs.openzeppelin.com/contracts/5.x/" target="_blank" rel="noopener noreferrer">OpenZeppelin Contracts</a><span>Komponen kontrak, access control, dan reentrancy guard.</span></li>
+          <li><a href="https://www.sourcify.dev/" target="_blank" rel="noopener noreferrer">Sourcify</a><span>Verifikasi source kontrak tanpa API key.</span></li>
+        </ul>
+
+        <aside class="warn">
+          <span class="note-label">Batas docs ini</span>
+          <p>Docs ini tidak membahas WalletConnect mendalam, account abstraction, paymaster, meta-transaction, indexer produksi, atau desain sistem autentikasi lengkap. Untuk aplikasi yang memegang dana nyata, gunakan audit, test kontrak yang kuat, multisig, dan review keamanan independen.</p>
+        </aside>
+        <div data-chapter-end></div>
+      </section>
+
+    </main>
+
+    <div class="toc" aria-label="Daftar isi bab">
+      <p class="toc-title">DI BAB INI</p>
+      <nav class="toc-nav" id="toc-nav"></nav>
+      <a class="toc-top" href="#mulai">Kembali ke atas</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p><strong>Jembatan</strong> adalah bagian kelima dari catatan belajar Web3. Materi berbahasa Indonesia, berjalan lokal, dan tidak mengirim data ke mana pun.</p>
+    <p>Semua lab adalah simulasi. Untuk produksi, gunakan testnet, test, audit, dan proses rilis yang nyata.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
