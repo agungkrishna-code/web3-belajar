@@ -4,6 +4,8 @@ Docs web statis untuk tahap 2 minggu 3: sepuluh konsep fondasi Web3, perbandinga
 
 Semua materi berbahasa Indonesia. Tidak ada akun, tidak ada wallet yang terhubung, dan tidak ada data lab yang dikirim ke server.
 
+Kalau JavaScript, TypeScript, async, dan Git masih terasa longgar, mulai dari [docs fondasi pemrograman](../fundamentals/) (tahap 1).
+
 ## Menjalankan
 
 Paling mudah, buka `index.html` di browser modern.

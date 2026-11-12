@@ -1,0 +1,3329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pondasi: Belajar JavaScript, TypeScript, API, dan BigInt untuk Web3</title>
+  <meta name="description" content="Docs belajar fondasi pemrograman untuk Web3: JavaScript ES6+, TypeScript, async/await, JSON dan API, Git dan GitHub, serta BigInt. Bahasa Indonesia dengan 13 lab interaktif dan proyek Next.js.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23145c43'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='22' fill='%23f4f5f0' text-anchor='middle'%3EPD%3C/text%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("pondasi.theme");
+        var saved = raw;
+        try { saved = JSON.parse(raw); } catch (parseError) {}
+        if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#konten">Lewati ke konten</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#mulai">
+        <span class="brand-mark" aria-hidden="true">PD</span>
+        <span class="brand-text">
+          <strong>Pondasi</strong>
+          <span>JavaScript, TypeScript, API</span>
+        </span>
+      </a>
+
+      <div class="header-tools">
+        <div class="search" role="search">
+          <label class="sr-only" for="search-input">Cari materi di docs ini</label>
+          <input id="search-input" type="search" placeholder="Cari materi" autocomplete="off" aria-controls="search-results">
+          <div class="search-results" id="search-results" hidden></div>
+        </div>
+
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Ganti ke mode gelap">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="btn-label" id="theme-label">Mode gelap</span>
+        </button>
+
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Buka daftar bab" aria-controls="sidebar" aria-expanded="false">
+          <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false">
+            <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="1.6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navigasi materi">
+      <span class="sidebar-kicker">Tahap 1 / Pemrograman</span>
+      <p class="sidebar-title">Pondasi</p>
+
+      <div class="progress-block">
+        <div class="progress-label">
+          <span>Progres belajar</span>
+          <span id="progress-text">0 dari 18</span>
+        </div>
+        <div class="progress-track" id="progress-track" role="progressbar" aria-label="Progres belajar" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0">
+          <span class="progress-fill" id="progress-fill"></span>
+        </div>
+      </div>
+
+      <nav class="chapter-nav" aria-label="Daftar bab">
+        <p class="nav-group">Orientasi</p>
+        <a class="nav-link" href="#mulai" data-nav="mulai">
+          <span class="nav-num" aria-hidden="true">00</span>
+          <span class="nav-label">Mulai di sini</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#peta" data-nav="peta">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Peta kurikulum</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#cara-pakai" data-nav="cara-pakai">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Cara pakai dan versi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Bahasa JavaScript</p>
+        <a class="nav-link" href="#runtime" data-nav="runtime">
+          <span class="nav-num" aria-hidden="true">01</span>
+          <span class="nav-label">Cara JavaScript berjalan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#nilai" data-nav="nilai">
+          <span class="nav-num" aria-hidden="true">02</span>
+          <span class="nav-label">Nilai, tipe, kesamaan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#fungsi" data-nav="fungsi">
+          <span class="nav-num" aria-hidden="true">03</span>
+          <span class="nav-label">Fungsi dan closure</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#array" data-nav="array">
+          <span class="nav-num" aria-hidden="true">04</span>
+          <span class="nav-label">Array dan object</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#modul" data-nav="modul">
+          <span class="nav-num" aria-hidden="true">05</span>
+          <span class="nav-label">Module dan struktur</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Async dan data</p>
+        <a class="nav-link" href="#promise" data-nav="promise">
+          <span class="nav-num" aria-hidden="true">06</span>
+          <span class="nav-label">Promise dan event loop</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#async" data-nav="async">
+          <span class="nav-num" aria-hidden="true">07</span>
+          <span class="nav-label">Async, await, error</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#json" data-nav="json">
+          <span class="nav-num" aria-hidden="true">08</span>
+          <span class="nav-label">JSON</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#api" data-nav="api">
+          <span class="nav-num" aria-hidden="true">09</span>
+          <span class="nav-label">HTTP dan API</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#bigint" data-nav="bigint">
+          <span class="nav-num" aria-hidden="true">10</span>
+          <span class="nav-label">BigInt dan wei</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#angka" data-nav="angka">
+          <span class="nav-num" aria-hidden="true">11</span>
+          <span class="nav-label">Number dan presisi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">TypeScript</p>
+        <a class="nav-link" href="#typescript" data-nav="typescript">
+          <span class="nav-num" aria-hidden="true">12</span>
+          <span class="nav-label">TypeScript dasar</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#generics" data-nav="generics">
+          <span class="nav-num" aria-hidden="true">13</span>
+          <span class="nav-label">Generics dan utility</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#api-types" data-nav="api-types">
+          <span class="nav-num" aria-hidden="true">14</span>
+          <span class="nav-label">Tipe API dan runtime</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Kerja dan proyek</p>
+        <a class="nav-link" href="#git" data-nav="git">
+          <span class="nav-num" aria-hidden="true">15</span>
+          <span class="nav-label">Git dari nol</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#github" data-nav="github">
+          <span class="nav-num" aria-hidden="true">16</span>
+          <span class="nav-label">GitHub dan kolaborasi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#proyek" data-nav="proyek">
+          <span class="nav-num" aria-hidden="true">17</span>
+          <span class="nav-label">Proyek Next.js</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Ujian dan rujukan</p>
+        <a class="nav-link" href="#uji" data-nav="uji">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Uji kompetensi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#glosarium" data-nav="glosarium">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Glosarium dan cheatsheet</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#sumber" data-nav="sumber">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Sumber belajar</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <p>Semua lab berjalan di browser ini. Tidak ada API key, server, atau data yang dikirim ke mana pun.</p>
+        <p>Progres, checklist, dan skor tersimpan lokal di perangkatmu.</p>
+        <p><a href="../docs/">Tahap berikutnya: fondasi blockchain dan Web3</a></p>
+        <p><a href="../nextjs/">Nanti: frontend Web3 dengan Next.js</a></p>
+      </div>
+    </aside>
+
+    <div class="scrim" data-close-nav aria-hidden="true"></div>
+
+    <main class="content" id="konten" tabindex="-1">
+      <section class="hero" id="mulai" data-title="Mulai di sini">
+        <div class="hero-copy">
+          <p class="chapter-mark">Tahap 1 / Pemrograman / Fondasi</p>
+          <h1>Blockchain dimulai dari angka yang tidak boleh salah.</h1>
+          <p class="hero-lead">Sebelum berurusan dengan wallet dan kontrak, kamu perlu bisa dipercaya oleh kode yang kamu tulis sendiri: fungsi yang jelas, data yang bertipe, request yang punya error state, dan angka besar yang tidak dibulatkan. Docs ini menyusun fondasi itu dengan urutan yang masuk akal.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#runtime">Mulai Bab 01</a>
+            <a class="btn btn-quiet" href="#peta">Lihat peta kurikulum</a>
+          </div>
+          <p class="hero-note">17 bab, 13 lab interaktif, 1 proyek Next.js, 20 soal uji kompetensi. Tanpa akun dan tanpa dependensi.</p>
+        </div>
+
+        <div class="hero-precision" aria-labelledby="prec-title">
+          <div class="precision-head">
+            <h2 id="prec-title">Coba sekarang: presisi</h2>
+            <span>Number vs BigInt</span>
+          </div>
+          <div class="precision-inputs">
+            <div>
+              <label for="prec-a">Jumlah A (ETH)</label>
+              <input id="prec-a" type="text" inputmode="decimal" value="0.1" autocomplete="off" spellcheck="false">
+            </div>
+            <div>
+              <label for="prec-b">Jumlah B (ETH)</label>
+              <input id="prec-b" type="text" inputmode="decimal" value="0.2" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+          <div class="precision-output" aria-live="polite">
+            <span>Number</span>
+            <strong id="prec-number">0.30000000000000004</strong>
+            <span>BigInt</span>
+            <strong id="prec-bigint">300000000000000000 wei</strong>
+          </div>
+          <p class="precision-verdict" id="prec-verdict"></p>
+          <p class="precision-note">Ubah angkanya. Nilai wei dihitung dengan BigInt dari string desimal, bukan dari hasil floating point.</p>
+        </div>
+      </section>
+
+      <section class="home-block" id="peta" data-title="Peta kurikulum">
+        <h2>Enam topik silabus, empat fase yang tidak saling menunggu.</h2>
+        <p class="block-lead">JavaScript mengajarkan cara mengeksekusi. Async dan JSON mengajarkan cara berbicara dengan aplikasi lain. TypeScript mengajarkan cara menulis kontrak data di dalam kode. BigInt mengajarkan cara memperlakukan angka yang tidak boleh dibulatkan. Git mencatat semuanya. Proyek menyatukan semuanya.</p>
+
+        <ol class="curriculum">
+          <li><a href="#runtime"><span class="curr-num">01</span><span><span class="curr-title">Cara JavaScript berjalan</span><span class="curr-desc">Runtime, call stack, event loop, dan batas browser.</span></span></a></li>
+          <li><a href="#nilai"><span class="curr-num">02</span><span><span class="curr-title">Nilai, tipe, dan kesamaan</span><span class="curr-desc">Primitive, object, null, NaN, dan ===.</span></span></a></li>
+          <li><a href="#fungsi"><span class="curr-num">03</span><span><span class="curr-title">Fungsi dan closure</span><span class="curr-desc">Scope, parameter, arrow, dan state yang diingat.</span></span></a></li>
+          <li><a href="#array"><span class="curr-num">04</span><span><span class="curr-title">Array dan object</span><span class="curr-desc">map, filter, reduce, destructuring, dan data immutable.</span></span></a></li>
+          <li><a href="#modul"><span class="curr-num">05</span><span><span class="curr-title">Module dan struktur</span><span class="curr-desc">import, export, package.json, dan batas modul.</span></span></a></li>
+          <li><a href="#promise"><span class="curr-num">06</span><span><span class="curr-title">Promise dan event loop</span><span class="curr-desc">Tiga state promise, chaining, dan urutan microtask.</span></span></a></li>
+          <li><a href="#async"><span class="curr-num">07</span><span><span class="curr-title">Async, await, error</span><span class="curr-desc">try/catch/finally, paralel, dan pembatalan request.</span></span></a></li>
+          <li><a href="#json"><span class="curr-num">08</span><span><span class="curr-title">JSON</span><span class="curr-desc">Parse, stringify, batas tipe, dan BigInt yang tidak bisa diserialisasi.</span></span></a></li>
+          <li><a href="#api"><span class="curr-num">09</span><span><span class="curr-title">HTTP dan API</span><span class="curr-desc">Method, status, header, fetch, dan kegagalan yang jujur.</span></span></a></li>
+          <li><a href="#bigint"><span class="curr-num">10</span><span><span class="curr-title">BigInt dan wei</span><span class="curr-desc">Integer besar, desimal token, dan konversi yang exact.</span></span></a></li>
+          <li><a href="#angka"><span class="curr-num">11</span><span><span class="curr-title">Number dan presisi</span><span class="curr-desc">IEEE 754, safe integer, dan uang yang tidak boleh dibulatkan.</span></span></a></li>
+          <li><a href="#typescript"><span class="curr-num">12</span><span><span class="curr-title">TypeScript dasar</span><span class="curr-desc">Inferensi, interface, union, dan narrowing.</span></span></a></li>
+          <li><a href="#generics"><span class="curr-num">13</span><span><span class="curr-title">Generics dan utility</span><span class="curr-desc">Tipe yang bisa dipakai ulang dan tipe turunan.</span></span></a></li>
+          <li><a href="#api-types"><span class="curr-num">14</span><span><span class="curr-title">Tipe API dan runtime</span><span class="curr-desc">unknown, type guard, validasi, dan data yang tidak dipercaya.</span></span></a></li>
+          <li><a href="#git"><span class="curr-num">15</span><span><span class="curr-title">Git dari nol</span><span class="curr-desc">Working tree, index, commit, branch, dan undo.</span></span></a></li>
+          <li><a href="#github"><span class="curr-num">16</span><span><span class="curr-title">GitHub dan kolaborasi</span><span class="curr-desc">Remote, pull request, review, dan secret.</span></span></a></li>
+          <li><a href="#proyek"><span class="curr-num">17</span><span><span class="curr-title">Proyek Next.js</span><span class="curr-desc">Satu dashboard yang memakai API, TypeScript, dan BigInt.</span></span></a></li>
+        </ol>
+
+        <aside class="note">
+          <span class="note-label">Cara membaca</span>
+          <p>Bab 01 sampai 05 memasang bahasa. Bab 06 sampai 11 memasang komunikasi dan angka. Bab 12 sampai 14 memasang tipe. Bab 15 sampai 17 memasang kebiasaan kerja dan proyek. Kalau kamu sudah nyaman dengan JavaScript, baca Bab 02 dan Bab 04 dengan cepat, lalu masuk ke Bab 06. Jangan lompat ke proyek sebelum bisa menjelaskan kenapa wei tidak boleh disimpan di Number.</p>
+        </aside>
+      </section>
+
+      <section class="home-block" id="cara-pakai" data-title="Cara pakai dan versi">
+        <h2>Docs ini mengajarkan fondasi, bukan semua hal.</h2>
+        <p class="block-lead">Targetnya sempit dan bisa diuji: kamu bisa menulis fungsi JavaScript modern, memakai TypeScript tanpa melawan compiler, mengambil data dari API dengan error handling, menghitung nilai token dengan BigInt, menyimpan perubahan dengan Git, dan merakit semuanya menjadi aplikasi Next.js kecil.</p>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Materi, target pemahaman, dan bab tempat latihannya.</caption>
+            <thead>
+              <tr><th scope="col">Materi</th><th scope="col">Target pemahaman</th><th scope="col">Bab</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>JavaScript ES6+</td><td>Functions, modules, promises, array, object</td><td>03, 04, 05, 06</td></tr>
+              <tr><td>TypeScript</td><td>Types, interfaces, generics, narrowing</td><td>12, 13, 14</td></tr>
+              <tr><td>Async/await</td><td>Interaksi dengan API, error, cancellation</td><td>07, 09</td></tr>
+              <tr><td>JSON dan API</td><td>Komunikasi antar aplikasi, status, validasi</td><td>08, 09, 14</td></tr>
+              <tr><td>Git dan GitHub</td><td>Version control, commit, branch, pull request</td><td>15, 16</td></tr>
+              <tr><td>BigInt</td><td>Bilangan integer besar, wei, presisi</td><td>10, 11</td></tr>
+              <tr><td>Proyek</td><td>Next.js, fetch, TypeScript, BigInt</td><td>17</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Yang perlu disiapkan</h3>
+        <ul>
+          <li><strong>Node.js versi LTS.</strong> Node 20 atau 22 sudah cukup untuk semua contoh. Jalankan <code>node --version</code> untuk memastikan.</li>
+          <li><strong>Editor dengan TypeScript.</strong> VS Code, WebStorm, atau editor lain yang menampilkan error tipe saat mengetik.</li>
+          <li><strong>Terminal.</strong> PowerShell di Windows, Terminal di macOS, atau shell apa pun yang nyaman.</li>
+          <li><strong>Git.</strong> Periksa dengan <code>git --version</code>. Akun GitHub baru dibutuhkan di Bab 16.</li>
+          <li><strong>Browser modern.</strong> Lab di docs ini memakai JavaScript biasa, BigInt, dan clipboard API.</li>
+        </ul>
+
+        <h3>Yang tidak dibahas di sini</h3>
+        <p>Docs ini tidak mengajarkan React dari nol, CSS tingkat lanjut, database, autentikasi, deployment produksi, atau smart contract. Itu ada di seri berikutnya. Bab 17 hanya memakai Next.js secukupnya untuk membuktikan bahwa fondasi JavaScript, TypeScript, API, dan BigInt bisa disatukan.</p>
+
+        <div class="grid-2">
+          <div>
+            <h4>Asumsi versi</h4>
+            <ul>
+              <li>JavaScript mengikuti ECMAScript 2020 atau lebih baru, termasuk BigInt, optional chaining, dan nullish coalescing.</li>
+              <li>TypeScript 5.x dengan <code>strict: true</code>.</li>
+              <li>Next.js 15 App Router dan React 19 untuk proyek akhir.</li>
+              <li>Git 2.40 atau lebih baru. Perintah <code>git switch</code> dan <code>git restore</code> dipakai.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Aturan lab</h4>
+            <ul>
+              <li>Semua angka di lab dihitung di browser ini.</li>
+              <li>Tidak ada request jaringan, API key, atau data pribadi.</li>
+              <li>Progres dan skor disimpan di <code>localStorage</code> perangkat.</li>
+              <li>Lab boleh diulang tanpa batas. Tidak ada nilai yang dikirim ke mana pun.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Setelah selesai, kamu bisa:</h3>
+        <ul class="outcomes">
+          <li>Menjelaskan perbedaan kode sinkron, microtask, dan macrotask tanpa menghafal.</li>
+          <li>Menulis fungsi dengan parameter default, rest, destructoring, dan closure yang disengaja.</li>
+          <li>Mengubah daftar transaksi dengan <code>filter</code>, <code>map</code>, dan <code>reduce</code> tanpa memutasi data asal.</li>
+          <li>Membuat modul ESM yang bisa diimpor konsisten di Node dan Next.js.</li>
+          <li>Menangani promise, error, timeout, pembatalan, dan retry dengan batas.</li>
+          <li>Membaca JSON yang tidak dipercaya dan melaporkan kesalahannya dengan jelas.</li>
+          <li>Membedakan error jaringan, error HTTP, dan body yang tidak sesuai tipe.</li>
+          <li>Mengonversi ETH dan token ke unit terkecil dengan BigInt, bukan Number.</li>
+          <li>Menulis tipe, interface, union, generic, dan type guard yang berguna.</li>
+          <li>Memakai Git untuk mencatat perubahan dan GitHub untuk mengirim pull request.</li>
+          <li>Membangun dashboard Next.js kecil yang mengambil API, menampilkan loading dan error, serta memformat nilai besar.</li>
+          <li>Menjelaskan kenapa satu wei yang hilang tetap bug, walau tampilannya terlihat sama.</li>
+        </ul>
+
+        <aside class="warn">
+          <span class="note-label">Batas simulasi</span>
+          <p>Lab di docs ini tidak memanggil API sungguhan dan tidak mengirim transaksi. Respons API, latency, dan hash Git adalah simulasi yang diberi label. Untuk mencoba sungguhan, ikuti Bab 17 dan jalankan proyek Next.js di komputermu sendiri.</p>
+        </aside>
+
+        <aside class="note">
+          <span class="note-label">Satu aturan yang tidak berubah</span>
+          <p>TypeScript hanya memeriksa saat compile. Data dari jaringan tetap harus divalidasi saat runtime. Angka dari chain tetap harus diperlakukan sebagai integer besar, bukan angka biasa. Dua kebiasaan ini mencegah sebagian besar bug Web3 yang membosankan.</p>
+        </aside>
+      </section>
+      <section class="chapter" id="runtime" data-chapter="runtime" data-track="true" data-title="Cara JavaScript berjalan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 01<span class="chapter-type">FONDASI</span></p>
+          <h2>JavaScript adalah bahasa. Runtime yang menentukan kapan ia berjalan.</h2>
+          <p class="chapter-lead">Sebelum menyalahkan promise atau API, kamu perlu tahu ke mana kode pergi. JavaScript menjalankan satu tumpukan panggilan pada satu waktu. Pekerjaan yang menunggu (timer, network, event klik) dititipkan ke runtime, lalu dikembalikan lewat antrean saat tumpukan kosong.</p>
+          <ul class="goals">
+            <li>Membedakan bahasa JavaScript dari runtime browser dan Node.js.</li>
+            <li>Menjelaskan call stack, heap, Web API, dan antrean task.</li>
+            <li>Membaca urutan output kode yang mencampur sinkron, promise, dan timer.</li>
+            <li>Mengenali pekerjaan yang memblokir UI dan pekerjaan yang tidak.</li>
+          </ul>
+        </header>
+
+        <h3>Satu bahasa, dua runtime yang berbeda</h3>
+        <p>JavaScript adalah spesifikasi bahasa: sintaks, tipe, operator, dan aturan eksekusi. Browser dan Node.js sama-sama menjalankan JavaScript, tetapi mereka memberi benda yang berbeda. Browser memberi <code>document</code>, <code>window</code>, dan <code>fetch</code>. Node memberi <code>process</code>, <code>fs</code>, dan akses jaringan tingkat rendah. Fungsi yang sama bisa berjalan di keduanya, tetapi kode yang menyentuh <code>document</code> akan gagal di Node.</p>
+        <p>Next.js memakai keduanya sekaligus. Server component berjalan di Node, client component berjalan di browser. Itu sebabnya kode yang memakai <code>window</code> harus berada di client, dan kode yang memegang secret harus berada di server. Batas ini bukan detail arsitektur; ia menentukan apa yang bisa bocor ke pengguna.</p>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Hal yang tersedia di runtime berbeda.</caption>
+            <thead>
+              <tr><th scope="col">Kemampuan</th><th scope="col">Browser</th><th scope="col">Node.js</th><th scope="col">Catatan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>DOM dan event klik</td><td>Ya</td><td>Tidak</td><td>Hanya ada di halaman web.</td></tr>
+              <tr><td><code>fetch</code></td><td>Ya</td><td>Ya, versi Node 18+</td><td>API-nya hampir sama, perilaku timeout bisa berbeda.</td></tr>
+              <tr><td>File system</td><td>Tidak langsung</td><td>Ya</td><td>Browser memakai input file atau download.</td></tr>
+              <tr><td>Timer</td><td>Ya</td><td>Ya</td><td>Bukan bagian bahasa, disediakan runtime.</td></tr>
+              <tr><td>Secret server</td><td>Tidak aman</td><td>Ya</td><td>Jangan pernah mengirim secret ke browser.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Call stack, heap, dan antrean</h3>
+        <p>Bayangkan tiga tempat. <strong>Call stack</strong> menyimpan fungsi yang sedang berjalan. <strong>Heap</strong> menyimpan object dan nilai yang dialokasikan. <strong>Antrean</strong> menyimpan callback yang siap dijalankan setelah stack kosong. Runtime browser menambahkan Web API untuk timer, network, dan event. Node memakai libuv dengan peran yang serupa.</p>
+
+        <div class="diagram">
+          <svg viewBox="0 0 720 300" role="img" aria-labelledby="loop-title loop-desc">
+            <title id="loop-title">Call stack, Web API, dan antrean task</title>
+            <desc id="loop-desc">Kode sinkron masuk ke call stack. Timer dan fetch dititipkan ke Web API. Saat selesai, callback masuk ke antrean. Event loop memindahkan callback ke call stack hanya ketika stack kosong. Promise memakai antrean microtask yang diproses sebelum timer.</desc>
+            <rect class="svg-box-accent svg-box" x="14" y="30" width="180" height="190" rx="2"></rect>
+            <text class="svg-label" x="30" y="56">Call stack</text>
+            <text class="svg-small" x="30" y="82">main()</text>
+            <text class="svg-small" x="30" y="104">render()</text>
+            <text class="svg-small" x="30" y="126">onClick()</text>
+            <text class="svg-small" x="30" y="158">satu per satu</text>
+            <text class="svg-small" x="30" y="180">LIFO</text>
+
+            <rect class="svg-box" x="230" y="30" width="200" height="82" rx="2"></rect>
+            <text class="svg-label" x="246" y="56">Web API / libuv</text>
+            <text class="svg-small" x="246" y="78">setTimeout</text>
+            <text class="svg-small" x="246" y="98">fetch, event listener</text>
+
+            <rect class="svg-box" x="230" y="140" width="200" height="80" rx="2"></rect>
+            <text class="svg-label" x="246" y="166">Antrean task</text>
+            <text class="svg-small" x="246" y="188">callback timer</text>
+            <text class="svg-small" x="246" y="208">callback network</text>
+
+            <path class="svg-line" d="M194 100H224" stroke-dasharray="4 4"></path>
+            <path class="svg-arrow-head" d="M224 100l-7 -4v8z"></path>
+            <text class="svg-small" x="198" y="92">titip</text>
+            <path class="svg-line" d="M330 112V134" stroke-dasharray="4 4"></path>
+            <path class="svg-arrow-head" d="M330 134l-4 -7h8z"></path>
+            <text class="svg-small" x="338" y="132">selesai</text>
+            <path class="svg-line" d="M230 180H196V220H104V226" stroke-dasharray="4 4"></path>
+            <path class="svg-arrow-head" d="M104 226l-4 -7h8z"></path>
+            <text class="svg-small" x="118" y="214">event loop</text>
+
+            <rect class="svg-box" x="470" y="30" width="234" height="190" rx="2"></rect>
+            <text class="svg-label" x="486" y="56">Microtask</text>
+            <text class="svg-small" x="486" y="80">Promise.then</text>
+            <text class="svg-small" x="486" y="100">queueMicrotask</text>
+            <text class="svg-small" x="486" y="130">Dikuras lebih dulu</text>
+            <text class="svg-small" x="486" y="150">sebelum timer berikutnya.</text>
+            <text class="svg-small" x="486" y="184">Kosongkan microtask</text>
+            <text class="svg-small" x="486" y="204">sebelum macrotask.</text>
+
+            <text class="svg-small" x="14" y="262">Satu thread bukan berarti satu pekerjaan. Network dan timer berjalan di luar stack, lalu hasilnya kembali lewat antrean.</text>
+          </svg>
+          <p class="diagram-caption">Kode sinkron selalu selesai lebih dulu. Promise memakai microtask. Timer dan event memakai macrotask. Itu sebabnya <code>setTimeout(..., 0)</code> tidak pernah benar-benar berjalan sebelum kode setelahnya.</p>
+        </div>
+
+        <h3>Membaca urutan output</h3>
+        <p>Contoh berikut adalah pertanyaan interview klasik, tetapi alasannya praktis: kamu perlu tahu kapan state UI diperbarui setelah request. Baca kodenya, tebak urutannya, baru jalankan di browser.</p>
+        <div class="code-block">
+          <div class="code-head"><span>event-loop.js</span><button class="copy-btn" type="button" data-copy-target="code-01-order">Salin</button></div>
+          <pre><code id="code-01-order" data-lang="js">console.log("1: sync");
+
+setTimeout(() =&gt; {
+  console.log("4: timer");
+}, 0);
+
+Promise.resolve().then(() =&gt; {
+  console.log("3: promise");
+});
+
+console.log("2: sync");</code></pre>
+        </div>
+        <p>Urutannya <code>1, 2, 3, 4</code>. Log pertama dan terakhir berjalan di stack yang sama. Callback promise masuk ke antrean microtask dan dikuras setelah stack kosong. Timer baru dijalankan pada putaran event loop berikutnya.</p>
+        <p>Kalau kamu memakai <code>await</code>, bagian setelah <code>await</code> juga berjalan sebagai microtask. Itu penting saat kamu mengira state sudah diperbarui, padahal React belum sempat merender ulang.</p>
+
+        <aside class="note">
+          <span class="note-label">Inti bab</span>
+          <p>JavaScript tidak berjalan paralel untuk kode JavaScript biasa. Ia mengatur pekerjaan asinkron lewat antrean. Operasi jaringan dan timer menunggu di luar stack, tetapi callback-nya tetap berjalan satu per satu.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Tanpa membuka browser, tentukan urutan output dari kode berikut: <code>console.log("A")</code>, <code>Promise.resolve().then(() =&gt; console.log("B"))</code>, <code>setTimeout(() =&gt; console.log("C"), 0)</code>, <code>console.log("D")</code>.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><strong>A, D, B, C.</strong> A dan D sinkron. B adalah microtask Promise. C adalah macrotask timer, dijalankan setelah antrean microtask kosong. Lab 06 membuktikannya dengan waktu eksekusi nyata di browser.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="nilai" data-chapter="nilai" data-track="true" data-title="Nilai, tipe, dan kesamaan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 02<span class="chapter-type">BAHASA</span></p>
+          <h2>Nilai punya tipe. Kesamaan punya aturan. Jangan menebak.</h2>
+          <p class="chapter-lead">JavaScript tidak meminta kamu menulis tipe, tetapi setiap nilai tetap punya tipe. Sebagian besar bug pemula berasal dari dua kebiasaan: memakai <code>==</code> dan menganggap semua angka bisa diperlakukan sama. Bab ini memasang aturan dasarnya.</p>
+          <ul class="goals">
+            <li>Menyebut tujuh primitive dan membedakannya dari object.</li>
+            <li>Memahami <code>typeof null</code>, <code>NaN</code>, dan nilai falsy.</li>
+            <li>Memilih <code>===</code> atau <code>Object.is</code> sesuai kebutuhan.</li>
+            <li>Memakai optional chaining dan nullish coalescing tanpa menelan error.</li>
+          </ul>
+        </header>
+
+        <h3>Tujuh primitive, satu object</h3>
+        <p>Primitive disalin berdasarkan nilai. Object disalin berdasarkan referensi. Ini bukan detail akademis: kalau kamu mengirim object ke fungsi lalu mengubahnya, pemanggil ikut melihat perubahan. Kalau kamu mengirim string, pemanggil tidak terpengaruh.</p>
+        <div class="grid-2">
+          <div>
+            <h4>Primitive</h4>
+            <ul>
+              <li><code>string</code>: teks, tidak bisa diubah di tempat.</li>
+              <li><code>number</code>: floating point 64 bit.</li>
+              <li><code>bigint</code>: integer presisi arbitrer.</li>
+              <li><code>boolean</code>: <code>true</code> atau <code>false</code>.</li>
+              <li><code>undefined</code>: belum diberi nilai.</li>
+              <li><code>null</code>: sengaja kosong.</li>
+              <li><code>symbol</code>: kunci unik, jarang dipakai di aplikasi biasa.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Object</h4>
+            <ul>
+              <li>Object literal, array, function, Date, Map, Set.</li>
+              <li>Disimpan di heap dan diakses lewat referensi.</li>
+              <li>Dua object dengan isi sama tetap tidak <code>===</code>.</li>
+              <li>Gunakan <code>structuredClone</code> untuk salinan dalam yang aman.</li>
+              <li>Gunakan spread untuk salinan dangkal.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Tabel yang menyelamatkan waktu</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Perilaku yang sering ditanya dan sering salah dijawab.</caption>
+            <thead>
+              <tr><th scope="col">Ekspresi</th><th scope="col">Hasil</th><th scope="col">Kenapa</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>typeof "abc"</code></td><td><code>"string"</code></td><td>Tipe primitive.</td></tr>
+              <tr><td><code>typeof null</code></td><td><code>"object"</code></td><td>Bug historis, dipertahankan untuk kompatibilitas.</td></tr>
+              <tr><td><code>typeof []</code></td><td><code>"object"</code></td><td>Array adalah object. Pakai <code>Array.isArray</code>.</td></tr>
+              <tr><td><code>typeof undefined</code></td><td><code>"undefined"</code></td><td>Variabel yang belum diberi nilai.</td></tr>
+              <tr><td><code>typeof 10n</code></td><td><code>"bigint"</code></td><td>BigInt adalah primitive terpisah.</td></tr>
+              <tr><td><code>NaN === NaN</code></td><td><code>false</code></td><td>NaN tidak sama dengan dirinya sendiri. Pakai <code>Number.isNaN</code>.</td></tr>
+              <tr><td><code>0 == false</code></td><td><code>true</code></td><td>Koersi. Hindari <code>==</code>.</td></tr>
+              <tr><td><code>0 === false</code></td><td><code>false</code></td><td>Tipe berbeda.</td></tr>
+              <tr><td><code>Object.is(NaN, NaN)</code></td><td><code>true</code></td><td>Kesamaan yang membedakan <code>+0</code> dan <code>-0</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab" id="lab-tipe">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 01</p>
+            <h3>Tebak hasil, lalu periksa alasan.</h3>
+            <p>Pilih jawaban yang benar untuk setiap ekspresi. Lab ini tidak menilai kecepatan, tetapi menilai apakah kamu tahu aturan di balik hasilnya.</p>
+          </div>
+          <div class="lab-body">
+            <div class="check-list" id="type-check-list">
+              <div class="check-row" data-answer="object">
+                <p><code>typeof null</code> menghasilkan?</p>
+                <select aria-label="Hasil typeof null">
+                  <option value="">Pilih</option>
+                  <option value="null">"null"</option>
+                  <option value="object">"object"</option>
+                  <option value="undefined">"undefined"</option>
+                </select>
+                <p class="why" hidden>Bug historis. Untuk memeriksa null, gunakan <code>value === null</code>, bukan typeof.</p>
+              </div>
+              <div class="check-row" data-answer="false">
+                <p><code>0.1 + 0.2 === 0.3</code> menghasilkan?</p>
+                <select aria-label="Hasil 0.1 + 0.2">
+                  <option value="">Pilih</option>
+                  <option value="true">true</option>
+                  <option value="false">false</option>
+                </select>
+                <p class="why" hidden>Hasilnya 0.30000000000000004. Floating point biner tidak bisa menyimpan 0.3 secara tepat. BigInt dipakai untuk nilai integer, bukan pecahan.</p>
+              </div>
+              <div class="check-row" data-answer="false">
+                <p><code>"5" === 5</code> menghasilkan?</p>
+                <select aria-label="Hasil perbandingan string dan angka">
+                  <option value="">Pilih</option>
+                  <option value="true">true</option>
+                  <option value="false">false</option>
+                </select>
+                <p class="why" hidden><code>===</code> membandingkan tipe dan nilai. String dan number berbeda tipe. <code>"5" == 5</code> bernilai true karena koersi, dan itulah yang sebaiknya dihindari.</p>
+              </div>
+              <div class="check-row" data-answer="false">
+                <p><code>[] === []</code> menghasilkan?</p>
+                <select aria-label="Hasil perbandingan dua array">
+                  <option value="">Pilih</option>
+                  <option value="true">true</option>
+                  <option value="false">false</option>
+                </select>
+                <p class="why" hidden>Dua literal array adalah dua object berbeda. Perbandingan memeriksa referensi, bukan isi. Untuk membandingkan isi, bandingkan elemennya atau pakai fungsi pembanding.</p>
+              </div>
+            </div>
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="type-check" type="button">Periksa jawaban</button>
+              <button class="btn btn-quiet" id="type-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="type-status" role="status" aria-live="polite">Belum ada jawaban yang diperiksa.</p>
+          </div>
+        </div>
+
+        <h3>Optional chaining dan nullish coalescing</h3>
+        <p><code>user.address?.city</code> berhenti dan menghasilkan <code>undefined</code> kalau <code>address</code> bernilai <code>null</code> atau <code>undefined</code>. Ia tidak menyelamatkan kamu dari bentuk data yang salah: kalau <code>address</code> ternyata string, akses properti tetap menghasilkan <code>undefined</code> atau perilaku aneh. Optional chaining mengurangi error null, bukan menggantikan validasi.</p>
+        <div class="code-block">
+          <div class="code-head"><span>optional.js</span><button class="copy-btn" type="button" data-copy-target="code-02-optional">Salin</button></div>
+          <pre><code id="code-02-optional" data-lang="js">const user = {
+  name: "Rani",
+  address: null,
+  balanceWei: 0n
+};
+
+user.address?.city;              // undefined, tidak melempar error
+user.address.city;               // TypeError
+
+user.balanceWei ?? 0n;           // 0n, karena 0n bukan null/undefined
+user.missing ?? 10n;             // 10n
+user.missing || 10n;             // 10n, tetapi juga mengganti 0 atau ""
+
+// Jangan menelan kesalahan bentuk data.
+const city = typeof user.address === "object" &amp;&amp; user.address !== null
+  ? user.address.city
+  : "tidak diketahui";</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Jangan pakai == untuk menebak</span>
+          <p><code>==</code> melakukan koersi yang sulit dibaca. Satu-satunya pengecualian yang umum adalah <code>value == null</code> untuk menangkap <code>null</code> dan <code>undefined</code> sekaligus, tetapi menulis <code>value === null || value === undefined</code> lebih jelas. Pilih kejelasan.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Ubah fungsi berikut agar tidak memakai <code>==</code> dan tetap menangani <code>null</code>: <code>if (value == null) return 0;</code></p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>if (value === null || value === undefined) return 0;</code>. Alternatif yang eksplisit untuk API adalah memeriksa tipe dengan <code>typeof value !== "number"</code> lalu memvalidasi <code>Number.isFinite</code>, karena data dari jaringan tidak dijamin berupa number.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="fungsi" data-chapter="fungsi" data-track="true" data-title="Fungsi dan closure">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 03<span class="chapter-type">BAHASA</span></p>
+          <h2>Fungsi adalah unit terkecil yang bisa kamu percaya.</h2>
+          <p class="chapter-lead">Fungsi bukan hanya pembungkus kode. Ia menentukan input, output, dan state yang boleh diingat. Closure memungkinkan state itu hidup tanpa variabel global. Arrow function mengubah perilaku <code>this</code>. Semuanya perlu dipilih dengan sengaja.</p>
+          <ul class="goals">
+            <li>Membedakan declaration, expression, dan arrow function.</li>
+            <li>Memakai parameter default, rest, dan spread dengan benar.</li>
+            <li>Menjelaskan closure dan kenapa ia berguna untuk state lokal.</li>
+            <li>Menulis fungsi murni dan mengenali efek samping.</li>
+          </ul>
+        </header>
+
+        <h3>Tiga bentuk, satu tujuan</h3>
+        <p>Function declaration bisa dipanggil sebelum barisnya karena hoisting. Function expression dan arrow function tidak. Arrow function tidak punya <code>this</code> sendiri, tidak punya <code>arguments</code>, dan tidak bisa dipakai sebagai constructor. Di komponen React, arrow function nyaman untuk callback karena <code>this</code> tidak berubah.</p>
+        <div class="code-block">
+          <div class="code-head"><span>bentuk-fungsi.js</span><button class="copy-btn" type="button" data-copy-target="code-03-forms">Salin</button></div>
+          <pre><code id="code-03-forms" data-lang="js">// Declaration: hoisted, bisa dipanggil lebih awal
+function tambah(a, b) {
+  return a + b;
+}
+
+// Expression: disimpan di variabel
+const kurang = function (a, b) {
+  return a - b;
+};
+
+// Arrow: ringkas, tidak punya this sendiri
+const kali = (a, b) =&gt; a * b;
+
+// Default, rest, dan spread
+function total(harga, jumlah = 1, ...biayaLain) {
+  return harga * jumlah + biayaLain.reduce((sum, item) =&gt; sum + item, 0);
+}
+
+const angka = [2, 3, 4];
+const hasil = tambah(...angka); // spread menjadi argumen terpisah
+
+console.log(total(10, 2, 1, 1)); // 22</code></pre>
+        </div>
+
+        <h3>Closure: fungsi yang mengingat lingkupnya</h3>
+        <p>Closure terjadi ketika fungsi mengakses variabel dari lingkup luar setelah lingkup itu selesai. Contoh paling berguna adalah counter: setiap counter punya nilai sendiri, dan tidak ada yang bisa mengubahnya dari luar kecuali lewat fungsi yang disediakan.</p>
+        <div class="code-block">
+          <div class="code-head"><span>counter.js</span><button class="copy-btn" type="button" data-copy-target="code-03-closure">Salin</button></div>
+          <pre><code id="code-03-closure" data-lang="js">function createCounter(start = 0) {
+  let value = start; // hidup selama fungsi yang memakainya hidup
+
+  return {
+    increment() {
+      value += 1;
+      return value;
+    },
+    reset() {
+      value = start;
+      return value;
+    },
+    read() {
+      return value;
+    }
+  };
+}
+
+const counterA = createCounter();
+const counterB = createCounter(10);
+
+counterA.increment(); // 1
+counterA.increment(); // 2
+counterB.increment(); // 11
+counterA.read();      // 2, tidak terpengaruh counterB</code></pre>
+        </div>
+        <p>Closure juga dipakai di hook React. Nilai state yang dibaca di dalam callback adalah nilai pada render saat callback dibuat, bukan nilai terbaru. Itu bukan bug React; itu cara closure bekerja. Kalau kamu butuh nilai terbaru, pakai functional update atau ref.</p>
+
+        <div class="lab" id="lab-closure">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 02</p>
+            <h3>Buat counter, lalu buktikan state-nya terpisah.</h3>
+            <p>Setiap kartu di bawah dibuat oleh <code>createCounter(0)</code> yang sama. Tambah counter baru dan tekan tombolnya. Nilai tidak saling mengganggu karena setiap pemanggilan membuat closure sendiri.</p>
+          </div>
+          <div class="lab-body">
+            <div class="counter-toolbar">
+              <button class="btn btn-primary" id="counter-add" type="button">Buat counter baru</button>
+              <span class="pill-list"><span class="mono">let value = start;</span></span>
+            </div>
+            <div class="counter-list" id="counter-list"></div>
+            <p class="counter-empty" id="counter-empty" hidden>Belum ada counter.</p>
+            <aside class="note">
+              <span class="note-label">Yang diamati</span>
+              <p>Counter tidak memakai variabel global. Setiap nilai hanya bisa diubah lewat metode yang dikembalikan fungsi. Itu pola yang sama dengan modul dan hook: state privat, akses terkontrol.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>Fungsi murni dan efek samping</h3>
+        <p>Fungsi murni hanya bergantung pada argumen dan tidak mengubah apa pun di luar dirinya. Ia mudah diuji dan mudah diprediksi. Fungsi yang menulis ke database, memanggil API, atau mengubah array global punya efek samping. Efek samping tidak jahat; aplikasi butuh efek samping. Yang penting adalah menempatkannya di batas yang jelas, bukan menyebar di setiap fungsi.</p>
+        <div class="grid-2">
+          <div>
+            <h4>Murni</h4>
+            <ul>
+              <li>Input sama, output sama.</li>
+              <li>Tidak membaca waktu, random, atau state global.</li>
+              <li>Mengembalikan nilai baru, tidak memutasi argumen.</li>
+              <li>Mudah diuji tanpa mock.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Efek samping</h4>
+            <ul>
+              <li>Menulis file, database, atau localStorage.</li>
+              <li>Mengirim request jaringan.</li>
+              <li>Mengubah DOM atau memutar audio.</li>
+              <li>Memutasi object yang dipakai pihak lain.</li>
+            </ul>
+          </div>
+        </div>
+
+        <aside class="note">
+          <span class="note-label">Inti bab</span>
+          <p>Fungsi yang baik punya nama yang menjelaskan niat, input yang jelas, dan satu alasan untuk berubah. Closure menyimpan state tanpa global. Arrow function bukan pengganti semua function; ia alat untuk callback yang tidak butuh <code>this</code> sendiri.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Buat fungsi <code>createRateLimiter(limit)</code> yang mengembalikan fungsi. Setiap pemanggilan menambah hitungan. Kalau hitungan melebihi limit, kembalikan <code>false</code>; jika belum, <code>true</code>. Jelaskan variabel mana yang tertutup closure.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>function createRateLimiter(limit) { let used = 0; return () =&gt; { used += 1; return used &lt;= limit; }; }</code>. Variabel <code>used</code> tertutup dan hanya bisa diakses oleh fungsi yang dikembalikan. Setiap limiter punya <code>used</code> sendiri.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="array" data-chapter="array" data-track="true" data-title="Array dan object">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 04<span class="chapter-type">BAHASA</span></p>
+          <h2>Data datang sebagai daftar. Kekuatanmu ada di pipeline.</h2>
+          <p class="chapter-lead">Hampir semua data aplikasi berbentuk array of object: daftar transaksi, daftar token, daftar commit. JavaScript memberi operasi yang cukup untuk menyaring, mengubah, dan menjumlahkan data tanpa loop manual. Yang perlu dijaga: banyak metode mengembalikan array baru, beberapa memutasi array asal.</p>
+          <ul class="goals">
+            <li>Memilih <code>map</code>, <code>filter</code>, <code>reduce</code>, atau <code>find</code> sesuai hasil yang diinginkan.</li>
+            <li>Membedakan metode yang memutasi dan yang mengembalikan salinan.</li>
+            <li>Menulis update object dan array tanpa mengubah data asal.</li>
+            <li>Menjumlahkan nilai wei dengan BigInt di dalam <code>reduce</code>.</li>
+          </ul>
+        </header>
+
+        <h3>Empat metode yang menyelesaikan banyak pekerjaan</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Pilih berdasarkan bentuk hasil, bukan berdasarkan kebiasaan.</caption>
+            <thead>
+              <tr><th scope="col">Metode</th><th scope="col">Hasil</th><th scope="col">Dipakai untuk</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>map</code></td><td>Array baru, panjang sama</td><td>Mengubah setiap item menjadi bentuk tampilan.</td></tr>
+              <tr><td><code>filter</code></td><td>Array baru, sebagian item</td><td>Menyaring transaksi sukses atau token aktif.</td></tr>
+              <tr><td><code>reduce</code></td><td>Satu nilai</td><td>Menjumlahkan saldo, mengelompokkan, menghitung total.</td></tr>
+              <tr><td><code>find</code></td><td>Satu item atau undefined</td><td>Mencari token berdasarkan simbol atau id.</td></tr>
+              <tr><td><code>some</code> / <code>every</code></td><td>Boolean</td><td>Memeriksa apakah ada yang gagal atau semua valid.</td></tr>
+              <tr><td><code>sort</code></td><td>Array asal, dimutasi</td><td>Mengurutkan. Selalu beri comparator dan salin dulu.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="code-head"><span>pipeline.js</span><button class="copy-btn" type="button" data-copy-target="code-04-pipeline">Salin</button></div>
+          <pre><code id="code-04-pipeline" data-lang="js">const transactions = [
+  { id: 1, type: "deposit", status: "ok", amountWei: 1500000000000000000n },
+  { id: 2, type: "withdraw", status: "ok", amountWei: 400000000000000000n },
+  { id: 3, type: "deposit", status: "failed", amountWei: 900000000000000000n },
+  { id: 4, type: "deposit", status: "ok", amountWei: 250000000000000000n }
+];
+
+const totalDeposit = transactions
+  .filter((tx) =&gt; tx.type === "deposit")
+  .filter((tx) =&gt; tx.status === "ok")
+  .reduce((sum, tx) =&gt; sum + tx.amountWei, 0n);
+
+console.log(totalDeposit); // 1750000000000000000n
+
+const symbols = transactions.map((tx) =&gt; tx.id);
+const hasFailure = transactions.some((tx) =&gt; tx.status === "failed");
+const sorted = transactions
+  .slice()
+  .sort((a, b) =&gt; (a.amountWei &gt; b.amountWei ? -1 : 1));</code></pre>
+        </div>
+        <p>Perhatikan <code>0n</code> sebagai nilai awal <code>reduce</code>. Kalau kamu memakai <code>0</code>, penjumlahan BigInt akan melempar TypeError karena mencampur Number dan BigInt. Nilai awal harus bertipe sama dengan nilai yang dijumlahkan.</p>
+
+        <h3>Update tanpa memutasi</h3>
+        <p>Di React, memutasi state tidak memicu render ulang karena referensinya tetap sama. Di kode lain, mutasi membuat perubahan sulit dilacak. Biasakan membuat object baru untuk perubahan.</p>
+        <div class="code-block">
+          <div class="code-head"><span>immutable.js</span><button class="copy-btn" type="button" data-copy-target="code-04-immutable">Salin</button></div>
+          <pre><code id="code-04-immutable" data-lang="js">const token = { symbol: "ETH", decimals: 18, active: true };
+
+// Salah: mengubah object asal
+token.active = false;
+
+// Benar: object baru
+const updated = { ...token, active: false };
+
+// Array: buang satu item
+const next = tokens.filter((item) =&gt; item.id !== token.id);
+
+// Array: ganti satu item
+const replaced = tokens.map((item) =&gt;
+  item.id === token.id ? { ...item, decimals: 6 } : item
+);
+
+// Salinan dangkal vs dalam
+const shallow = { ...token };
+const deep = structuredClone(token);</code></pre>
+        </div>
+        <p>Spread hanya menyalin satu tingkat. Kalau object berisi array atau object lain, salinan dangkal masih berbagi referensi. Untuk data bersarang, <code>structuredClone</code> lebih aman, dengan catatan ia tidak bisa menyalin function atau class instance.</p>
+
+        <div class="lab" id="lab-pipeline">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 03</p>
+            <h3>Saring transaksi, lalu jumlahkan dengan BigInt.</h3>
+            <p>Ubah filter dan urutan. Lab menjalankan pipeline yang sama seperti kode di atas dan menunjukkan jumlah exact dalam wei. Perhatikan bahwa transaksi gagal tidak pernah masuk total.</p>
+          </div>
+          <div class="lab-body">
+            <div class="pipeline-layout">
+              <div class="pipeline-controls">
+                <div class="field">
+                  <label for="pipe-status">Status</label>
+                  <select id="pipe-status">
+                    <option value="all">Semua</option>
+                    <option value="ok" selected>Sukses</option>
+                    <option value="failed">Gagal</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="pipe-type">Jenis</label>
+                  <select id="pipe-type">
+                    <option value="all">Semua</option>
+                    <option value="deposit">Deposit</option>
+                    <option value="withdraw">Withdraw</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="pipe-sort">Urutan</label>
+                  <select id="pipe-sort">
+                    <option value="newest">ID terbaru</option>
+                    <option value="largest">Nominal terbesar</option>
+                  </select>
+                </div>
+                <div class="lab-actions">
+                  <button class="btn btn-quiet btn-small" id="pipe-add" type="button">Tambah transaksi</button>
+                  <button class="btn btn-quiet btn-small" id="pipe-reset" type="button">Reset</button>
+                </div>
+              </div>
+              <div>
+                <ul class="pipeline-list" id="pipe-list" aria-live="polite"></ul>
+                <div class="pipeline-output" id="pipe-output"></div>
+              </div>
+            </div>
+            <div class="code-block">
+              <div class="code-head"><span>Pipeline yang sedang berjalan</span></div>
+              <pre><code id="pipe-code" data-lang="js"></code></pre>
+            </div>
+            <aside class="note">
+              <span class="note-label">Perhatikan</span>
+              <p>Lab menampilkan baris yang lolos filter, tetapi total hanya menjumlahkan transaksi sukses. Transaksi gagal tidak memindahkan nilai. Coba pilih status "Gagal": daftar terisi, tetapi total sukses tetap 0 ETH.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>Destructuring dan akses aman</h3>
+        <p>Destructuring membuat kode lebih pendek, tetapi jangan mengorbankan kejelasan. Nama ulang dengan <code>:</code> saat ada konflik. Nilai default hanya berlaku untuk <code>undefined</code>, bukan <code>null</code>.</p>
+        <div class="code-block">
+          <div class="code-head"><span>destructuring.js</span><button class="copy-btn" type="button" data-copy-target="code-04-destructure">Salin</button></div>
+          <pre><code id="code-04-destructure" data-lang="js">const response = {
+  data: {
+    token: { symbol: "ETH", decimals: 18 },
+    total: 1750000000000000000n
+  }
+};
+
+const { token: { symbol, decimals }, total } = response.data;
+const [first, ...rest] = [1, 2, 3, 4];
+
+// Default hanya untuk undefined
+const { name = "tanpa nama", note = null } = { name: undefined };
+
+// Optional chaining tidak menggantikan validasi bentuk
+const supply = response.data?.token?.supplyWei ?? 0n;</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">sort memutasi</span>
+          <p><code>transactions.sort()</code> mengubah array asal dan mengembalikan array yang sama. Di React, itu bisa merusak state. Selalu <code>transactions.slice().sort(...)</code> atau <code>[...transactions].sort(...)</code>. Comparator juga wajib untuk angka, karena pengurutan default mengubahnya menjadi string.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Dari array transaksi di atas, buat fungsi yang mengembalikan total deposit sukses dalam wei dan jumlah transaksi yang dihitung. Jangan memutasi array asal.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>const okDeposits = transactions.filter((tx) =&gt; tx.type === "deposit" &amp;&amp; tx.status === "ok"); return { total: okDeposits.reduce((sum, tx) =&gt; sum + tx.amountWei, 0n), count: okDeposits.length };</code>. Dua operasi, satu lintasan filter, hasil yang eksplisit.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="modul" data-chapter="modul" data-track="true" data-title="Module dan struktur">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 05<span class="chapter-type">BAHASA</span></p>
+          <h2>Modul adalah batas. Batas yang baik menyembunyikan detail.</h2>
+          <p class="chapter-lead">Satu file berisi semuanya terasa cepat sampai file itu berumur dua minggu. Module memberi nama, batas, dan urutan dependensi. ES Module adalah standar yang dipakai browser, Node, dan Next.js. Memahaminya membuat error import tidak lagi terasa acak.</p>
+          <ul class="goals">
+            <li>Menulis named export dan default export dengan alasan yang jelas.</li>
+            <li>Memahami <code>package.json</code>, <code>type: module</code>, dan path import.</li>
+            <li>Mengenali side effect dan modul yang dievaluasi sekali.</li>
+            <li>Menyusun struktur folder untuk proyek TypeScript dan Next.js.</li>
+          </ul>
+        </header>
+
+        <h3>Named export lebih mudah dilacak</h3>
+        <p>Gunakan named export untuk hampir semua hal. Nama yang diimpor harus sama, editor bisa mencarinya, dan refactor lebih aman. Default export berguna untuk satu hal utama per file, misalnya page Next.js, tetapi ia mudah diberi nama berbeda di setiap file dan lebih sulit dicari.</p>
+        <div class="grid-2">
+          <div>
+            <h4>lib/format.ts</h4>
+            <div class="code-block">
+              <div class="code-head"><span>named export</span><button class="copy-btn" type="button" data-copy-target="code-05-named">Salin</button></div>
+              <pre><code id="code-05-named" data-lang="ts">export const WEI_PER_ETH = 10n ** 18n;
+
+export function formatEth(wei: bigint, maxFraction = 4): string {
+  const whole = wei / WEI_PER_ETH;
+  const raw = (wei % WEI_PER_ETH).toString().padStart(18, "0");
+  const fraction = raw.slice(0, maxFraction).replace(/0+$/, "");
+  return fraction ? `${whole}.${fraction}` : whole.toString();
+}
+
+export function shortAddress(address: string): string {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}</code></pre>
+            </div>
+          </div>
+          <div>
+            <h4>app/page.tsx</h4>
+            <div class="code-block">
+              <div class="code-head"><span>named import</span><button class="copy-btn" type="button" data-copy-target="code-05-import">Salin</button></div>
+              <pre><code id="code-05-import" data-lang="tsx">import { formatEth, shortAddress } from "@/lib/format";
+
+export default function Page() {
+  return (
+    &lt;p&gt;
+      {formatEth(1500000000000000000n)} ETH
+      untuk {shortAddress("0x1234567890abcdef")}
+    &lt;/p&gt;
+  );
+}</code></pre>
+            </div>
+          </div>
+        </div>
+        <p>Perhatikan dua gaya import. <code>import { formatEth }</code> mengambil named export. <code>import Page from</code> mengambil default export. Mencampur keduanya dalam satu file diperbolehkan, tetapi jangan membuat aturan yang hanya diketahui oleh penulis aslinya.</p>
+
+        <h3>package.json dan type module</h3>
+        <p>Di Node, ekstensi <code>.js</code> bisa berarti CommonJS atau ES Module tergantung <code>package.json</code>. Proyek modern biasanya memakai <code>"type": "module"</code>. Next.js dan bundler menangani sendiri, jadi kamu jarang menulis konfigurasi ini, tetapi error <code>Cannot use import statement outside a module</code> berasal dari sini.</p>
+        <div class="code-block">
+          <div class="code-head"><span>package.json</span><button class="copy-btn" type="button" data-copy-target="code-05-package">Salin</button></div>
+          <pre><code id="code-05-package" data-lang="json">{
+  "name": "pondasi-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}</code></pre>
+        </div>
+
+        <h3>Path import dan alias</h3>
+        <p>Path relatif <code>../../../lib</code> rapuh saat folder dipindah. Alias <code>@/</code> yang dikonfigurasi di <code>tsconfig.json</code> membuat import stabil. Next.js mengikuti alias ini secara otomatis. Di Node murni, alias butuh konfigurasi tambahan, jadi gunakan path relatif kalau proyek tidak memakai bundler.</p>
+        <div class="code-block">
+          <div class="code-head"><span>tsconfig.json (bagian paths)</span><button class="copy-btn" type="button" data-copy-target="code-05-tsconfig">Salin</button></div>
+          <pre><code id="code-05-tsconfig" data-lang="json">{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}</code></pre>
+        </div>
+
+        <h3>Modul dievaluasi sekali</h3>
+        <p>Modul dijalankan sekali saat pertama kali diimpor. Nilai yang diekspor adalah live binding: perubahan pada variabel yang diekspor terlihat oleh pengimpor. Ini berbeda dari menyalin nilai. Side effect di level atas modul, seperti <code>console.log</code>, koneksi database, atau pembacaan <code>window</code>, akan berjalan saat modul pertama kali dimuat.</p>
+        <div class="code-block">
+          <div class="code-head"><span>counter-module.js</span><button class="copy-btn" type="button" data-copy-target="code-05-live">Salin</button></div>
+          <pre><code id="code-05-live" data-lang="js">// state.js
+export let count = 0;
+export function increment() {
+  count += 1;
+}
+
+// main.js
+import { count, increment } from "./state.js";
+console.log(count); // 0
+increment();
+console.log(count); // 1, live binding
+
+// Hindari side effect berat di level modul.
+// Jalankan koneksi di fungsi init agar bisa dikontrol.</code></pre>
+        </div>
+
+        <aside class="note">
+          <span class="note-label">Struktur yang disarankan</span>
+          <p>Pisahkan <code>lib/</code> untuk logika murni, <code>types/</code> untuk tipe bersama, <code>app/</code> untuk route, dan <code>components/</code> untuk UI. Jangan membuat barrel file besar yang mengimpor semuanya; ia memperlambat build dan menyembunyikan dependensi.</p>
+        </aside>
+
+        <div class="file-tree">pondasi-lab/
+|-- app/
+|   |-- layout.tsx
+|   `-- page.tsx
+|-- components/
+|   `-- token-table.tsx
+|-- lib/
+|   |-- format.ts          <span class="tree-note">fungsi murni, mudah diuji</span>
+|   `-- api.ts             <span class="tree-note">fetch dan validasi</span>
+|-- types/
+|   `-- token.ts           <span class="tree-note">tipe bersama</span>
+`-- package.json</div>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Pindahkan fungsi <code>formatUnits</code> dari file komponen ke <code>lib/format.ts</code>. Ekspor sebagai named export, lalu impor di dua tempat. Jelaskan mengapa fungsi itu tidak perlu menjadi default export.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Fungsi tersebut punya nama yang jelas dan mungkin dipakai bersama. Named export menjaga nama tetap konsisten dan memudahkan pencarian. Default export tidak memberi keuntungan apa pun di sini dan justru memungkinkan setiap file memberi nama yang berbeda.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+      <section class="chapter" id="promise" data-chapter="promise" data-track="true" data-title="Promise dan event loop">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 06<span class="chapter-type">ASYNC</span></p>
+          <h2>Promise adalah janji. Ia punya tiga keadaan, bukan dua.</h2>
+          <p class="chapter-lead">Promise membungkus pekerjaan yang belum selesai. Ia dimulai sebagai <em>pending</em>, lalu menjadi <em>fulfilled</em> atau <em>rejected</em>. Setelah selesai, nilainya tidak berubah. Memahami tiga keadaan ini membuat kode async jauh lebih mudah dibaca.</p>
+          <ul class="goals">
+            <li>Menjelaskan pending, fulfilled, dan rejected.</li>
+            <li>Memakai <code>then</code>, <code>catch</code>, dan <code>finally</code> tanpa menelan error.</li>
+            <li>Memilih <code>Promise.all</code>, <code>allSettled</code>, <code>race</code>, atau <code>any</code>.</li>
+            <li>Menjelaskan urutan microtask dan macrotask di browser.</li>
+          </ul>
+        </header>
+
+        <h3>Dari callback ke promise</h3>
+        <p>Callback adalah fungsi yang dipanggil saat pekerjaan selesai. Ia bekerja, tetapi sulit dikomposisikan: error harus diteruskan manual, dan urutan bersarang membuat kode sulit dibaca. Promise membalik kendali: fungsi mengembalikan object yang bisa kamu <code>then</code>, sementara error mengalir ke <code>catch</code> terdekat.</p>
+        <div class="code-block">
+          <div class="code-head"><span>promise.js</span><button class="copy-btn" type="button" data-copy-target="code-06-promise">Salin</button></div>
+          <pre><code id="code-06-promise" data-lang="js">const request = new Promise((resolve, reject) =&gt; {
+  const ok = true;
+
+  setTimeout(() =&gt; {
+    if (ok) {
+      resolve({ status: 200, body: { symbol: "ETH" } });
+    } else {
+      reject(new Error("request gagal"));
+    }
+  }, 500);
+});
+
+request
+  .then((response) =&gt; {
+    console.log("sukses", response.body.symbol);
+    return response.body.symbol;
+  })
+  .then((symbol) =&gt; {
+    console.log("dipakai", symbol);
+  })
+  .catch((error) =&gt; {
+    console.error("gagal", error.message);
+  })
+  .finally(() =&gt; {
+    console.log("selesai, sukses atau gagal");
+  });</code></pre>
+        </div>
+        <p><code>then</code> mengembalikan promise baru. Kalau callback mengembalikan nilai biasa, promise berikutnya terpenuhi dengan nilai itu. Kalau callback mengembalikan promise, promise berikutnya menunggu promise tersebut. Itulah dasar chaining. <code>catch</code> menangkap rejection dari langkah sebelumnya. <code>finally</code> tidak mengubah nilai, tetapi berguna untuk membersihkan state.</p>
+
+        <h3>Empat kombinator</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Pilih berdasarkan apa yang kamu butuhkan saat satu request gagal.</caption>
+            <thead>
+              <tr><th scope="col">Kombinator</th><th scope="col">Selesai kapan</th><th scope="col">Kalau satu gagal</th><th scope="col">Dipakai untuk</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Promise.all</code></td><td>Semua terpenuhi</td><td>Reject segera</td><td>Semua data wajib ada, misalnya token dan saldo.</td></tr>
+              <tr><td><code>Promise.allSettled</code></td><td>Semua selesai</td><td>Tetap menunggu, hasil berisi status</td><td>Dashboard yang boleh sebagian gagal.</td></tr>
+              <tr><td><code>Promise.race</code></td><td>Yang pertama selesai</td><td>Menang atau kalah, apa pun hasilnya</td><td>Timeout dan fallback cepat.</td></tr>
+              <tr><td><code>Promise.any</code></td><td>Yang pertama terpenuhi</td><td>Reject hanya jika semua gagal</td><td>Beberapa mirror API, ambil yang hidup.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab" id="lab-event">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 04</p>
+            <h3>Susun urutan output sebelum menjalankannya.</h3>
+            <p>Tentukan posisi setiap log dari 1 sampai 4. Setelah memeriksa, jalankan kode yang sama di browser ini dan lihat waktu eksekusinya.</p>
+          </div>
+          <div class="lab-body">
+            <pre class="event-code">console.log("A");
+
+Promise.resolve().then(() =&gt; console.log("B"));
+
+setTimeout(() =&gt; console.log("C"), 0);
+
+console.log("D");</pre>
+            <div class="event-rows" id="event-rows">
+              <div class="event-row" data-answer="1">
+                <span class="event-idx">01</span>
+                <p><code>console.log("A")</code></p>
+                <select aria-label="Posisi log A">
+                  <option value="">-</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+              <div class="event-row" data-answer="3">
+                <span class="event-idx">02</span>
+                <p><code>Promise.then(() =&gt; console.log("B"))</code></p>
+                <select aria-label="Posisi log B">
+                  <option value="">-</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+              <div class="event-row" data-answer="4">
+                <span class="event-idx">03</span>
+                <p><code>setTimeout(() =&gt; console.log("C"), 0)</code></p>
+                <select aria-label="Posisi log C">
+                  <option value="">-</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+              <div class="event-row" data-answer="2">
+                <span class="event-idx">04</span>
+                <p><code>console.log("D")</code></p>
+                <select aria-label="Posisi log D">
+                  <option value="">-</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+            </div>
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="event-check" type="button">Periksa urutan</button>
+              <button class="btn btn-quiet" id="event-run" type="button">Jalankan</button>
+              <button class="btn btn-quiet" id="event-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="event-status" role="status" aria-live="polite">Belum ada jawaban yang diperiksa.</p>
+            <div class="event-actual" id="event-actual" aria-live="polite">Belum dijalankan.</div>
+          </div>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Jangan menelan error</span>
+          <p><code>.catch(() =&gt; {})</code> membuat kegagalan terlihat seperti sukses. Kalau kamu memang ingin melanjutkan, catat error, ubah state ke error, atau kembalikan nilai fallback yang eksplisit. Promise yang tidak ditangani bisa memicu unhandled rejection.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kamu punya tiga request: token, harga, dan gas. Semua wajib ada untuk menghitung biaya. Kombinator mana yang dipakai, dan bagaimana kamu menangani satu kegagalan?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>Promise.all([token(), harga(), gas()])</code> karena semua wajib. Bungkus dengan try/catch. Kalau kamu ingin tetap menampilkan data lain saat satu gagal, pakai <code>Promise.allSettled</code> lalu periksa <code>status === "fulfilled"</code> untuk setiap hasil.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="async" data-chapter="async" data-track="true" data-title="Async, await, error">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 07<span class="chapter-type">ASYNC</span></p>
+          <h2><code>await</code> membuat kode async terbaca seperti kode biasa. Itu kekuatan dan jebaknya.</h2>
+          <p class="chapter-lead">Fungsi <code>async</code> selalu mengembalikan promise. <code>await</code> menunggu promise selesai, tetapi tidak memblokir seluruh browser. Kalau kamu menaruh <code>await</code> berurutan, kamu juga membuat request berurutan. Bedakan keduanya sebelum menyalahkan API yang lambat.</p>
+          <ul class="goals">
+            <li>Menulis fungsi async dan menangani error dengan try/catch/finally.</li>
+            <li>Membedakan eksekusi berurutan dan paralel.</li>
+            <li>Membatalkan request dengan <code>AbortController</code>.</li>
+            <li>Menambahkan timeout dan retry dengan batas yang jelas.</li>
+          </ul>
+        </header>
+
+        <h3>Bentuk dasar</h3>
+        <div class="code-block">
+          <div class="code-head"><span>async.js</span><button class="copy-btn" type="button" data-copy-target="code-07-basic">Salin</button></div>
+          <pre><code id="code-07-basic" data-lang="js">async function loadToken(symbol) {
+  try {
+    const response = await fetch(`/api/tokens/${symbol}`);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("gagal memuat token", error);
+    throw error; // biarkan pemanggil memutuskan UI-nya
+  } finally {
+    console.log("selesai, sukses atau gagal");
+  }
+}
+
+// Pemanggil juga perlu menangani rejection
+const token = await loadToken("ETH");</code></pre>
+        </div>
+        <p>Di dalam <code>try</code>, error dari <code>fetch</code>, status HTTP yang kamu lempar manual, dan <code>response.json()</code> semuanya tertangkap oleh <code>catch</code>. Di <code>catch</code>, kamu bisa memutuskan apakah error layak diteruskan. Jangan menelan error kecuali kamu benar-benar punya fallback.</p>
+
+        <h3>Berurutan atau paralel</h3>
+        <div class="code-block">
+          <div class="code-head"><span>serial-vs-parallel.js</span><button class="copy-btn" type="button" data-copy-target="code-07-parallel">Salin</button></div>
+          <pre><code id="code-07-parallel" data-lang="js">// Berurutan: total waktu = jumlah latency
+const token = await fetchToken();
+const price = await fetchPrice();
+const gas = await fetchGas();
+
+// Paralel: total waktu mendekati latency paling lambat
+const [token2, price2, gas2] = await Promise.all([
+  fetchToken(),
+  fetchPrice(),
+  fetchGas()
+]);
+
+// Jangan menulis await di dalam loop kalau tidak perlu
+for (const id of ids) {
+  await fetchToken(id); // satu per satu
+}
+
+// Lebih baik
+const results = await Promise.all(ids.map((id) =&gt; fetchToken(id)));</code></pre>
+        </div>
+        <p>Paralel bukan selalu lebih baik. Kalau request kedua membutuhkan hasil pertama, kamu memang harus berurutan. Kalau API punya batas laju, menembakkan lima puluh request sekaligus bisa membuat semuanya gagal. Gunakan batch atau batas konkurensi.</p>
+
+        <div class="lab" id="lab-async">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 05</p>
+            <h3>Lihat state, latency, dan pembatalan secara nyata.</h3>
+            <p>Jalankan request simulasi. Bandingkan mode satu request, tiga request paralel, dan tiga request berurutan. Setelah berjalan, coba batalkan dan perhatikan bahwa <code>finally</code> tetap dieksekusi.</p>
+          </div>
+          <div class="lab-body">
+            <div class="async-grid">
+              <div class="async-controls">
+                <div class="field">
+                  <label for="async-latency">Latency dasar: <span id="async-latency-out">700 ms</span></label>
+                  <input id="async-latency" type="range" min="300" max="1600" step="100" value="700">
+                </div>
+                <div class="field">
+                  <label for="async-mode">Mode</label>
+                  <select id="async-mode">
+                    <option value="single">Satu request</option>
+                    <option value="parallel">Tiga paralel (Promise.all)</option>
+                    <option value="serial">Tiga berurutan (await)</option>
+                  </select>
+                </div>
+                <label class="switch">
+                  <input id="async-fail" type="checkbox">
+                  <span>Buat request gagal (HTTP 503)</span>
+                </label>
+                <div class="lab-actions">
+                  <button class="btn btn-primary" id="async-run" type="button">Jalankan</button>
+                  <button class="btn btn-quiet" id="async-abort" type="button" disabled>Batalkan</button>
+                </div>
+              </div>
+              <div>
+                <div class="state-strip" aria-label="State request">
+                  <span class="state-pill is-active" data-state="idle">idle</span>
+                  <span class="state-pill" data-state="loading">loading</span>
+                  <span class="state-pill" data-state="success">sukses</span>
+                  <span class="state-pill is-error" data-state="error">gagal</span>
+                </div>
+                <div class="async-log" id="async-log" aria-live="polite"></div>
+                <div class="readout" id="async-data"></div>
+              </div>
+            </div>
+            <p class="status" id="async-status" role="status" aria-live="polite">Belum ada request dijalankan.</p>
+            <aside class="note">
+              <span class="note-label">Yang diamati</span>
+              <p>Mode paralel memakai <code>Promise.all</code>, jadi total waktu mendekati request paling lambat. Mode berurutan menjumlahkan tiga latency. Tombol batalkan memanggil <code>AbortController.abort()</code>, dan blok <code>finally</code> tetap membersihkan state.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>Timeout dan pembatalan</h3>
+        <p><code>fetch</code> tidak punya opsi timeout di semua runtime. Pola yang bisa dipakai: buat <code>AbortController</code>, jadwalkan <code>abort()</code>, lalu bersihkan timer setelah request selesai. Ini juga mencegah request lama menimpa state baru saat pengguna berpindah halaman.</p>
+        <div class="code-block">
+          <div class="code-head"><span>timeout.js</span><button class="copy-btn" type="button" data-copy-target="code-07-timeout">Salin</button></div>
+          <pre><code id="code-07-timeout" data-lang="js">async function fetchWithTimeout(url, ms = 5000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() =&gt; controller.abort(), ms);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error(`Request melewati batas ${ms} ms`);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+}</code></pre>
+        </div>
+
+        <h3>Retry dengan backoff</h3>
+        <p>Retry hanya masuk akal untuk kegagalan sementara: jaringan putus, 429, 500, 502, 503. Jangan retry 400, 401, atau 404 tanpa mengubah input. Beri batas percobaan, jeda yang bertambah, dan hentikan kalau request dibatalkan.</p>
+        <div class="code-block">
+          <div class="code-head"><span>retry.js</span><button class="copy-btn" type="button" data-copy-target="code-07-retry">Salin</button></div>
+          <pre><code id="code-07-retry" data-lang="js">const sleep = (ms) =&gt; new Promise((resolve) =&gt; setTimeout(resolve, ms));
+
+async function fetchWithRetry(url, attempts = 3) {
+  let lastError;
+
+  for (let attempt = 1; attempt &lt;= attempts; attempt += 1) {
+    try {
+      return await fetchWithTimeout(url);
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts) break;
+      await sleep(300 * 2 ** (attempt - 1)); // 300, 600, 1200 ms
+    }
+  }
+
+  throw lastError;
+}</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Abort bukan error biasa</span>
+          <p>Pembatalan biasanya muncul sebagai <code>DOMException</code> dengan nama <code>AbortError</code>. Jangan tampilkan pesan "server error" untuk pembatalan yang pengguna sendiri picu. Bedakan state batal, gagal, dan sukses di UI.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Ubah tiga request berurutan menjadi paralel, tetapi tampilkan hasil sebagian kalau salah satu gagal. Fungsi mana yang kamu pilih?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>Promise.allSettled</code>. Setiap hasil punya <code>status</code> <code>"fulfilled"</code> atau <code>"rejected"</code>. Tampilkan data yang terpenuhi dan pesan error untuk yang ditolak. Jangan memakai <code>Promise.all</code> kalau kamu ingin tetap menampilkan sebagian hasil.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="json" data-chapter="json" data-track="true" data-title="JSON">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 08<span class="chapter-type">DATA</span></p>
+          <h2>JSON adalah format, bukan object JavaScript.</h2>
+          <p class="chapter-lead">JSON terlihat seperti object JavaScript, tetapi aturannya lebih ketat. Tidak ada komentar, tidak ada trailing comma, kunci harus string dengan tanda kutip ganda, dan tidak ada BigInt. Kesalahan kecil menghasilkan parse error yang menunjuk posisi karakter.</p>
+          <ul class="goals">
+            <li>Menulis JSON yang valid dan mengenali penyebab parse error.</li>
+            <li>Memakai <code>JSON.parse</code> dan <code>JSON.stringify</code> dengan aman.</li>
+            <li>Menjelaskan nilai yang hilang saat serialisasi.</li>
+            <li>Mengirim BigInt sebagai string dan mem-parse-nya kembali.</li>
+          </ul>
+        </header>
+
+        <h3>Aturan yang sering dilanggar</h3>
+        <div class="grid-2">
+          <div>
+            <h4>Valid</h4>
+            <div class="code-block">
+              <div class="code-head"><span>valid.json</span><button class="copy-btn" type="button" data-copy-target="code-08-valid">Salin</button></div>
+              <pre><code id="code-08-valid" data-lang="json">{
+  "token": "MiniVault",
+  "decimals": 18,
+  "supplyWei": "1000000000000000000000000",
+  "verified": true,
+  "tags": ["erc20", "testnet"],
+  "owner": null
+}</code></pre>
+            </div>
+          </div>
+          <div>
+            <h4>Tidak valid</h4>
+            <div class="code-block">
+              <div class="code-head"><span>invalid.json</span><button class="copy-btn" type="button" data-copy-target="code-08-invalid">Salin</button></div>
+              <pre><code id="code-08-invalid" data-lang="json">{
+  // komentar tidak boleh
+  token: 'MiniVault',
+  "decimals": 18,
+  "supplyWei": 1000000000000000000000000n,
+  "tags": ["erc20",],
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <h3>parse dan stringify</h3>
+        <p><code>JSON.parse</code> mengubah string menjadi nilai JavaScript. <code>JSON.stringify</code> melakukan sebaliknya. Keduanya bisa menerima fungsi tambahan: reviver untuk mengubah nilai saat parse, replacer untuk memilih atau mengubah nilai saat stringify.</p>
+        <div class="code-block">
+          <div class="code-head"><span>json.js</span><button class="copy-btn" type="button" data-copy-target="code-08-parse">Salin</button></div>
+          <pre><code id="code-08-parse" data-lang="js">const text = '{"symbol":"ETH","supplyWei":"1000000000000000000"}';
+
+const token = JSON.parse(text);
+// { symbol: "ETH", supplyWei: "1000000000000000000" }
+
+const supply = BigInt(token.supplyWei); // 1000000000000000000n
+
+const pretty = JSON.stringify(token, null, 2);
+const compact = JSON.stringify(token);
+
+// Replacer untuk menyembunyikan field sensitif
+const safe = JSON.stringify(user, (key, value) =&gt; {
+  if (key === "privateKey") return undefined;
+  return value;
+});</code></pre>
+        </div>
+
+        <h3>Nilai yang hilang</h3>
+        <p><code>JSON.stringify</code> tidak bisa menulis semua nilai. <code>undefined</code>, function, dan symbol di dalam object akan dihilangkan. Di dalam array, nilai tersebut menjadi <code>null</code>. BigInt melempar TypeError. Date otomatis menjadi string ISO. Map dan Set menjadi object kosong kecuali kamu menyediakan transformasi.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Perilaku serialisasi yang perlu diingat.</caption>
+            <thead>
+              <tr><th scope="col">Nilai</th><th scope="col">Di object</th><th scope="col">Di array</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>undefined</code></td><td>Dihilangkan</td><td>Menjadi <code>null</code></td></tr>
+              <tr><td>Function</td><td>Dihilangkan</td><td>Menjadi <code>null</code></td></tr>
+              <tr><td>Symbol</td><td>Dihilangkan</td><td>Menjadi <code>null</code></td></tr>
+              <tr><td><code>BigInt</code></td><td>TypeError</td><td>TypeError</td></tr>
+              <tr><td><code>Date</code></td><td>String ISO</td><td>String ISO</td></tr>
+              <tr><td><code>NaN</code>, <code>Infinity</code></td><td>Menjadi <code>null</code></td><td>Menjadi <code>null</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab" id="lab-json">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 06</p>
+            <h3>Rapikan, periksa, dan temukan kesalahan JSON.</h3>
+            <p>Tempel JSON milikmu atau muat contoh rusak. Lab memakai <code>JSON.parse</code> sungguhan di browser dan melaporkan posisi kesalahan bila tersedia.</p>
+          </div>
+          <div class="lab-body">
+            <div class="json-toolbar">
+              <button class="btn btn-primary btn-small" id="json-format" type="button">Rapikan</button>
+              <button class="btn btn-quiet btn-small" id="json-minify" type="button">Minify</button>
+              <button class="btn btn-quiet btn-small" id="json-validate" type="button">Periksa</button>
+              <button class="btn btn-quiet btn-small" id="json-broken" type="button">Contoh rusak</button>
+              <button class="btn btn-quiet btn-small" id="json-reset" type="button">Reset</button>
+            </div>
+            <label class="sr-only" for="json-input">Teks JSON</label>
+            <textarea class="json-editor" id="json-input" spellcheck="false"></textarea>
+            <div class="json-meta" id="json-meta"></div>
+            <div class="json-output" id="json-output" aria-live="polite"></div>
+            <p class="status" id="json-status" role="status" aria-live="polite"></p>
+            <aside class="note">
+              <span class="note-label">Contoh rusak</span>
+              <p>Contoh rusak memakai literal BigInt <code>...n</code> dan komentar di dalam JSON. Keduanya terlihat wajar bagi mata JavaScript, tetapi bukan JSON yang valid. Lab akan menunjukkan pesan parse error dan posisinya.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>JSON bukan pengganti validasi</h3>
+        <p>JSON yang valid belum tentu sesuai bentuk yang kamu harapkan. Server bisa mengirim <code>{"supplyWei": null}</code> atau mengubah angka menjadi string. Setelah <code>JSON.parse</code>, validasi field dan tipe sebelum dipakai. Bab 14 membahas type guard dan validasi runtime.</p>
+        <div class="code-block">
+          <div class="code-head"><span>validasi-sederhana.js</span><button class="copy-btn" type="button" data-copy-target="code-08-validate">Salin</button></div>
+          <pre><code id="code-08-validate" data-lang="js">function isToken(value) {
+  return value !== null
+    &amp;&amp; typeof value === "object"
+    &amp;&amp; typeof value.symbol === "string"
+    &amp;&amp; typeof value.decimals === "number"
+    &amp;&amp; typeof value.supplyWei === "string";
+}
+
+const data = JSON.parse(text);
+
+if (!isToken(data)) {
+  throw new Error("Bentuk respons token tidak dikenal");
+}
+
+// Setelah guard, baru aman memakai field
+const supply = BigInt(data.supplyWei);</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Jangan parse data raksasa tanpa batas</span>
+          <p>JSON.parse bekerja sinkron. Payload puluhan megabyte bisa membekukan tab. Batasi ukuran respons di server atau sebelum parse. Jangan mengandalkan UI untuk menutupi pekerjaan yang memblokir main thread.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Sebuah API mengirim <code>supplyWei</code> sebagai number. Mengapa nilai itu bisa salah walau JSON-nya valid? Bagaimana kamu memperbaikinya di sisi server dan klien?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>JSON number adalah floating point. Nilai wei di atas 2^53 bisa kehilangan presisi saat di-parse menjadi number. Server harus mengirim string desimal. Klien mem-parse string itu dengan <code>BigInt</code>, bukan <code>Number</code>. Validasi bahwa string hanya berisi digit.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="api" data-chapter="api" data-track="true" data-title="HTTP dan API">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 09<span class="chapter-type">DATA</span></p>
+          <h2>API adalah percakapan. Status adalah jawaban pertama.</h2>
+          <p class="chapter-lead">Request HTTP punya method, URL, header, dan kadang body. Response punya status, header, dan body. Sebagian besar bug integrasi bukan soal JSON, tetapi soal salah membaca status: menganggap 404 sebagai sukses, mengabaikan 429, atau mengira fetch reject saat server membalas 500.</p>
+          <ul class="goals">
+            <li>Memilih method dan status yang sesuai.</li>
+            <li>Memahami bahwa <code>fetch</code> hanya reject saat gagal jaringan.</li>
+            <li>Menangani error HTTP, timeout, rate limit, dan body yang tidak valid.</li>
+            <li>Menulis request yang tidak membocorkan secret dan tidak membanjiri server.</li>
+          </ul>
+        </header>
+
+        <h3>Anatomi request dan response</h3>
+        <div class="code-block">
+          <div class="code-head"><span>request.json</span><button class="copy-btn" type="button" data-copy-target="code-09-request">Salin</button></div>
+          <pre><code id="code-09-request" data-lang="http">GET /api/tokens?chain=sepolia&amp;limit=20 HTTP/1.1
+Host: example.com
+Accept: application/json
+Authorization: Bearer &lt;token&gt;
+
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Cache-Control: max-age=60
+
+{
+  "data": [
+    { "symbol": "ETH", "decimals": 18, "supplyWei": "120000000000000000000000000" }
+  ],
+  "next": null
+}</code></pre>
+        </div>
+        <p>Method menjelaskan niat. <code>GET</code> membaca dan tidak boleh mengubah state. <code>POST</code> membuat resource atau memicu aksi. <code>PUT</code> mengganti seluruh resource. <code>PATCH</code> mengubah sebagian. <code>DELETE</code> menghapus. Method yang aman dan idempoten bisa diulang tanpa efek tambahan; <code>POST</code> biasanya tidak.</p>
+
+        <h3>Kelas status</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Yang harus dilakukan berbeda untuk setiap kelas.</caption>
+            <thead>
+              <tr><th scope="col">Kelas</th><th scope="col">Arti</th><th scope="col">Tindakan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2xx</td><td>Sukses</td><td>Baca body sesuai content-type. 204 berarti tidak ada body.</td></tr>
+              <tr><td>3xx</td><td>Redirect</td><td>fetch mengikuti redirect secara default. Periksa <code>redirect</code> bila perlu.</td></tr>
+              <tr><td>4xx</td><td>Kesalahan pemanggil</td><td>Perbaiki input, autentikasi, atau path. Jangan retry buta.</td></tr>
+              <tr><td>5xx</td><td>Kesalahan server</td><td>Retry terbatas dengan backoff. Tampilkan pesan jujur.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab" id="lab-api">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 07</p>
+            <h3>Pilih status, lihat respons, dan tentukan tindakan.</h3>
+            <p>Lab menampilkan respons simulasi untuk beberapa status HTTP dan satu kegagalan jaringan. Perhatikan kapan <code>res.ok</code> bernilai true dan kapan fetch justru reject.</p>
+          </div>
+          <div class="lab-body">
+            <div class="api-grid">
+              <div class="api-controls">
+                <div class="field">
+                  <label for="api-method">Method</label>
+                  <select id="api-method">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="api-status">Status respons</label>
+                  <select id="api-status">
+                    <option value="200">200 OK</option>
+                    <option value="201">201 Created</option>
+                    <option value="204">204 No Content</option>
+                    <option value="400">400 Bad Request</option>
+                    <option value="401">401 Unauthorized</option>
+                    <option value="404">404 Not Found</option>
+                    <option value="429">429 Too Many Requests</option>
+                    <option value="500">500 Internal Server Error</option>
+                    <option value="503">503 Service Unavailable</option>
+                    <option value="network">Jaringan gagal (fetch reject)</option>
+                  </select>
+                </div>
+                <div class="lab-actions">
+                  <button class="btn btn-primary" id="api-run" type="button">Tampilkan respons</button>
+                </div>
+                <p class="status" id="api-verdict" role="status" aria-live="polite"></p>
+              </div>
+              <div>
+                <span class="api-badge" id="api-badge">HTTP</span>
+                <pre class="api-response" id="api-response" aria-live="polite"></pre>
+                <ul class="api-checklist" id="api-checklist"></ul>
+              </div>
+            </div>
+            <aside class="note">
+              <span class="note-label">Yang diamati</span>
+              <p><code>fetch</code> resolve untuk 404 dan 500. Ia hanya reject saat request tidak pernah mendapat respons, misalnya DNS gagal, offline, atau dibatalkan. Karena itu periksa <code>response.ok</code> sebelum membaca body sebagai data sukses.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>Pola fetch yang jujur</h3>
+        <div class="code-block">
+          <div class="code-head"><span>fetch-token.js</span><button class="copy-btn" type="button" data-copy-target="code-09-fetch">Salin</button></div>
+          <pre><code id="code-09-fetch" data-lang="js">async function getTokens(signal) {
+  const response = await fetch("/api/tokens", {
+    method: "GET",
+    headers: { Accept: "application/json" },
+    signal
+  });
+
+  const type = response.headers.get("content-type") || "";
+
+  if (!response.ok) {
+    const body = type.includes("application/json")
+      ? await response.json().catch(() =&gt; null)
+      : null;
+    throw new Error(
+      body?.message || `Permintaan gagal dengan status ${response.status}`
+    );
+  }
+
+  if (response.status === 204) return [];
+
+  if (!type.includes("application/json")) {
+    throw new Error("Respons bukan JSON. Periksa endpoint atau proxy.");
+  }
+
+  return response.json();
+}</code></pre>
+        </div>
+        <p>Response body hanya bisa dibaca sekali. Kalau kamu sudah memanggil <code>response.json()</code>, memanggilnya lagi akan error. Simpan hasilnya di variabel. Untuk response error, baca body dengan aman memakai <code>.catch(() =&gt; null)</code> agar kegagalan parsing tidak menutupi status aslinya.</p>
+
+        <h3>Query, pagination, dan cache</h3>
+        <p>Query parameter dipakai untuk filter dan pagination. Jangan menaruh data sensitif di URL karena URL tercatat di log, histori browser, dan referer. Gunakan cursor atau page yang eksplisit; jangan mengandalkan urutan yang tidak dijamin. Untuk data yang jarang berubah, manfaatkan <code>Cache-Control</code> atau cache di framework.</p>
+        <div class="code-block">
+          <div class="code-head"><span>query.js</span><button class="copy-btn" type="button" data-copy-target="code-09-query">Salin</button></div>
+          <pre><code id="code-09-query" data-lang="js">const params = new URLSearchParams({
+  chain: "sepolia",
+  limit: "20",
+  cursor: lastId ?? ""
+});
+
+const response = await fetch(`/api/tokens?${params.toString()}`);
+const page = await response.json();
+
+// page = { data: [...], next: "cursor-berikutnya" }
+// Hentikan saat next null, bukan saat data.length === 0.</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Secret tidak pernah di client</span>
+          <p>API key yang ditulis di kode frontend bisa dibaca siapa saja. Simpan di server, gunakan route handler sebagai proxy, dan batasi izin key tersebut. Prefix <code>NEXT_PUBLIC_</code> berarti nilai itu memang publik; jangan memakainya untuk secret.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Endpoint mengembalikan 429 dengan header <code>Retry-After: 30</code>. Apa yang salah dari kode <code>while (true) { await fetch(url); }</code>? Tulis perbaikan singkatnya.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Kode itu membanjiri server tanpa batas dan mengabaikan instruksi retry. Perbaikan: baca header, tunggu minimal 30 detik, batasi percobaan, dan hentikan bila pengguna membatalkan. Jangan retry 429 secara agresif.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="bigint" data-chapter="bigint" data-track="true" data-title="BigInt dan wei">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 10<span class="chapter-type">ANGKA</span></p>
+          <h2>Satu wei yang hilang tetap bug. BigInt menjaga digit terakhir.</h2>
+          <p class="chapter-lead">Ethereum menyimpan nilai dalam integer terkecil: wei. Satu ETH adalah 10 pangkat 18 wei. Angka sebesar itu tidak muat dengan aman di Number. BigInt memperlakukan nilai sebagai integer presisi arbitrer, tanpa pembulatan floating point.</p>
+          <ul class="goals">
+            <li>Menulis literal BigInt dan operasi aritmetika dasarnya.</li>
+            <li>Mengonversi string desimal ke unit terkecil dan sebaliknya.</li>
+            <li>Menjelaskan larangan mencampur BigInt dengan Number.</li>
+            <li>Mengirim BigInt lewat JSON sebagai string.</li>
+          </ul>
+        </header>
+
+        <h3>Kenapa Number tidak cukup</h3>
+        <p>Number adalah floating point 64 bit. Integer yang aman hanya sampai 2 pangkat 53 minus 1, yaitu 9.007.199.254.740.991. Saldo token bisa jauh lebih besar. Bahkan satu wei adalah nilai yang harus utuh: kalau kamu membulatkan, saldo pengguna berubah.</p>
+        <div class="code-block">
+          <div class="code-head"><span>bigint.js</span><button class="copy-btn" type="button" data-copy-target="code-10-basic">Salin</button></div>
+          <pre><code id="code-10-basic" data-lang="js">const satuEth = 10n ** 18n;        // 1000000000000000000n
+const saldo = 1_500_000_000_000_000_000n;
+const harga = 2_000_000_000_000_000_000n;
+
+saldo + harga;                     // 3500000000000000000n
+saldo * 2n;                        // 3000000000000000000n
+saldo / 3n;                        // 500000000000000000n
+saldo % 3n;                        // 0n
+
+// Dilarang mencampur BigInt dan Number
+// saldo + 1  // TypeError
+
+// Math tidak menerima BigInt
+// Math.max(saldo, harga) // TypeError
+
+saldo &gt; harga;                     // false
+BigInt(10);                        // 10n
+Number(10n);                       // 10, aman hanya untuk nilai kecil</code></pre>
+        </div>
+        <p>Pembagian BigInt memotong ke bawah. Tidak ada pecahan. Untuk nilai token, itu justru yang diinginkan: satuan terkecil tidak boleh pecah. Kalau kamu perlu menampilkan desimal, bagi untuk mendapatkan bagian bulat, lalu ambil sisanya untuk bagian pecahan.</p>
+
+        <h3>Desimal token</h3>
+        <p>Setiap token punya jumlah desimal sendiri. ETH dan banyak token ERC-20 memakai 18. USDC memakai 6. Sebagian token memakai 0. Jangan pernah mengasumsikan 18. Baca <code>decimals()</code> dari kontrak atau metadata API, lalu gunakan nilai itu dalam konversi.</p>
+        <div class="code-block">
+          <div class="code-head"><span>units.js</span><button class="copy-btn" type="button" data-copy-target="code-10-units">Salin</button></div>
+          <pre><code id="code-10-units" data-lang="js">function parseUnits(value, decimals) {
+  const text = String(value).trim();
+  if (!/^\d+(\.\d*)?$/.test(text)) throw new Error("format tidak valid");
+
+  const [whole, fraction = ""] = text.split(".");
+  if (fraction.length &gt; decimals) {
+    throw new Error("terlalu banyak desimal");
+  }
+
+  const padded = (fraction + "0".repeat(decimals)).slice(0, decimals);
+  return BigInt(whole) * 10n ** BigInt(decimals) + BigInt(padded || "0");
+}
+
+function formatUnits(value, decimals) {
+  const base = 10n ** BigInt(decimals);
+  const whole = value / base;
+  const fraction = (value % base).toString().padStart(decimals, "0");
+  return `${whole}.${fraction}`;
+}
+
+parseUnits("1.5", 18);    // 1500000000000000000n
+formatUnits(1500000000000000000n, 18); // "1.500000000000000000"</code></pre>
+        </div>
+        <p>Fungsi di atas adalah versi sederhana dari <code>parseUnits</code> dan <code>formatUnits</code> di Viem. Untuk produksi, pakai library yang sudah diuji dan tangani tanda negatif, pembulatan tampilan, serta locale. Yang penting adalah prinsipnya: string masuk, BigInt dihitung, string keluar.</p>
+
+        <div class="lab" id="lab-wei">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 08</p>
+            <h3>Konversi ETH dan wei tanpa kehilangan satu digit.</h3>
+            <p>Ubah arah konversi dan jumlah desimal. Lab memakai BigInt dan validasi desimal yang ketat. Bandingkan hasil exact dengan representasi Number di bawahnya.</p>
+          </div>
+          <div class="lab-body">
+            <div class="wei-grid">
+              <div>
+                <div class="field">
+                  <label for="wei-dir">Arah konversi</label>
+                  <select id="wei-dir">
+                    <option value="eth2wei">ETH / token ke unit terkecil</option>
+                    <option value="wei2eth">Unit terkecil ke ETH / token</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="wei-input">Nilai</label>
+                  <input id="wei-input" type="text" inputmode="decimal" value="1.5" autocomplete="off" spellcheck="false">
+                </div>
+                <div class="field">
+                  <label for="wei-decimals">Desimal token</label>
+                  <select id="wei-decimals">
+                    <option value="18" selected>18 (ETH, banyak ERC-20)</option>
+                    <option value="9">9</option>
+                    <option value="6">6 (USDC, USDT)</option>
+                    <option value="0">0 (NFT atau token tanpa desimal)</option>
+                  </select>
+                </div>
+                <div class="wei-samples" aria-label="Contoh nilai">
+                  <button type="button" data-wei-sample="1">1</button>
+                  <button type="button" data-wei-sample="0.1">0.1</button>
+                  <button type="button" data-wei-sample="0.000000000000000001">1 wei</button>
+                  <button type="button" data-wei-sample="1234.5678">1234.5678</button>
+                </div>
+              </div>
+              <div class="wei-output" aria-live="polite">
+                <span>Unit terkecil</span>
+                <strong id="wei-wei">-</strong>
+                <span>Nilai terformat</span>
+                <strong id="wei-eth">-</strong>
+                <span>Number (hanya perbandingan, jangan dipakai)</span>
+                <strong id="wei-number">-</strong>
+              </div>
+            </div>
+            <p class="status" id="wei-status" role="status" aria-live="polite"></p>
+            <aside class="note">
+              <span class="note-label">Coba ini</span>
+              <p>Masukkan <code>0.000000000000000001</code> dengan 18 desimal. Hasilnya tepat 1 wei. Ganti ke 6 desimal dan nilai itu ditolak karena melebihi presisi token. Itu bukan bug, itu aturan data.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>Batas uint256</h3>
+        <p>Ethereum menyimpan banyak nilai sebagai <code>uint256</code>, yaitu integer tanpa tanda 256 bit. Batas atasnya adalah 2 pangkat 256 minus 1. BigInt bisa menampungnya, tetapi kamu tetap harus memeriksa batas sebelum mengirim ke kontrak.</p>
+        <div class="code-block">
+          <div class="code-head"><span>uint256.js</span><button class="copy-btn" type="button" data-copy-target="code-10-uint">Salin</button></div>
+          <pre><code id="code-10-uint" data-lang="js">const MAX_UINT256 = 2n ** 256n - 1n;
+
+// 115792089237316195423570985008687907853269984665640564039457584007913129639935n
+
+function assertUint256(value) {
+  if (value &lt; 0n || value &gt; MAX_UINT256) {
+    throw new Error("nilai di luar rentang uint256");
+  }
+  return value;
+}
+
+// BigInt.asUintN membungkus nilai ke lebar bit tertentu.
+// Jangan memakainya untuk validasi diam-diam; ia memotong, bukan menolak.
+BigInt.asUintN(8, 300n); // 44n</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Jangan pernah JSON.stringify(BigInt)</span>
+          <p>JSON tidak mengenal BigInt. Kirim sebagai string desimal: <code>supplyWei: value.toString()</code>. Di penerima, validasi bahwa string hanya berisi digit, lalu <code>BigInt(text)</code>. Kalau kamu mengirim Number, presisi bisa hilang sebelum sempat diperiksa.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Token dengan 6 desimal mengirim saldo <code>2500000</code>. Berapa unit token yang ditampilkan? Berapa wei jika token itu dipasangkan 1:1 dengan ETH? Jelaskan mengapa jawabannya berbeda.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>2500000 / 10^6 = 2.5</code> unit token. Itu bukan 2.5 wei. Wei adalah satuan ETH dengan 18 desimal. Token 6 desimal memakai unit terkecil sendiri. Jangan mencampur desimal antar aset.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="angka" data-chapter="angka" data-track="true" data-title="Number dan presisi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 11<span class="chapter-type">ANGKA</span></p>
+          <h2>Number baik untuk tampilan. Number buruk untuk saldo.</h2>
+          <p class="chapter-lead">Number adalah floating point 64 bit. Ia bisa menyimpan pecahan, tetapi tidak semua pecahan tepat. Untuk koordinat, persentase, atau animasi, itu cukup. Untuk wei, itu bencana. Bab ini memisahkan kapan Number boleh dan kapan harus diganti.</p>
+          <ul class="goals">
+            <li>Menjelaskan mengapa 0.1 + 0.2 tidak sama dengan 0.3.</li>
+            <li>Mengenali batas <code>Number.MAX_SAFE_INTEGER</code>.</li>
+            <li>Memilih integer cents atau BigInt untuk uang.</li>
+            <li>Memformat angka untuk tampilan tanpa mengubah nilai sumber.</li>
+          </ul>
+        </header>
+
+        <h3>IEEE 754 dalam satu paragraf</h3>
+        <p>Number menyimpan tanda, eksponen, dan mantissa. Banyak pecahan desimal tidak punya representasi biner yang berakhir, jadi disimpan sebagai aproksimasi terdekat. Hasil operasinya juga dibulatkan ke 53 bit presisi. Itu sebabnya <code>0.1 + 0.2</code> menghasilkan <code>0.30000000000000004</code>.</p>
+        <div class="code-block">
+          <div class="code-head"><span>float.js</span><button class="copy-btn" type="button" data-copy-target="code-11-float">Salin</button></div>
+          <pre><code id="code-11-float" data-lang="js">0.1 + 0.2;                    // 0.30000000000000004
+0.1 + 0.2 === 0.3;            // false
+Math.abs((0.1 + 0.2) - 0.3) &lt; Number.EPSILON; // true
+
+Number.MAX_SAFE_INTEGER;      // 9007199254740991
+Number.MAX_SAFE_INTEGER + 1;  // 9007199254740992
+Number.MAX_SAFE_INTEGER + 2;  // 9007199254740992, tidak bertambah
+Number.isSafeInteger(9007199254740993); // false
+
+// Pembulatan tampilan bukan perbaikan nilai
+(1.005).toFixed(2);           // "1.00", bukan "1.01"
+Math.round(1.005 * 100) / 100; // 1, masih punya masalah serupa</code></pre>
+        </div>
+
+        <div class="lab" id="lab-safe">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 09</p>
+            <h3>Lihat titik saat Number berhenti bisa dipercaya.</h3>
+            <p>Masukkan bilangan bulat. Lab menampilkan nilai Number, nilai BigInt setelah ditambah satu, dan selisih pembulatan. Coba <code>9007199254740993</code>, lalu tambah digit.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field">
+              <label for="safe-input">Bilangan bulat</label>
+              <input id="safe-input" type="text" inputmode="numeric" value="9007199254740993" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="safe-grid" aria-live="polite">
+              <div class="safe-cell">
+                <span>Nilai Number</span>
+                <strong id="safe-number">-</strong>
+              </div>
+              <div class="safe-cell">
+                <span>BigInt + 1</span>
+                <strong id="safe-bigint">-</strong>
+              </div>
+              <div class="safe-cell">
+                <span>Status safe integer</span>
+                <strong id="safe-check">-</strong>
+              </div>
+              <div class="safe-cell">
+                <span>Selisih Number dan BigInt</span>
+                <strong id="safe-diff">-</strong>
+              </div>
+            </div>
+            <p class="status" id="safe-status" role="status" aria-live="polite"></p>
+            <aside class="note">
+              <span class="note-label">Contoh batas</span>
+              <p><code>2^53 - 1 = 9007199254740991</code> adalah integer terbesar yang dijamin tepat. Di atasnya, dua bilangan berbeda bisa menjadi Number yang sama. BigInt tidak punya batas praktis seperti ini.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>Uang: integer, bukan float</h3>
+        <p>Untuk uang fiat, simpan dalam satuan terkecil, misalnya sen. Untuk kripto, simpan wei atau unit terkecil token. Jangan menyimpan <code>12.34</code> sebagai float lalu berharap penjumlahan seratus kali tetap tepat. Konversi ke tampilan hanya di lapisan presentasi.</p>
+        <div class="code-block">
+          <div class="code-head"><span>money.js</span><button class="copy-btn" type="button" data-copy-target="code-11-money">Salin</button></div>
+          <pre><code id="code-11-money" data-lang="js">// Buruk: float untuk uang
+const price = 12.34;
+const total = price * 100; // 1234.0000000000002
+
+// Lebih baik: integer sen
+const priceCents = 1234n;
+const totalCents = priceCents * 100n; // 123400n
+const display = (Number(totalCents) / 100).toFixed(2);
+
+// Untuk nilai besar, jangan Number-kan totalCents.
+// Format BigInt ke string dengan pembagian dan sisa.
+function formatCents(cents, decimals = 2) {
+  const base = 10n ** BigInt(decimals);
+  const whole = cents / base;
+  const fraction = (cents % base).toString().padStart(decimals, "0");
+  return `${whole}.${fraction}`;
+}</code></pre>
+        </div>
+
+        <h3>Format tampilan</h3>
+        <p><code>Intl.NumberFormat</code> bagus untuk angka yang memang aman sebagai Number. Untuk BigInt, ia juga bisa memformat BigInt secara langsung di browser modern. Jika ragu, format manual dari string agar tidak pernah melewati Number.</p>
+        <div class="code-block">
+          <div class="code-head"><span>format.js</span><button class="copy-btn" type="button" data-copy-target="code-11-format">Salin</button></div>
+          <pre><code id="code-11-format" data-lang="js">new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  maximumFractionDigits: 0
+}).format(1234000); // "Rp 1.234.000"
+
+new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 18
+}).format(1500000000000000000n); // "1,500,000,000,000,000,000"
+
+// Untuk token, bulatkan hanya di tampilan.
+const display = new Intl.NumberFormat("id-ID", {
+  maximumFractionDigits: 4
+}).format(Number(formatUnits(wei, 18)));</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Jangan parse ulang tampilan</span>
+          <p>String berformat seperti "1.234,56" bergantung pada locale dan pemisah ribuan. Jangan menyimpannya kembali sebagai sumber data. Simpan nilai mentah dalam BigInt atau integer, lalu format setiap kali ditampilkan.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kamu menerima <code>saldo = "9007199254740993"</code> dari API. Apa yang terjadi jika kamu menulis <code>Number(saldo) + 1</code>? Bagaimana cara yang benar?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Number membulatkan nilai menjadi 9007199254740992, lalu ditambah 1 tetap 9007199254740992. Gunakan <code>BigInt(saldo) + 1n</code> dan kirim hasilnya sebagai string. Jangan pernah melewati Number untuk nilai wei.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+      <section class="chapter" id="typescript" data-chapter="typescript" data-track="true" data-title="TypeScript dasar">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 12<span class="chapter-type">TIPE</span></p>
+          <h2>TypeScript bukan JavaScript yang lebih sulit. Ia compiler yang menolak tebakan.</h2>
+          <p class="chapter-lead">TypeScript menambahkan pemeriksaan statis di atas JavaScript. Tujuannya bukan membuat kode lebih panjang, tetapi membuat kesalahan bentuk data terlihat sebelum aplikasi berjalan. Compiler bisa membantu atau melawan, tergantung apakah tipenya mewakili kenyataan.</p>
+          <ul class="goals">
+            <li>Membedakan inferensi dan anotasi tipe.</li>
+            <li>Memilih <code>interface</code>, <code>type</code>, union, dan literal type.</li>
+            <li>Mempersempit union dengan typeof, in, instanceof, dan discriminant.</li>
+            <li>Membedakan <code>unknown</code>, <code>any</code>, dan <code>never</code>.</li>
+          </ul>
+        </header>
+
+        <h3>Mulai dari inferensi</h3>
+        <p>TypeScript sudah bisa menebak tipe dari nilai awal. Kamu tidak perlu menulis anotasi di setiap baris. Anotasi berguna di batas modul: parameter fungsi publik, bentuk respons API, dan object yang sengaja kosong. Terlalu banyak anotasi membuat kode berisik; terlalu sedikit membuat tipe menjadi <code>any</code> tanpa disadari.</p>
+        <div class="code-block">
+          <div class="code-head"><span>dasar.ts</span><button class="copy-btn" type="button" data-copy-target="code-12-basic">Salin</button></div>
+          <pre><code id="code-12-basic" data-lang="ts">// Inferensi: tipe diturunkan dari nilai
+const symbol = "ETH";              // "ETH", literal type
+let decimals = 18;                 // number
+const tags = ["erc20", "testnet"]; // string[]
+
+// Anotasi di batas fungsi
+function formatUnits(value: bigint, decimals: number): string {
+  const base = 10n ** BigInt(decimals);
+  return `${value / base}.${value % base}`;
+}
+
+// Object dan interface
+interface Token {
+  readonly id: string;
+  symbol: string;
+  decimals: number;
+  supplyWei: bigint;
+  verified?: boolean;
+}
+
+const eth: Token = {
+  id: "eth",
+  symbol: "ETH",
+  decimals: 18,
+  supplyWei: 120000000000000000000000000n
+};</code></pre>
+        </div>
+        <p><code>const symbol = "ETH"</code> mendapat literal type <code>"ETH"</code>, bukan <code>string</code>. Itu berguna untuk discriminant. <code>let decimals = 18</code> mendapat <code>number</code> karena nilainya bisa berubah. <code>readonly</code> mencegah penulisan properti setelah object dibuat, tetapi tidak membekukan object saat runtime.</p>
+
+        <h3>interface atau type</h3>
+        <div class="grid-2">
+          <div>
+            <h4>interface</h4>
+            <ul>
+              <li>Cocok untuk bentuk object dan API publik.</li>
+              <li>Bisa di-extends dan declaration merging.</li>
+              <li>Pesan error biasanya lebih mudah dibaca.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>type</h4>
+            <ul>
+              <li>Bisa menjadi union, tuple, atau tipe primitif.</li>
+              <li>Bisa memakai intersection dan mapped type.</li>
+              <li>Tidak bisa dideklarasikan ulang dengan nama sama.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span>union.ts</span><button class="copy-btn" type="button" data-copy-target="code-12-union">Salin</button></div>
+          <pre><code id="code-12-union" data-lang="ts">type ChainId = 1 | 11155111 | 31337;
+
+type Payment =
+  | { kind: "native"; amountWei: bigint }
+  | { kind: "token"; amountWei: bigint; token: `0x${string}` };
+
+type ApiState =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "success"; data: Token[] }
+  | { status: "error"; message: string };
+
+// Intersection: semua properti harus ada
+type VerifiedToken = Token &amp; { verified: true };</code></pre>
+        </div>
+
+        <h3>Narrowing</h3>
+        <p>Union hanya berguna kalau kamu bisa mempersempitnya. TypeScript membaca <code>typeof</code>, perbandingan literal, operator <code>in</code>, <code>instanceof</code>, dan type predicate. Setelah narrowing, field yang tidak mungkin di cabang itu tidak bisa diakses.</p>
+        <div class="code-block">
+          <div class="code-head"><span>narrowing.ts</span><button class="copy-btn" type="button" data-copy-target="code-12-narrow">Salin</button></div>
+          <pre><code id="code-12-narrow" data-lang="ts">function describe(payment: Payment): string {
+  if (payment.kind === "native") {
+    return `${payment.amountWei} wei`;
+  }
+
+  // Di sini payment sudah pasti cabang token
+  return `${payment.token}: ${payment.amountWei} unit`;
+}
+
+function isToken(value: unknown): value is Token {
+  if (value === null || typeof value !== "object") return false;
+  const candidate = value as Record&lt;string, unknown&gt;;
+  return typeof candidate.symbol === "string"
+    &amp;&amp; typeof candidate.decimals === "number"
+    &amp;&amp; typeof candidate.supplyWei === "string";
+}</code></pre>
+        </div>
+        <p><code>value is Token</code> adalah type predicate. Ia memberi tahu compiler bahwa fungsi mengembalikan boolean sekaligus mempersempit nilai. Predikat hanya boleh dipakai kalau pemeriksaannya benar-benar membuktikan bentuk tersebut. Kalau tidak, kamu berbohong kepada compiler.</p>
+
+        <div class="lab" id="lab-narrow">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 10</p>
+            <h3>Pilih guard yang benar untuk discriminated union.</h3>
+            <p>Gunakan tipe <code>Payment</code> di atas. Setiap pilihan punya konsekuensi: ada yang tidak valid secara sintaks, ada yang tidak cukup sempit.</p>
+          </div>
+          <div class="lab-body">
+            <div class="check-list" id="narrow-list">
+              <div class="check-row" data-answer="kind">
+                <p>Cara mempersempit union berdasarkan properti <code>kind</code> adalah?</p>
+                <select aria-label="Cara mempersempit union">
+                  <option value="">Pilih</option>
+                  <option value="kind">if (payment.kind === "token")</option>
+                  <option value="typeof">if (typeof payment === "token")</option>
+                  <option value="instance">if (payment instanceof "token")</option>
+                  <option value="string">if (String(payment) === "token")</option>
+                </select>
+                <p class="why" hidden>Perbandingan literal pada properti discriminant membuat TypeScript tahu cabang mana yang aktif.</p>
+              </div>
+              <div class="check-row" data-answer="ya">
+                <p>Setelah <code>if (payment.kind === "token")</code>, apakah <code>payment.token</code> bisa diakses?</p>
+                <select aria-label="Akses field token setelah narrowing">
+                  <option value="">Pilih</option>
+                  <option value="ya">Ya, karena cabang sudah token</option>
+                  <option value="tidak">Tidak, harus memakai any</option>
+                  <option value="runtime">Hanya saat runtime</option>
+                </select>
+                <p class="why" hidden>Narrowing membuat field khusus cabang tersedia. Casting ke any justru membuang pemeriksaan yang sudah kamu bayar.</p>
+              </div>
+              <div class="check-row" data-answer="never">
+                <p>Pada <code>switch</code> exhaustive, tipe apa yang tersisa di default jika semua kasus ditangani?</p>
+                <select aria-label="Tipe pada default exhaustive">
+                  <option value="">Pilih</option>
+                  <option value="any">any</option>
+                  <option value="unknown">unknown</option>
+                  <option value="never">never</option>
+                  <option value="void">void</option>
+                </select>
+                <p class="why" hidden><code>never</code> menandakan nilai yang tidak mungkin ada. Kalau kamu menambah cabang baru dan lupa menanganinya, compiler akan mengeluh.</p>
+              </div>
+            </div>
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="narrow-check" type="button">Periksa jawaban</button>
+              <button class="btn btn-quiet" id="narrow-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="narrow-status" role="status" aria-live="polite">Belum ada jawaban yang diperiksa.</p>
+          </div>
+        </div>
+
+        <h3>unknown, any, dan never</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Tiga tipe yang sering disalahpahami.</caption>
+            <thead>
+              <tr><th scope="col">Tipe</th><th scope="col">Arti</th><th scope="col">Kapan dipakai</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>unknown</code></td><td>Nilai yang belum diketahui tipenya, harus dipersempit</td><td>Hasil <code>JSON.parse</code>, input eksternal, parameter generik</td></tr>
+              <tr><td><code>any</code></td><td>Matikan pemeriksaan untuk nilai ini</td><td>Hampir tidak pernah. Bisa dipakai saat migrasi darurat, lalu segera dihapus</td></tr>
+              <tr><td><code>never</code></td><td>Nilai yang tidak mungkin terjadi</td><td>Fungsi yang selalu melempar, default exhaustive, filter tipe</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">strict bukan opsional</span>
+          <p>Aktifkan <code>"strict": true</code>. Tanpa itu, <code>strictNullChecks</code> bisa mati dan <code>null</code> diperlakukan seperti nilai biasa. Error yang muncul saat strict biasanya bug nyata, bukan gangguan.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Buat tipe <code>ApiState</code> untuk request token dengan empat status: idle, loading, success, error. Pastikan field <code>data</code> hanya bisa diakses saat success dan <code>message</code> hanya saat error.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Gunakan discriminated union: <code>{ status: "idle" } | { status: "loading" } | { status: "success"; data: Token[] } | { status: "error"; message: string }</code>. Setelah memeriksa <code>state.status === "success"</code>, TypeScript hanya mengizinkan akses <code>data</code>.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="generics" data-chapter="generics" data-track="true" data-title="Generics dan utility">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 13<span class="chapter-type">TIPE</span></p>
+          <h2>Generic adalah cara menulis tipe yang mengikuti data, bukan menebaknya.</h2>
+          <p class="chapter-lead">Fungsi yang mengembalikan bentuk sama dengan inputnya tidak perlu ditulis ulang untuk setiap tipe. Generic membuat hubungan itu eksplisit. Utility type di TypeScript memakai ide yang sama untuk membentuk tipe baru dari tipe yang sudah ada.</p>
+          <ul class="goals">
+            <li>Menulis generic function dengan constraint yang berguna.</li>
+            <li>Memakai <code>keyof</code> dan indexed access type.</li>
+            <li>Memilih <code>Pick</code>, <code>Omit</code>, <code>Partial</code>, <code>Record</code>, dan <code>Readonly</code>.</li>
+            <li>Menjaga discriminated union tetap exhaustive.</li>
+          </ul>
+        </header>
+
+        <h3>Generic function</h3>
+        <div class="code-block">
+          <div class="code-head"><span>generic.ts</span><button class="copy-btn" type="button" data-copy-target="code-13-generic">Salin</button></div>
+          <pre><code id="code-13-generic" data-lang="ts">function first&lt;T&gt;(items: T[]): T | undefined {
+  return items[0];
+}
+
+const firstToken = first([{ symbol: "ETH" }, { symbol: "USDC" }]);
+// { symbol: string } | undefined
+
+function pluck&lt;T, K extends keyof T&gt;(items: T[], key: K): T[K][] {
+  return items.map((item) =&gt; item[key]);
+}
+
+const symbols = pluck([{ symbol: "ETH", decimals: 18 }], "symbol");
+// string[]
+
+// Constraint memastikan properti yang dipakai selalu ada
+function totalSupply&lt;T extends { supplyWei: bigint }&gt;(tokens: T[]): bigint {
+  return tokens.reduce((sum, token) =&gt; sum + token.supplyWei, 0n);
+}</code></pre>
+        </div>
+        <p><code>K extends keyof T</code> berarti kunci yang dipilih harus benar-benar ada di <code>T</code>. Pemanggilan <code>pluck(tokens, "symbols")</code> akan ditolak compiler. Ini contoh pemeriksaan yang mencegah typo sebelum runtime.</p>
+
+        <h3>Utility type</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Utility yang paling sering dipakai di aplikasi.</caption>
+            <thead>
+              <tr><th scope="col">Utility</th><th scope="col">Hasil</th><th scope="col">Contoh</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Partial&lt;T&gt;</code></td><td>Semua properti opsional</td><td>Form edit yang belum lengkap</td></tr>
+              <tr><td><code>Required&lt;T&gt;</code></td><td>Semua properti wajib</td><td>Setelah validasi form</td></tr>
+              <tr><td><code>Pick&lt;T, K&gt;</code></td><td>Hanya kunci terpilih</td><td>Tampilan ringkas token</td></tr>
+              <tr><td><code>Omit&lt;T, K&gt;</code></td><td>Semua kecuali kunci terpilih</td><td>Menyembunyikan field internal</td></tr>
+              <tr><td><code>Readonly&lt;T&gt;</code></td><td>Semua properti readonly</td><td>Data yang tidak boleh diubah</td></tr>
+              <tr><td><code>Record&lt;K, V&gt;</code></td><td>Object dengan kunci K dan nilai V</td><td>Map chain ke konfigurasi</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab" id="lab-utility">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 11</p>
+            <h3>Bentuk tipe baru dari interface Token.</h3>
+            <p>Pilih mode, field, dan pembungkus. Output di kanan adalah tipe TypeScript yang akan dihasilkan. Perhatikan bahwa <code>Pick</code> memilih field, sedangkan <code>Omit</code> membuang field.</p>
+          </div>
+          <div class="lab-body">
+            <div class="utility-layout">
+              <div>
+                <div class="field">
+                  <label for="util-mode">Mode</label>
+                  <select id="util-mode">
+                    <option value="none">Token (tanpa utility)</option>
+                    <option value="pick">Pick (pilih field)</option>
+                    <option value="omit">Omit (buang field)</option>
+                  </select>
+                </div>
+                <p class="field-label">Field yang dipilih atau dibuang</p>
+                <ul class="utility-fields" id="util-fields">
+                  <li><label><input type="checkbox" value="id" checked> id</label></li>
+                  <li><label><input type="checkbox" value="name" checked> name</label></li>
+                  <li><label><input type="checkbox" value="symbol" checked> symbol</label></li>
+                  <li><label><input type="checkbox" value="decimals" checked> decimals</label></li>
+                  <li><label><input type="checkbox" value="supplyWei" checked> supplyWei</label></li>
+                </ul>
+                <div class="utility-toggles">
+                  <label><input type="checkbox" id="util-partial"> Partial</label>
+                  <label><input type="checkbox" id="util-readonly"> Readonly</label>
+                  <label><input type="checkbox" id="util-record"> Record chain</label>
+                </div>
+              </div>
+              <pre class="utility-type" id="util-output" aria-live="polite"></pre>
+            </div>
+            <aside class="note">
+              <span class="note-label">Yang diamati</span>
+              <p><code>Pick</code> dan <code>Omit</code> tidak mengubah data saat runtime. Keduanya hanya membentuk tipe untuk compiler. Kalau API tetap mengirim field yang tidak diinginkan, kamu masih perlu menghapusnya saat serialisasi.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>Discriminated union yang exhaustive</h3>
+        <div class="code-block">
+          <div class="code-head"><span>exhaustive.ts</span><button class="copy-btn" type="button" data-copy-target="code-13-exhaustive">Salin</button></div>
+          <pre><code id="code-13-exhaustive" data-lang="ts">type Payment =
+  | { kind: "native"; amountWei: bigint }
+  | { kind: "token"; amountWei: bigint; token: `0x${string}` };
+
+function assertNever(value: never): never {
+  throw new Error(`cabang tidak ditangani: ${JSON.stringify(value)}`);
+}
+
+function label(payment: Payment): string {
+  switch (payment.kind) {
+    case "native":
+      return "ETH";
+    case "token":
+      return payment.token;
+    default:
+      return assertNever(payment);
+  }
+}</code></pre>
+        </div>
+        <p>Jika nanti kamu menambah <code>{ kind: "credit" }</code>, compiler akan menolak <code>assertNever(payment)</code> karena <code>payment</code> masih mungkin berupa credit. Itu pengingat otomatis, bukan bug.</p>
+
+        <h3>satisfies dan as const</h3>
+        <p><code>as const</code> membuat nilai menjadi readonly dan literal. <code>satisfies</code> memeriksa bahwa nilai cocok dengan tipe tanpa melebarkan tipenya. Ini berguna untuk konfigurasi yang harus valid sekaligus mempertahankan kunci literal.</p>
+        <div class="code-block">
+          <div class="code-head"><span>config.ts</span><button class="copy-btn" type="button" data-copy-target="code-13-satisfies">Salin</button></div>
+          <pre><code id="code-13-satisfies" data-lang="ts">type ChainConfig = {
+  id: number;
+  name: string;
+  currency: string;
+};
+
+const chains = {
+  sepolia: { id: 11155111, name: "Sepolia", currency: "ETH" },
+  anvil: { id: 31337, name: "Anvil", currency: "ETH" }
+} as const satisfies Record&lt;string, ChainConfig&gt;;
+
+type ChainName = keyof typeof chains;
+// "sepolia" | "anvil"
+
+chains.sepolia.id; // 11155111, bukan number</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">Generic bukan hiasan</span>
+          <p>Kalau generic tidak menghubungkan dua tipe, mungkin kamu tidak membutuhkannya. <code>function log&lt;T&gt;(value: T): void</code> tidak lebih berguna dari <code>function log(value: unknown): void</code>. Gunakan generic saat hubungan antar parameter dan hasilnya penting.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Buat tipe <code>TokenSummary</code> yang hanya berisi <code>symbol</code> dan <code>supplyWei</code>, semua properti readonly, dan <code>supplyWei</code> opsional. Tulis dengan utility type.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>type TokenSummary = Readonly&lt;Pick&lt;Token, "symbol" | "supplyWei"&gt;&gt;</code> membuat keduanya readonly, tetapi belum opsional. Untuk membuat <code>supplyWei</code> opsional saja, gunakan <code>Readonly&lt;Pick&lt;Token, "symbol"&gt; &amp; { supplyWei?: bigint }&gt;</code> atau <code>Readonly&lt;Pick&lt;Token, "symbol"&gt;&gt; &amp; { readonly supplyWei?: bigint }</code>.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="api-types" data-chapter="api-types" data-track="true" data-title="Tipe API dan runtime">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 14<span class="chapter-type">TIPE</span></p>
+          <h2>TypeScript hilang saat runtime. Data dari API tidak.</h2>
+          <p class="chapter-lead">Anotasi tidak mengubah JSON yang masuk. Kalau kamu menulis <code>const token: Token = await res.json()</code>, compiler percaya padamu, tetapi server belum tentu mengirim Token. Validasi runtime adalah satu-satunya cara mengetahui bentuk data yang sebenarnya.</p>
+          <ul class="goals">
+            <li>Memperlakukan hasil <code>JSON.parse</code> sebagai <code>unknown</code>.</li>
+            <li>Menulis type guard yang memeriksa field wajib dan tipe primitif.</li>
+            <li>Memisahkan state loading, success, error, dan empty.</li>
+            <li>Mengirim BigInt dan nilai besar lewat batas API dengan aman.</li>
+          </ul>
+        </header>
+
+        <h3>Tiga lapisan kepercayaan</h3>
+        <div class="grid-3">
+          <div>
+            <h4>Compile time</h4>
+            <p>TypeScript memeriksa kode dan tipe yang kamu tulis. Ia tidak melihat isi respons jaringan.</p>
+          </div>
+          <div>
+            <h4>Runtime</h4>
+            <p>JavaScript menjalankan nilai nyata. Di sini <code>undefined</code>, string, dan angka yang salah bentuk benar-benar terlihat.</p>
+          </div>
+          <div>
+            <h4>Kontrak</h4>
+            <p>Dokumentasi dan skema API menjelaskan bentuk yang dijanjikan. Kamu tetap perlu memeriksa apakah janji itu ditepati.</p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-head"><span>parse-response.ts</span><button class="copy-btn" type="button" data-copy-target="code-14-parse">Salin</button></div>
+          <pre><code id="code-14-parse" data-lang="ts">type Token = {
+  id: string;
+  symbol: string;
+  decimals: number;
+  supplyWei: bigint;
+};
+
+function isRecord(value: unknown): value is Record&lt;string, unknown&gt; {
+  return value !== null &amp;&amp; typeof value === "object" &amp;&amp; !Array.isArray(value);
+}
+
+function parseToken(value: unknown): Token {
+  if (!isRecord(value)) throw new Error("token bukan object");
+  if (typeof value.id !== "string") throw new Error("id tidak valid");
+  if (typeof value.symbol !== "string") throw new Error("symbol tidak valid");
+  if (typeof value.decimals !== "number" || !Number.isInteger(value.decimals)) {
+    throw new Error("decimals tidak valid");
+  }
+  if (typeof value.supplyWei !== "string" || !/^\d+$/.test(value.supplyWei)) {
+    throw new Error("supplyWei harus string digit");
+  }
+
+  return {
+    id: value.id,
+    symbol: value.symbol,
+    decimals: value.decimals,
+    supplyWei: BigInt(value.supplyWei)
+  };
+}</code></pre>
+        </div>
+        <p>Fungsi ini melakukan dua hal: memeriksa bentuk dan mengubah string menjadi BigInt. Setelah <code>parseToken</code> selesai, sisa aplikasi bisa memakai <code>Token</code> dengan percaya. Batas kepercayaan ada di satu tempat, bukan tersebar di setiap komponen.</p>
+
+        <h3>Type guard atau library validasi</h3>
+        <p>Untuk dua atau tiga field, type guard manual cukup. Untuk payload besar dengan nested object, union, dan pesan error yang ramah, library seperti Zod atau Valibot lebih praktis. Yang penting bukan nama library, tetapi kebiasaan: validasi di batas, jangan di tengah render.</p>
+        <div class="code-block">
+          <div class="code-head"><span>zod-contoh.ts</span><button class="copy-btn" type="button" data-copy-target="code-14-zod">Salin</button></div>
+          <pre><code id="code-14-zod" data-lang="ts">import { z } from "zod";
+
+const TokenSchema = z.object({
+  id: z.string(),
+  symbol: z.string().min(1),
+  decimals: z.number().int().nonnegative(),
+  supplyWei: z.string().regex(/^\d+$/)
+});
+
+type TokenDto = z.infer&lt;typeof TokenSchema&gt;;
+
+const parsed = TokenSchema.parse(json);
+const supply = BigInt(parsed.supplyWei);</code></pre>
+        </div>
+        <p>Skema memberi tipe sekaligus validasi. Kalau kamu tidak ingin menambah dependensi, tulis guard sendiri. Yang tidak boleh adalah menulis <code>as Token</code> pada data dari jaringan lalu berharap semuanya baik-baik saja.</p>
+
+        <h3>State yang jujur</h3>
+        <div class="code-block">
+          <div class="code-head"><span>state.ts</span><button class="copy-btn" type="button" data-copy-target="code-14-state">Salin</button></div>
+          <pre><code id="code-14-state" data-lang="ts">type TokensState =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "success"; data: Token[]; fetchedAt: number }
+  | { status: "empty"; fetchedAt: number }
+  | { status: "error"; message: string; retryable: boolean };
+
+function renderState(state: TokensState) {
+  switch (state.status) {
+    case "idle":
+      return "Belum dimuat";
+    case "loading":
+      return "Memuat...";
+    case "success":
+      return `${state.data.length} token`;
+    case "empty":
+      return "Belum ada token";
+    case "error":
+      return state.retryable ? `Gagal: ${state.message}. Coba lagi.` : state.message;
+  }
+}</code></pre>
+        </div>
+        <p>Memisahkan <code>empty</code> dari <code>success</code> mencegah UI menampilkan tabel kosong tanpa penjelasan. Menambahkan <code>retryable</code> mencegah tombol coba lagi muncul untuk error 401 yang tidak akan berubah tanpa login ulang.</p>
+
+        <h3>Batas BigInt di API</h3>
+        <p>BigInt tidak bisa melewati JSON. Di server, ubah ke string sebelum <code>JSON.stringify</code>. Di klien, validasi string dan ubah kembali ke BigInt. Jangan mengirim BigInt mentah, dan jangan menerima number untuk nilai wei.</p>
+        <div class="code-block">
+          <div class="code-head"><span>serialisasi.ts</span><button class="copy-btn" type="button" data-copy-target="code-14-serialize">Salin</button></div>
+          <pre><code id="code-14-serialize" data-lang="ts">type TokenDto = {
+  id: string;
+  symbol: string;
+  decimals: number;
+  supplyWei: string; // selalu string di wire
+};
+
+function toDto(token: Token): TokenDto {
+  return {
+    id: token.id,
+    symbol: token.symbol,
+    decimals: token.decimals,
+    supplyWei: token.supplyWei.toString()
+  };
+}
+
+function fromDto(dto: unknown): Token {
+  // Validasi dulu seperti parseToken di atas
+  return parseToken(dto);
+}</code></pre>
+        </div>
+
+        <aside class="warn">
+          <span class="note-label">as bukan validasi</span>
+          <p><code>value as Token</code> hanya memberitahu compiler untuk berhenti memeriksa. Ia tidak menambah field, tidak mengubah string menjadi bigint, dan tidak menangkap data yang hilang. Gunakan <code>as</code> untuk narrowing yang sudah kamu buktikan, bukan untuk berharap.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>API mengirim <code>{"decimals":"18","supplyWei":"1000"}</code>. Tulis validasi yang menolak response ini dan jelaskan mengapa menolaknya lebih baik daripada memperbaiki diam-diam.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>decimals</code> seharusnya number, bukan string. Validasi ketat menolak bentuk yang berbeda dari kontrak. Memperbaiki diam-diam menyembunyikan perubahan API dan bisa menyebabkan bug lain, misalnya <code>decimals + 1</code> menghasilkan "181". Lebih baik gagal di batas dengan pesan jelas.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+      <section class="chapter" id="git" data-chapter="git" data-track="true" data-title="Git dari nol">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 15<span class="chapter-type">KERJA</span></p>
+          <h2>Git adalah mesin waktu untuk pohon file, bukan tombol simpan.</h2>
+          <p class="chapter-lead">Git mencatat snapshot dari isi proyek. Tiga tempat perlu kamu bedakan: working tree yang kamu edit, index yang kamu siapkan, dan commit yang sudah tersimpan. Sebagian besar kebingungan Git hilang saat tiga tempat ini jelas.</p>
+          <ul class="goals">
+            <li>Menjelaskan working tree, staging area, dan commit.</li>
+            <li>Memakai <code>status</code>, <code>add</code>, <code>commit</code>, <code>diff</code>, dan <code>log</code>.</li>
+            <li>Membuat branch, menggabungkan, dan menyelesaikan konflik sederhana.</li>
+            <li>Membatalkan perubahan tanpa menghancurkan pekerjaan yang belum disimpan.</li>
+          </ul>
+        </header>
+
+        <h3>Tiga tempat</h3>
+        <div class="diagram">
+          <svg viewBox="0 0 720 230" role="img" aria-labelledby="git-title git-desc">
+            <title id="git-title">Working tree, staging area, dan repository</title>
+            <desc id="git-desc">File yang diedit berada di working tree. git add memindahkan snapshot ke staging area atau index. git commit menyimpan isi staging sebagai commit permanen di repository. git restore membuang perubahan working tree. git restore --staged mengeluarkan file dari staging tanpa menyentuh working tree.</desc>
+            <rect class="svg-box" x="14" y="60" width="190" height="100" rx="2"></rect>
+            <text class="svg-label" x="30" y="88">Working tree</text>
+            <text class="svg-small" x="30" y="112">file yang kamu edit</text>
+            <text class="svg-small" x="30" y="132">belum tentu di-stage</text>
+
+            <rect class="svg-box-accent svg-box" x="264" y="60" width="190" height="100" rx="2"></rect>
+            <text class="svg-label" x="280" y="88">Staging / index</text>
+            <text class="svg-small" x="280" y="112">snapshot untuk commit</text>
+            <text class="svg-small" x="280" y="132">dipilih dengan git add</text>
+
+            <rect class="svg-box" x="514" y="60" width="190" height="100" rx="2"></rect>
+            <text class="svg-label" x="530" y="88">Repository</text>
+            <text class="svg-small" x="530" y="112">commit permanen</text>
+            <text class="svg-small" x="530" y="132">riwayat yang bisa dibagikan</text>
+
+            <line class="svg-arrow" x1="206" y1="95" x2="256" y2="95"></line>
+            <path class="svg-arrow-head" d="M256 95l-7 -4v8z"></path>
+            <text class="svg-small" x="206" y="86">git add</text>
+            <line class="svg-arrow" x1="456" y1="95" x2="506" y2="95"></line>
+            <path class="svg-arrow-head" d="M506 95l-7 -4v8z"></path>
+            <text class="svg-small" x="456" y="86">git commit</text>
+
+            <path class="svg-line" d="M256 140H200V182H104" stroke-dasharray="4 4"></path>
+            <path class="svg-arrow-head" d="M104 182l7 -4v8z"></path>
+            <text class="svg-small" x="118" y="198">git restore file</text>
+            <path class="svg-line" d="M506 140H456V182H360" stroke-dasharray="4 4"></path>
+            <path class="svg-arrow-head" d="M360 182l7 -4v8z"></path>
+            <text class="svg-small" x="370" y="198">git restore --staged</text>
+          </svg>
+          <p class="diagram-caption">Commit hanya berisi apa yang ada di staging. File yang diubah tetapi tidak di-add tidak ikut commit. Itu sebabnya <code>git add</code> bukan formalitas.</p>
+        </div>
+
+        <h3>Perintah inti</h3>
+        <div class="code-block">
+          <div class="code-head"><span>terminal</span><button class="copy-btn" type="button" data-copy-target="code-15-core">Salin</button></div>
+          <pre><code id="code-15-core" data-lang="bash">git init
+git status
+git add app/page.tsx
+git add .
+git commit -m "feat: tampilkan daftar token"
+git log --oneline
+git diff
+git diff --staged
+
+# Branch
+git branch
+git switch -c feat/filter
+git switch main
+git merge feat/filter
+
+# Undo yang aman
+git restore app/page.tsx          # buang perubahan working tree
+git restore --staged app/page.tsx # keluarkan dari staging
+git revert &lt;hash&gt;                  # buat commit pembatalan
+git reset --soft HEAD~1            # batalkan commit, simpan di staging
+
+# Simpan sementara
+git stash
+git stash pop</code></pre>
+        </div>
+        <p><code>git reset --hard</code> menghapus perubahan working tree. Jangan memakainya sebelum kamu yakin tidak ada pekerjaan yang belum disimpan. Untuk commit yang sudah didorong ke remote, <code>git revert</code> lebih aman karena tidak menulis ulang riwayat.</p>
+
+        <div class="lab" id="lab-git">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 12</p>
+            <h3>Pindahkan file dari working tree ke commit.</h3>
+            <p>Gunakan tombol untuk menjalankan perintah Git pada proyek contoh. File <code>.env.local</code> sengaja cocok dengan <code>.gitignore</code>. Lihat apa yang terjadi saat kamu memakai <code>git add .</code>.</p>
+          </div>
+          <div class="lab-body">
+            <div class="git-board" id="git-board" aria-live="polite"></div>
+            <div class="git-toolbar">
+              <input id="git-message" type="text" placeholder="Pesan commit, misalnya feat: token table" aria-label="Pesan commit">
+              <button class="btn btn-quiet btn-small" id="git-add-all" type="button">git add .</button>
+              <button class="btn btn-primary btn-small" id="git-commit" type="button">git commit</button>
+              <button class="btn btn-quiet btn-small" id="git-status" type="button">git status</button>
+              <button class="btn btn-quiet btn-small" id="git-log" type="button">git log</button>
+              <button class="btn btn-quiet btn-small" id="git-reset" type="button">Reset lab</button>
+            </div>
+            <pre class="git-console" id="git-console" aria-live="polite"></pre>
+            <aside class="note">
+              <span class="note-label">.gitignore</span>
+              <p>File yang cocok dengan pola <code>.env*</code> tidak akan masuk staging lewat <code>git add .</code>. Kalau secret pernah ter-commit, menghapus filenya di commit berikutnya tidak cukup. Anggap nilainya bocor, ganti key, dan bersihkan riwayat bila perlu.</p>
+            </aside>
+          </div>
+        </div>
+
+        <h3>Branch dan konflik</h3>
+        <p>Branch hanyalah penunjuk ke commit. Membuat branch murah. Gunakan branch untuk satu perubahan yang bisa dijelaskan dalam satu kalimat. Konflik terjadi saat dua branch mengubah baris yang sama. Git menandai bagian konflik; kamu memilih hasil akhir, menghapus penanda, lalu commit.</p>
+        <div class="code-block">
+          <div class="code-head"><span>konflik.txt</span><button class="copy-btn" type="button" data-copy-target="code-15-conflict">Salin</button></div>
+          <pre><code id="code-15-conflict" data-lang="text">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+const decimals = 18;
+=======
+const decimals = 6;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feat/usdc
+
+// Pilih satu hasil yang benar, hapus penanda, lalu:
+git add lib/tokens.ts
+git commit -m "fix: gunakan 6 desimal untuk USDC"</code></pre>
+        </div>
+
+        <h3>Pesan commit</h3>
+        <p>Pesan commit adalah dokumentasi untuk dirimu enam bulan kemudian. Mulai dengan kata kerja dan alasan, bukan daftar file. Contoh yang berguna: <code>fix: tolak amountWei nol</code>, <code>feat: tambah filter status transaksi</code>, <code>refactor: pisahkan parseUnits dari komponen</code>. Hindari "update", "fix bug", atau "changes".</p>
+
+        <aside class="warn">
+          <span class="note-label">Jangan commit secret</span>
+          <p>Periksa <code>git status</code> sebelum commit. File <code>.env.local</code>, private key, dan token API tidak boleh masuk repository. Kalau tidak sengaja ter-commit, ganti secret segera. Menghapus file di commit berikutnya tidak menghapusnya dari riwayat.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kamu mengubah tiga file. Hanya dua yang ingin kamu commit. Tulis urutan perintahnya, lalu jelaskan mengapa <code>git add .</code> bukan pilihan di situ.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p><code>git add file-a file-b</code>, lalu <code>git commit -m "..."</code>. <code>git add .</code> akan memasukkan file ketiga yang belum siap. Staging yang selektif membuat commit tetap kecil dan bisa dijelaskan.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="github" data-chapter="github" data-track="true" data-title="GitHub dan kolaborasi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 16<span class="chapter-type">KERJA</span></p>
+          <h2>Git mencatat di komputermu. GitHub membuat catatan itu bisa dibaca orang lain.</h2>
+          <p class="chapter-lead">GitHub adalah hosting untuk repository Git, ditambah alat kolaborasi: pull request, review, issue, dan automation. Kamu tidak perlu memakai GitHub untuk memakai Git, tetapi hampir semua proyek terbuka memakainya.</p>
+          <ul class="goals">
+            <li>Menghubungkan repository lokal ke remote.</li>
+            <li>Memilih alur push, pull, dan pull request.</li>
+            <li>Menulis deskripsi perubahan yang bisa direview.</li>
+            <li>Menjaga secret dan branch utama tetap aman.</li>
+          </ul>
+        </header>
+
+        <h3>Remote dan alur dasar</h3>
+        <div class="code-block">
+          <div class="code-head"><span>terminal</span><button class="copy-btn" type="button" data-copy-target="code-16-remote">Salin</button></div>
+          <pre><code id="code-16-remote" data-lang="bash">git remote add origin git@github.com:username/pondasi-lab.git
+git branch -M main
+git push -u origin main
+
+# Mulai fitur
+git switch -c feat/token-filter
+git add .
+git commit -m "feat: tambah filter status token"
+git push -u origin feat/token-filter
+
+# Setelah pull request digabung
+git switch main
+git pull --ff-only
+git branch -d feat/token-filter</code></pre>
+        </div>
+        <p><code>git push -u</code> menyimpan remote dan branch sebagai upstream, sehingga push berikutnya cukup <code>git push</code>. <code>git pull --ff-only</code> menolak merge otomatis yang tidak bisa di-fast-forward, sehingga kamu bisa memeriksa riwayat sebelum menggabungkan.</p>
+
+        <h3>Pull request yang mudah direview</h3>
+        <ol class="steps">
+          <li data-step="01"><strong>Satu tujuan</strong><p>PR berisi satu perubahan yang bisa dijelaskan. Jangan mencampur refactor besar, fitur, dan formatting dalam satu PR.</p></li>
+          <li data-step="02"><strong>Jelaskan konteks</strong><p>Tulis masalah, pendekatan, dan cara menguji. Sertakan screenshot bila perubahan terlihat di UI.</p></li>
+          <li data-step="03"><strong>Periksa sendiri</strong><p>Baca diff sebelum meminta review. Cari file yang tidak sengaja ikut, <code>console.log</code>, dan secret.</p></li>
+          <li data-step="04"><strong>Tanggapi review</strong><p>Balas komentar, ubah kode, lalu minta review ulang. Jangan menandai selesai tanpa menjelaskan.</p></li>
+          <li data-step="05"><strong>Gabungkan dengan aman</strong><p>Pilih squash atau merge sesuai kebiasaan tim. Hapus branch setelah digabung.</p></li>
+        </ol>
+
+        <h3>Issue, Actions, dan secret</h3>
+        <p>Issue menyimpan pekerjaan dan keputusan yang perlu diingat. GitHub Actions menjalankan test dan build saat push atau pull request. Secret Actions disimpan terenkripsi dan hanya tersedia di workflow, bukan di kode. Untuk proyek Next.js, workflow minimal menjalankan <code>npm ci</code>, <code>npm run typecheck</code>, dan <code>npm run build</code>.</p>
+        <div class="code-block">
+          <div class="code-head"><span>.github/workflows/ci.yml</span><button class="copy-btn" type="button" data-copy-target="code-16-ci">Salin</button></div>
+          <pre><code id="code-16-ci" data-lang="yaml">name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build</code></pre>
+        </div>
+
+        <h3>Branch protection dan review</h3>
+        <p>Untuk repository penting, lindungi branch <code>main</code>: wajib pull request, wajib status check lulus, dan wajib review. Ini mencegah push langsung yang tidak direview. Untuk proyek belajar, aturan ini bisa terasa berat, tetapi membiasakan alur PR sejak kecil membuat kolaborasi nanti lebih tenang.</p>
+
+        <div class="grid-2">
+          <div>
+            <h4>HTTPS atau SSH</h4>
+            <p>HTTPS memakai token akses. SSH memakai pasangan kunci. Keduanya bisa aman. Jangan pernah menempelkan token di URL atau menyimpannya di file yang di-commit.</p>
+          </div>
+          <div>
+            <h4>Fork atau branch</h4>
+            <p>Untuk repository yang tidak kamu miliki, fork lalu buat branch di fork. Untuk repository tim, cukup branch di repository yang sama. Jangan memberi akses tulis kalau kontribusi bisa lewat fork.</p>
+          </div>
+        </div>
+
+        <aside class="note">
+          <span class="note-label">README adalah pintu masuk</span>
+          <p>Tulis apa yang dilakukan proyek, cara menjalankan, variabel environment yang dibutuhkan (tanpa nilainya), dan cara menguji. README yang baik mengurangi pertanyaan dan membuat proyek bisa dilanjutkan orang lain, termasuk dirimu sendiri.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kamu menemukan API key di commit lama. Apa tiga tindakan pertama yang harus dilakukan?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Pertama, cabut dan ganti key tersebut. Kedua, hapus dari kode saat ini dan dari riwayat dengan alat seperti <code>git filter-repo</code> jika repository publik atau dibagikan. Ketiga, periksa log akses untuk penyalahgunaan. Menghapus file di commit baru saja tidak cukup.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="proyek" data-chapter="proyek" data-track="true" data-title="Proyek Next.js">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 17<span class="chapter-type">PROYEK</span></p>
+          <h2>Denominasi: satu dashboard kecil yang memakai semua fondasi.</h2>
+          <p class="chapter-lead">Proyek ini menampilkan daftar token dari route API sendiri, memvalidasi respons di runtime, menyimpan nilai besar sebagai string di wire, menghitung dengan BigInt, dan menampilkan loading, error, serta empty state. Tidak ada wallet dan tidak ada dana. Tujuannya membuktikan fondasi, bukan membangun dApp lengkap.</p>
+          <ul class="goals">
+            <li>Membuat proyek Next.js App Router dengan TypeScript.</li>
+            <li>Menulis route handler yang mengembalikan data bertipe.</li>
+            <li>Mengambil data dari client component dengan AbortController.</li>
+            <li>Memformat nilai token tanpa Number dan menandai proyek selesai.</li>
+          </ul>
+        </header>
+
+        <h3>Yang akan dibangun</h3>
+        <ul>
+          <li>Route <code>/api/tokens</code> mengembalikan tiga token contoh dengan <code>supplyWei</code> sebagai string.</li>
+          <li>Halaman utama menampilkan tabel simbol, desimal, dan supply yang diformat.</li>
+          <li>Tombol muat ulang memanggil API lagi. Request lama dibatalkan saat komponen dilepas.</li>
+          <li>State loading, error, empty, dan success ditampilkan dengan jelas.</li>
+          <li>Semua angka besar dihitung dengan BigInt di klien setelah validasi string.</li>
+        </ul>
+
+        <h3>01. Membuat proyek</h3>
+        <div class="code-block">
+          <div class="code-head"><span>terminal</span><button class="copy-btn" type="button" data-copy-target="code-17-init">Salin</button></div>
+          <pre><code id="code-17-init" data-lang="bash">npx create-next-app@latest denominasi
+# TypeScript: Yes
+# ESLint: Yes
+# Tailwind: pilihanmu
+# src/: No
+# App Router: Yes
+# Turbopack: pilihanmu
+# import alias: @/*
+
+cd denominasi
+npm run dev</code></pre>
+        </div>
+        <p>Buka <code>http://localhost:3000</code>. Pastikan halaman default muncul tanpa error sebelum menambah file. Kalau langkah ini gagal, perbaiki dulu Node, npm, dan jaringan.</p>
+
+        <h3>02. Struktur file</h3>
+        <div class="file-tree">denominasi/
+|-- app/
+|   |-- api/
+|   |   `-- tokens/
+|   |       `-- route.ts       <span class="tree-note">respons JSON</span>
+|   |-- layout.tsx
+|   `-- page.tsx               <span class="tree-note">server component</span>
+|-- components/
+|   `-- token-board.tsx        <span class="tree-note">client component</span>
+|-- lib/
+|   |-- units.ts               <span class="tree-note">parse dan format BigInt</span>
+|   `-- tokens.ts              <span class="tree-note">fetch dan validasi</span>
+|-- types/
+|   `-- token.ts
+`-- package.json</div>
+
+        <h3>03. Tipe bersama</h3>
+        <div class="code-block">
+          <div class="code-head"><span>types/token.ts</span><button class="copy-btn" type="button" data-copy-target="code-17-types">Salin</button></div>
+          <pre><code id="code-17-types" data-lang="ts">export type Token = {
+  id: string;
+  symbol: string;
+  name: string;
+  decimals: number;
+  supplyWei: bigint;
+  verified: boolean;
+};
+
+// Bentuk yang boleh melewati JSON.
+export type TokenDto = Omit&lt;Token, "supplyWei"&gt; &amp; {
+  supplyWei: string;
+};
+
+export type TokensResponse = {
+  data: TokenDto[];
+  fetchedAt: number;
+};</code></pre>
+        </div>
+        <p><code>TokenDto</code> memakai <code>Omit</code> untuk mengganti satu field. Ini lebih aman daripada menulis ulang seluruh bentuk, karena field baru otomatis mengikuti.</p>
+
+        <h3>04. Konversi unit</h3>
+        <div class="code-block">
+          <div class="code-head"><span>lib/units.ts</span><button class="copy-btn" type="button" data-copy-target="code-17-units">Salin</button></div>
+          <pre><code id="code-17-units" data-lang="ts">export function parseUnits(value: string, decimals: number): bigint {
+  const text = value.trim();
+  if (!/^\d+(\.\d*)?$/.test(text)) {
+    throw new Error("Format angka tidak valid");
+  }
+  const [whole, fraction = ""] = text.split(".");
+  if (fraction.length &gt; decimals) {
+    throw new Error(`Maksimal ${decimals} desimal`);
+  }
+  const padded = (fraction + "0".repeat(decimals)).slice(0, decimals);
+  return BigInt(whole) * 10n ** BigInt(decimals) + BigInt(padded || "0");
+}
+
+export function formatUnits(
+  value: bigint,
+  decimals: number,
+  maxFraction = 4
+): string {
+  const base = 10n ** BigInt(decimals);
+  const whole = value / base;
+  const raw = (value % base).toString().padStart(decimals, "0");
+  const fraction = raw.slice(0, maxFraction).replace(/0+$/, "");
+  return fraction ? `${whole}.${fraction}` : whole.toString();
+}
+
+export function groupDigits(value: string): string {
+  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}</code></pre>
+        </div>
+
+        <h3>05. Route API</h3>
+        <div class="code-block">
+          <div class="code-head"><span>app/api/tokens/route.ts</span><button class="copy-btn" type="button" data-copy-target="code-17-route">Salin</button></div>
+          <pre><code id="code-17-route" data-lang="ts">import { NextResponse } from "next/server";
+import type { TokenDto } from "@/types/token";
+
+const tokens: TokenDto[] = [
+  {
+    id: "eth",
+    symbol: "ETH",
+    name: "Ether",
+    decimals: 18,
+    supplyWei: "120000000000000000000000000",
+    verified: true
+  },
+  {
+    id: "usdc",
+    symbol: "USDC",
+    name: "USD Coin",
+    decimals: 6,
+    supplyWei: "25000000000000",
+    verified: true
+  },
+  {
+    id: "vault",
+    symbol: "VLT",
+    name: "MiniVault",
+    decimals: 18,
+    supplyWei: "1000000000000000000000000",
+    verified: false
+  }
+];
+
+export async function GET() {
+  return NextResponse.json({
+    data: tokens,
+    fetchedAt: Date.now()
+  });
+}</code></pre>
+        </div>
+        <p>Dalam aplikasi nyata, data ini datang dari database atau indeks. Route handler tetap berguna sebagai batas: ia bisa menyembunyikan API key, menormalkan bentuk data, dan menambahkan cache header. Jangan pernah mengirim key rahasia ke client hanya karena route ini publik.</p>
+
+        <h3>06. Fetch dan validasi</h3>
+        <div class="code-block">
+          <div class="code-head"><span>lib/tokens.ts</span><button class="copy-btn" type="button" data-copy-target="code-17-fetch">Salin</button></div>
+          <pre><code id="code-17-fetch" data-lang="ts">import type { Token, TokenDto, TokensResponse } from "@/types/token";
+
+function isRecord(value: unknown): value is Record&lt;string, unknown&gt; {
+  return value !== null &amp;&amp; typeof value === "object" &amp;&amp; !Array.isArray(value);
+}
+
+function parseDto(value: unknown): TokenDto {
+  if (!isRecord(value)) throw new Error("Token bukan object");
+  if (typeof value.id !== "string") throw new Error("id tidak valid");
+  if (typeof value.symbol !== "string") throw new Error("symbol tidak valid");
+  if (typeof value.name !== "string") throw new Error("name tidak valid");
+  if (typeof value.decimals !== "number" || !Number.isInteger(value.decimals)) {
+    throw new Error("decimals tidak valid");
+  }
+  if (typeof value.supplyWei !== "string" || !/^\d+$/.test(value.supplyWei)) {
+    throw new Error("supplyWei harus string digit");
+  }
+  if (typeof value.verified !== "boolean") throw new Error("verified tidak valid");
+  return {
+    id: value.id,
+    symbol: value.symbol,
+    name: value.name,
+    decimals: value.decimals,
+    supplyWei: value.supplyWei,
+    verified: value.verified
+  };
+}
+
+function toToken(dto: TokenDto): Token {
+  return { ...dto, supplyWei: BigInt(dto.supplyWei) };
+}
+
+export async function fetchTokens(signal?: AbortSignal): Promise&lt;Token[]&gt; {
+  const response = await fetch("/api/tokens", {
+    headers: { Accept: "application/json" },
+    signal
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  const json: unknown = await response.json();
+  if (!isRecord(json) || !Array.isArray(json.data)) {
+    throw new Error("Bentuk respons tidak dikenal");
+  }
+
+  return json.data.map((item) =&gt; toToken(parseDto(item)));
+}</code></pre>
+        </div>
+        <p><code>response.json()</code> mengembalikan <code>any</code> secara bawaan. Memberinya anotasi <code>unknown</code> memaksa validasi. Setelah <code>parseDto</code>, nilai <code>supplyWei</code> adalah BigInt dan sisa aplikasi tidak perlu tahu bahwa wire memakai string.</p>
+
+        <h3>07. Client component</h3>
+        <div class="code-block">
+          <div class="code-head"><span>components/token-board.tsx</span><button class="copy-btn" type="button" data-copy-target="code-17-board">Salin</button></div>
+          <pre><code id="code-17-board" data-lang="tsx">"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import { fetchTokens } from "@/lib/tokens";
+import { formatUnits, groupDigits } from "@/lib/units";
+import type { Token } from "@/types/token";
+
+type State =
+  | { status: "loading" }
+  | { status: "success"; tokens: Token[] }
+  | { status: "empty" }
+  | { status: "error"; message: string };
+
+export function TokenBoard() {
+  const [state, setState] = useState&lt;State&gt;({ status: "loading" });
+  const [attempt, setAttempt] = useState(0);
+
+  useEffect(() =&gt; {
+    const controller = new AbortController();
+    setState({ status: "loading" });
+
+    fetchTokens(controller.signal)
+      .then((tokens) =&gt; {
+        setState(tokens.length ? { status: "success", tokens } : { status: "empty" });
+      })
+      .catch((error: unknown) =&gt; {
+        if (error instanceof DOMException &amp;&amp; error.name === "AbortError") return;
+        setState({
+          status: "error",
+          message: error instanceof Error ? error.message : "Gagal memuat token"
+        });
+      });
+
+    return () =&gt; controller.abort();
+  }, [attempt]);
+
+  const retry = useCallback(() =&gt; setAttempt((value) =&gt; value + 1), []);
+
+  if (state.status === "loading") return &lt;p&gt;Memuat token...&lt;/p&gt;;
+  if (state.status === "empty") return &lt;p&gt;Belum ada token.&lt;/p&gt;;
+  if (state.status === "error") {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;{state.message}&lt;/p&gt;
+        &lt;button type="button" onClick={retry}&gt;Coba lagi&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;table&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;&lt;th&gt;Simbol&lt;/th&gt;&lt;th&gt;Desimal&lt;/th&gt;&lt;th&gt;Supply&lt;/th&gt;&lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        {state.tokens.map((token) =&gt; (
+          &lt;tr key={token.id}&gt;
+            &lt;td&gt;{token.symbol}&lt;/td&gt;
+            &lt;td&gt;{token.decimals}&lt;/td&gt;
+            &lt;td&gt;{groupDigits(formatUnits(token.supplyWei, token.decimals, 2))}&lt;/td&gt;
+          &lt;/tr&gt;
+        ))}
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  );
+}</code></pre>
+        </div>
+        <p>Perhatikan tiga hal. <code>useEffect</code> membuat controller dan membatalkannya di cleanup. Error pembatalan tidak ditampilkan sebagai kegagalan. Tombol coba lagi menaikkan <code>attempt</code>, sehingga effect berjalan lagi tanpa memindahkan logika fetch ke event handler.</p>
+
+        <h3>08. Halaman dan metadata</h3>
+        <div class="code-block">
+          <div class="code-head"><span>app/page.tsx</span><button class="copy-btn" type="button" data-copy-target="code-17-page">Salin</button></div>
+          <pre><code id="code-17-page" data-lang="tsx">import { TokenBoard } from "@/components/token-board";
+
+export default function Page() {
+  return (
+    &lt;main style={{ maxWidth: 880, margin: "0 auto", padding: 32 }}&gt;
+      &lt;h1&gt;Denominasi&lt;/h1&gt;
+      &lt;p&gt;Daftar token contoh. Nilai besar dihitung dengan BigInt.&lt;/p&gt;
+      &lt;TokenBoard /&gt;
+    &lt;/main&gt;
+  );
+}</code></pre>
+        </div>
+        <p>Halaman ini server component karena tidak memakai hook. <code>TokenBoard</code> client component karena memakai state, effect, dan event handler. Batasnya jelas dan tidak ada <code>window</code> di server.</p>
+
+        <h3>09. Menjalankan dan memeriksa</h3>
+        <div class="code-block">
+          <div class="code-head"><span>terminal</span><button class="copy-btn" type="button" data-copy-target="code-17-run">Salin</button></div>
+          <pre><code id="code-17-run" data-lang="bash">npm run dev
+# buka http://localhost:3000
+
+npm run build
+# build harus lulus tanpa error tipe
+
+npx tsc --noEmit
+# pemeriksaan tipe tambahan
+
+git status
+git add app components lib types
+git commit -m "feat: dashboard token dengan BigInt"</code></pre>
+        </div>
+
+        <h3>10. Sebelum commit</h3>
+        <p>Proyek ini belum memakai secret, tetapi biasakan memeriksa file yang tidak boleh masuk repository. <code>create-next-app</code> sudah membuat <code>.gitignore</code>; pastikan isinya mencakup build output dan file environment lokal.</p>
+        <div class="code-block">
+          <div class="code-head"><span>.gitignore</span><button class="copy-btn" type="button" data-copy-target="code-17-ignore">Salin</button></div>
+          <pre><code id="code-17-ignore" data-lang="bash">node_modules
+.next
+out
+.env*.local
+.DS_Store
+
+# Jangan pernah commit private key atau seed phrase.
+*.pem
+*.key</code></pre>
+        </div>
+        <p>Jalankan <code>git status</code> dan baca daftar file sebelum <code>git add</code>. Kalau <code>.env.local</code> muncul, jangan lanjut. Perbaiki <code>.gitignore</code> lebih dulu.</p>
+
+        <h3>Gate proyek</h3>
+        <div class="lab" id="lab-gate">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 13</p>
+            <h3>Buktikan, jangan hanya merasa sudah selesai.</h3>
+            <p>Centang kriteria yang benar-benar sudah kamu periksa di proyek sendiri. Checklist tersimpan di perangkat ini. Jangan centang karena sudah membaca, centang karena sudah mencoba.</p>
+          </div>
+          <div class="lab-body">
+            <div class="gate-head">
+              <p id="gate-text">0 dari 8 kriteria</p>
+              <span class="mono">denominasi</span>
+            </div>
+            <ul class="gate-list" id="gate-list">
+              <li><label><input type="checkbox" value="route"> Route <code>/api/tokens</code> mengembalikan <code>supplyWei</code> sebagai string.<small>Buka endpoint di browser dan periksa JSON mentahnya.</small></label></li>
+              <li><label><input type="checkbox" value="validate"> Respons divalidasi dengan type guard sebelum dipakai.<small>Tidak ada <code>as Token</code> pada data jaringan.</small></label></li>
+              <li><label><input type="checkbox" value="bigint"> Semua perhitungan supply memakai BigInt.<small>Tidak ada <code>Number(supplyWei)</code> di jalur data.</small></label></li>
+              <li><label><input type="checkbox" value="format"> Format tampilan memakai fungsi <code>formatUnits</code>.<small>Desimal token dibaca dari data, bukan diasumsikan 18.</small></label></li>
+              <li><label><input type="checkbox" value="states"> Loading, error, empty, dan success punya tampilan berbeda.<small>Coba matikan route atau kembalikan array kosong.</small></label></li>
+              <li><label><input type="checkbox" value="abort"> Request dibatalkan saat komponen dilepas.<small>Periksa cleanup <code>useEffect</code> dan AbortController.</small></label></li>
+              <li><label><input type="checkbox" value="secret"> Tidak ada secret di kode client atau <code>NEXT_PUBLIC_</code>.<small>Grep repository untuk key, token, dan private key.</small></label></li>
+              <li><label><input type="checkbox" value="build"> <code>npm run build</code> dan <code>tsc --noEmit</code> lulus.<small>Build yang gagal bukan proyek selesai.</small></label></li>
+            </ul>
+            <div class="gate-bar" role="progressbar" aria-label="Progres gate proyek" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0">
+              <span class="gate-fill" id="gate-fill"></span>
+            </div>
+            <p class="status" id="gate-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <h3>Perluas sendiri</h3>
+        <ul>
+          <li>Tambahkan filter chain: <code>/api/tokens?chain=sepolia</code>. Validasi query dan kembalikan 400 untuk nilai yang tidak dikenal.</li>
+          <li>Tambahkan endpoint detail <code>/api/tokens/[id]</code> yang mengembalikan 404 dengan body error yang jelas.</li>
+          <li>Tambahkan pencarian simbol di client dan pastikan empty state tetap muncul saat hasil pencarian kosong.</li>
+          <li>Tambahkan kolom supply dalam unit token, bukan hanya nilai mentah. Uji token 6 desimal.</li>
+          <li>Tambahkan test unit untuk <code>parseUnits</code>: nol, satu wei, terlalu banyak desimal, dan input negatif.</li>
+          <li>Tambahkan workflow GitHub Actions yang menjalankan typecheck dan build.</li>
+        </ul>
+
+        <aside class="warn">
+          <span class="note-label">Batas proyek ini</span>
+          <p>Ini bukan dApp. Tidak ada wallet, kontrak, atau transaksi. Jangan menambahkan private key ke proyek ini. Setelah fondasi selesai, lanjut ke docs fondasi blockchain dan Web3, lalu Solidity, tooling, frontend Web3, dan deploy testnet.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Ubah route agar menerima query <code>chain</code> dan menolak nilai selain <code>sepolia</code>, <code>anvil</code>, dan <code>mainnet</code>. Tulis tipe query yang sempit dan pesan error 400.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Definisikan <code>type Chain = "sepolia" | "anvil" | "mainnet"</code>. Ambil <code>searchParams.get("chain")</code>, periksa dengan fungsi <code>isChain</code>, lalu kembalikan <code>NextResponse.json({ error: "chain tidak dikenal" }, { status: 400 })</code> bila tidak valid. Jangan memakai <code>as Chain</code> tanpa pemeriksaan.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+      <section class="chapter" id="uji" data-chapter="uji" data-track="true" data-title="Uji kompetensi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Ujian<span class="chapter-type">20 SOAL</span></p>
+          <h2>Uji kompetensi: apakah fondasinya benar-benar terpasang?</h2>
+          <p class="chapter-lead">Dua puluh soal dari seluruh bab. Tidak ada batas waktu dan tidak ada batas percobaan. Skor terbaik tersimpan di perangkat ini. Batas lulus 16 dari 20.</p>
+          <ul class="goals">
+            <li>Menguji pemahaman, bukan hafalan nama metode.</li>
+            <li>Menjelaskan setiap jawaban lewat pembahasan yang muncul setelah diperiksa.</li>
+            <li>Menandai ujian selesai di progres saat skor mencapai batas lulus.</li>
+          </ul>
+        </header>
+
+        <noscript>
+          <div class="warn">
+            <span class="note-label">JavaScript dibutuhkan</span>
+            <p>Uji kompetensi dirender oleh JavaScript. Aktifkan JavaScript untuk memakai kuis ini. Seluruh materi tetap bisa dibaca tanpa JavaScript.</p>
+          </div>
+        </noscript>
+
+        <form id="quiz-form" novalidate></form>
+
+        <div class="lab-actions">
+          <button class="btn btn-primary" id="quiz-submit" type="submit" form="quiz-form">Periksa jawaban</button>
+          <button class="btn btn-quiet" id="quiz-retry" type="button">Ulangi dari awal</button>
+        </div>
+        <p class="status" id="quiz-status" role="status" aria-live="polite">Belum ada jawaban yang diperiksa.</p>
+        <div id="quiz-result" tabindex="-1"></div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="glosarium" data-title="Glosarium dan cheatsheet">
+        <header class="chapter-head">
+          <p class="chapter-mark">Rujukan</p>
+          <h2>Glosarium dan cheatsheet.</h2>
+          <p class="chapter-lead">Tempat kembali saat ada istilah yang lupa. Ringkas, bukan pengganti bab.</p>
+        </header>
+
+        <h3>Glosarium</h3>
+        <dl class="glossary">
+          <div><dt>AbortController</dt><dd>Object yang memberi sinyal pembatalan ke fetch atau operasi async lain. Pembatalan biasanya muncul sebagai <code>AbortError</code>.</dd></div>
+          <div><dt>async/await</dt><dd>Sintaks untuk menulis kode berbasis promise tanpa rantai <code>then</code>. Fungsi async selalu mengembalikan promise.</dd></div>
+          <div><dt>BigInt</dt><dd>Primitive integer dengan presisi arbitrer. Ditulis dengan akhiran <code>n</code>, misalnya <code>10n</code>. Tidak bisa dicampur dengan Number dalam aritmetika.</dd></div>
+          <div><dt>Call stack</dt><dd>Tumpukan fungsi yang sedang dieksekusi. JavaScript menjalankan satu frame pada satu waktu.</dd></div>
+          <div><dt>Closure</dt><dd>Fungsi yang mengakses variabel dari lingkup luar setelah lingkup itu selesai. Dipakai untuk state privat dan callback.</dd></div>
+          <div><dt>CORS</dt><dd>Aturan browser yang membatasi request lintas origin. Server harus mengirim header izin yang sesuai.</dd></div>
+          <div><dt>Discriminated union</dt><dd>Union beberapa bentuk object dengan properti penanda literal, misalnya <code>kind</code> atau <code>status</code>.</dd></div>
+          <div><dt>ESM</dt><dd>ECMAScript Module, standar <code>import</code> dan <code>export</code> yang dipakai browser, Node, dan Next.js.</dd></div>
+          <div><dt>Event loop</dt><dd>Mekanisme yang mengambil callback dari antrean dan memasukkannya ke call stack saat stack kosong.</dd></div>
+          <div><dt>fetch</dt><dd>API HTTP berbasis promise. Hanya reject saat gagal jaringan atau pembatalan, bukan saat status 4xx atau 5xx.</dd></div>
+          <div><dt>Floating point</dt><dd>Representasi angka pecahan dengan mantissa dan eksponen. Tidak semua desimal bisa disimpan tepat.</dd></div>
+          <div><dt>Generic</dt><dd>Parameter tipe yang membuat fungsi atau tipe bisa dipakai untuk banyak tipe tanpa kehilangan informasi.</dd></div>
+          <div><dt>Git</dt><dd>Sistem version control terdistribusi yang mencatat snapshot file sebagai commit.</dd></div>
+          <div><dt>GitHub</dt><dd>Hosting repository Git dengan pull request, issue, review, Actions, dan fitur kolaborasi lain.</dd></div>
+          <div><dt>Heap</dt><dd>Area memori tempat object dan nilai dinamis disimpan.</dd></div>
+          <div><dt>HTTP status</dt><dd>Kode tiga digit yang merangkum hasil request. 2xx sukses, 4xx kesalahan pemanggil, 5xx kesalahan server.</dd></div>
+          <div><dt>Index (Git)</dt><dd>Staging area. Isi index yang menjadi bahan commit berikutnya.</dd></div>
+          <div><dt>Instanceof</dt><dd>Operator untuk memeriksa apakah object dibuat oleh constructor tertentu. Tidak bekerja untuk primitive.</dd></div>
+          <div><dt>Interface</dt><dd>Cara mendeskripsikan bentuk object di TypeScript. Bisa di-extends dan digabung deklarasi.</dd></div>
+          <div><dt>JSON</dt><dd>Format pertukaran data berbasis teks. Hanya mendukung object, array, string, number, boolean, dan null.</dd></div>
+          <div><dt>JSON.parse</dt><dd>Mengubah string JSON menjadi nilai JavaScript. Melempar SyntaxError bila input tidak valid.</dd></div>
+          <div><dt>JSON.stringify</dt><dd>Mengubah nilai JavaScript menjadi string JSON. BigInt melempar TypeError.</dd></div>
+          <div><dt>Literal type</dt><dd>Tipe yang hanya mengizinkan nilai spesifik, misalnya <code>"native"</code> atau <code>11155111</code>.</dd></div>
+          <div><dt>Microtask</dt><dd>Antrean berprioritas tinggi untuk callback promise dan <code>queueMicrotask</code>. Dikuras sebelum macrotask.</dd></div>
+          <div><dt>Module</dt><dd>File yang punya lingkup sendiri dan mengekspor nilai lewat <code>export</code>.</dd></div>
+          <div><dt>Narrowing</dt><dd>Proses TypeScript mempersempit tipe union berdasarkan pemeriksaan runtime.</dd></div>
+          <div><dt>Node.js</dt><dd>Runtime JavaScript di luar browser, dipakai untuk server, tooling, dan build.</dd></div>
+          <div><dt>Number</dt><dd>Tipe angka JavaScript berbasis floating point 64 bit. Integer aman sampai 2^53 - 1.</dd></div>
+          <div><dt>parseUnits</dt><dd>Konversi string desimal ke integer unit terkecil. Di Viem dan ethers, fungsi ini menangani desimal token.</dd></div>
+          <div><dt>Promise</dt><dd>Object yang mewakili hasil async dengan tiga keadaan: pending, fulfilled, rejected.</dd></div>
+          <div><dt>Pull request</dt><dd>Permintaan menggabungkan perubahan dari satu branch ke branch lain, disertai diskusi dan review.</dd></div>
+          <div><dt>Runtime</dt><dd>Lingkungan yang menjalankan kode, misalnya browser atau Node. Menentukan API yang tersedia.</dd></div>
+          <div><dt>Staging area</dt><dd>Tempat menyiapkan perubahan sebelum commit. Diisi dengan <code>git add</code>.</dd></div>
+          <div><dt>Type guard</dt><dd>Fungsi yang memeriksa bentuk nilai dan mempersempit tipenya, biasanya dengan predikat <code>value is T</code>.</dd></div>
+          <div><dt>TypeScript</dt><dd>Superset JavaScript dengan pemeriksaan tipe statis yang dihapus saat compile.</dd></div>
+          <div><dt>unknown</dt><dd>Tipe aman untuk nilai yang belum diketahui. Harus dipersempit sebelum dipakai.</dd></div>
+          <div><dt>wei</dt><dd>Satuan terkecil ETH. 1 ETH = 10^18 wei.</dd></div>
+          <div><dt>Working tree</dt><dd>File yang sedang kamu edit di disk, sebelum masuk staging.</dd></div>
+        </dl>
+
+        <h3>Cheatsheet JavaScript</h3>
+        <div class="cheat-grid">
+          <div>
+            <h3>Array</h3>
+            <ul>
+              <li><code>map</code>: array baru, panjang sama.</li>
+              <li><code>filter</code>: array baru, sebagian item.</li>
+              <li><code>reduce</code>: satu nilai, butuh nilai awal.</li>
+              <li><code>find</code>: satu item atau undefined.</li>
+              <li><code>some</code> / <code>every</code>: boolean.</li>
+              <li><code>sort</code>: memutasi, wajib comparator.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Async</h3>
+            <ul>
+              <li><code>Promise.all</code>: semua wajib sukses.</li>
+              <li><code>allSettled</code>: tunggu semua, boleh gagal.</li>
+              <li><code>race</code>: yang pertama selesai.</li>
+              <li><code>any</code>: yang pertama sukses.</li>
+              <li>Microtask sebelum macrotask.</li>
+              <li><code>AbortController</code> untuk membatalkan.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Angka</h3>
+            <ul>
+              <li><code>0.1 + 0.2 !== 0.3</code>.</li>
+              <li><code>Number.MAX_SAFE_INTEGER</code> = 2^53 - 1.</li>
+              <li>Uang: integer atau BigInt.</li>
+              <li>1 ETH = 10^18 wei.</li>
+              <li>JSON: BigInt harus string.</li>
+              <li>Jangan campur BigInt dan Number.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>TypeScript</h3>
+            <ul>
+              <li><code>unknown</code> harus dipersempit.</li>
+              <li><code>any</code> mematikan pemeriksaan.</li>
+              <li><code>never</code> untuk cabang mustahil.</li>
+              <li><code>Pick</code> memilih, <code>Omit</code> membuang.</li>
+              <li><code>Partial</code> membuat opsional.</li>
+              <li><code>satisfies</code> memeriksa tanpa melebarkan.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Cheatsheet Git</h3>
+        <div class="code-block">
+          <div class="code-head"><span>perintah harian</span><button class="copy-btn" type="button" data-copy-target="code-cheat-git">Salin</button></div>
+          <pre><code id="code-cheat-git" data-lang="bash">git status                 # apa yang berubah
+git diff                   # perubahan belum di-stage
+git diff --staged          # perubahan di staging
+git add file               # pilih file
+git add .                  # semua yang tidak di-ignore
+git commit -m "pesan"      # snapshot dari staging
+git log --oneline          # riwayat singkat
+git switch -c nama-branch  # branch baru
+git switch main            # pindah branch
+git merge nama-branch      # gabungkan
+git restore file           # buang perubahan working tree
+git restore --staged file  # keluarkan dari staging
+git revert hash            # commit pembatalan
+git stash / git stash pop  # simpan sementara</code></pre>
+        </div>
+
+        <h3>Cheatsheet API</h3>
+        <ul>
+          <li>Periksa <code>response.ok</code> sebelum membaca body sebagai sukses.</li>
+          <li>Baca <code>content-type</code> sebelum memanggil <code>json()</code>.</li>
+          <li>Body response hanya bisa dibaca sekali.</li>
+          <li>429: baca <code>Retry-After</code>, jangan retry agresif.</li>
+          <li>401: login ulang, jangan retry buta.</li>
+          <li>5xx: retry terbatas dengan backoff.</li>
+          <li>Jangan taruh secret di URL atau kode client.</li>
+          <li>Validasi bentuk data saat runtime.</li>
+        </ul>
+
+        <h3>Alur satu request</h3>
+        <ol>
+          <li>Komponen memanggil fungsi fetch dengan signal.</li>
+          <li>State berubah menjadi loading.</li>
+          <li>Server membalas status, header, dan body.</li>
+          <li>Klien memeriksa status dan content-type.</li>
+          <li>Body di-parse, divalidasi, dan diubah ke BigInt bila perlu.</li>
+          <li>State berubah menjadi success, empty, atau error.</li>
+          <li>Cleanup membatalkan request yang tidak lagi dipakai.</li>
+        </ol>
+      </section>
+
+      <section class="chapter" id="sumber" data-title="Sumber belajar">
+        <header class="chapter-head">
+          <p class="chapter-mark">Rujukan</p>
+          <h2>Sumber belajar.</h2>
+          <p class="chapter-lead">Dokumentasi resmi dan standar untuk memeriksa detail yang berubah. Buka tautan di tab baru.</p>
+        </header>
+
+        <ul class="sources">
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer">MDN: JavaScript</a><span>Referensi bahasa, tipe, array, promise, dan event loop.</span></li>
+          <li><a href="https://javascript.info/" target="_blank" rel="noopener noreferrer">javascript.info</a><span>Penjelasan bertahap tentang closure, promise, async, dan modul.</span></li>
+          <li><a href="https://tc39.es/ecma262/" target="_blank" rel="noopener noreferrer">ECMAScript specification</a><span>Spesifikasi resmi bila perilaku bahasa dipertanyakan.</span></li>
+          <li><a href="https://www.typescriptlang.org/docs/handbook/intro.html" target="_blank" rel="noopener noreferrer">TypeScript Handbook</a><span>Tipe dasar, narrowing, generic, dan utility type.</span></li>
+          <li><a href="https://www.typescriptlang.org/tsconfig/" target="_blank" rel="noopener noreferrer">TypeScript tsconfig reference</a><span>Strict mode, target, module resolution, dan paths.</span></li>
+          <li><a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">Next.js documentation</a><span>App Router, server dan client component, route handler.</span></li>
+          <li><a href="https://react.dev/learn" target="_blank" rel="noopener noreferrer">React: Learn</a><span>State, effect, cleanup, dan pola komponen.</span></li>
+          <li><a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer">Pro Git book</a><span>Model Git, branch, merge, dan riwayat.</span></li>
+          <li><a href="https://docs.github.com/en" target="_blank" rel="noopener noreferrer">GitHub Docs</a><span>Remote, pull request, review, Actions, dan secret.</span></li>
+          <li><a href="https://www.json.org/json-en.html" target="_blank" rel="noopener noreferrer">JSON specification</a><span>Aturan sintaks JSON yang valid.</span></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank" rel="noopener noreferrer">MDN: Fetch API</a><span>Request, response, header, CORS, dan abort.</span></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt" target="_blank" rel="noopener noreferrer">MDN: BigInt</a><span>Literal, operasi, konversi, dan batasannya.</span></li>
+          <li><a href="https://ethereum.org/en/developers/docs/intro-to-ether/" target="_blank" rel="noopener noreferrer">Ethereum: Intro to Ether</a><span>ETH, wei, dan satuan nilai.</span></li>
+          <li><a href="https://viem.sh/docs/utilities/parseUnits" target="_blank" rel="noopener noreferrer">Viem: parseUnits</a><span>Implementasi produksi konversi unit token.</span></li>
+        </ul>
+
+        <aside class="note">
+          <span class="note-label">Catatan sumber</span>
+          <p>Materi di docs ini ditulis ulang untuk pembelajaran, bukan salinan resmi. Kalau ada perbedaan antara docs ini dan dokumentasi resmi, dokumentasi resmi yang berlaku. Periksa versi library yang kamu pasang.</p>
+        </aside>
+      </section>
+
+      <footer class="site-footer">
+        <p><strong>Pondasi</strong> adalah docs belajar mandiri untuk tahap 1. Materi ditulis ulang dengan contoh lokal, bukan salinan dokumentasi resmi.</p>
+        <p>Setelah selesai, lanjut ke <a href="../docs/">fondasi blockchain dan Web3</a>. Selalu periksa dokumentasi versi terbaru sebelum dipakai di produksi.</p>
+      </footer>
+    </main>
+
+    <aside class="toc" aria-label="Di halaman ini">
+      <p class="toc-title">Di halaman ini</p>
+      <nav class="toc-nav" id="toc-nav"></nav>
+      <a class="toc-top" href="#mulai">Kembali ke atas</a>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>

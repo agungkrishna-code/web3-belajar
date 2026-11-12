@@ -2,7 +2,7 @@
 
 Docs web statis untuk tahap 5: Next.js, TypeScript, Wagmi, Viem, MetaMask, dan kontrak Solidity dari sisi antarmuka. Materi berbahasa Indonesia, berjalan lokal, dan tidak mengirim data ke mana pun.
 
-Ini lanjutan dari [docs fondasi Web3](../docs/), [docs Solidity](../solidity/), dan [docs tooling](../tools/).
+Ini lanjutan dari [docs fondasi Web3](../docs/), [docs Solidity](../solidity/), dan [docs tooling](../tools/). Tahap berikutnya ada di [docs deploy ke Sepolia](../deploy/).
 
 ## Menjalankan
 

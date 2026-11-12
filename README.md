@@ -1,17 +1,19 @@
 # Buku Besar
 
-Empat docs web statis berbahasa Indonesia untuk belajar Web3, dari fondasi sampai frontend yang terhubung ke wallet. Semua materi berjalan di browser, tanpa akun, tanpa server, dan tanpa wallet yang terhubung. Progres belajar disimpan di `localStorage` perangkat.
+Enam docs web statis berbahasa Indonesia untuk belajar Web3, dari fondasi pemrograman sampai deploy dApp ke testnet. Semua materi berjalan di browser, tanpa akun, tanpa server, dan tanpa wallet yang terhubung. Progres belajar disimpan di `localStorage` perangkat.
 
 ## Isi
 
 | Folder | Topik | Ukuran |
 | --- | --- | --- |
+| [`fundamentals/`](fundamentals/) | Fondasi pemrograman: JavaScript, TypeScript, async/await, JSON dan API, Git, BigInt | 17 bab, 13 lab, 1 proyek Next.js, 20 soal |
 | [`docs/`](docs/) | Fondasi blockchain dan Web3: 10 konsep dasar, Web2 vs Web3, studi kasus wallet | 13 bab, 10 lab, 15 soal |
 | [`solidity/`](solidity/) | Solidity, EVM, ERC-20/721/1155, OpenZeppelin, deploy | 20 bab, 11 lab, 5 proyek, 20 soal |
 | [`tools/`](tools/) | Foundry, Remix, test, fuzz, invariant, Anvil, Cast, fork test | 20 bab, 13 lab, proyek MiniVault, 20 soal |
 | [`nextjs/`](nextjs/) | Next.js, TypeScript, Wagmi, Viem, MetaMask, frontend dApp | 17 bab, 12 lab, proyek MiniVault dApp, 20 soal |
+| [`deploy/`](deploy/) | RPC, Sepolia, faucet, deploy, verifikasi, gas, explorer, frontend testnet | 20 bab, 13 lab, proyek MiniVault ke Sepolia, 20 soal |
 
-`index.html` di root adalah halaman indeks yang menautkan keempatnya.
+`index.html` di root adalah halaman indeks yang menautkan keenamnya.
 
 ## Menjalankan lokal
 
@@ -34,13 +36,15 @@ npx serve .
 ```text
 .
 ├── index.html        halaman indeks
+├── fundamentals/     docs fondasi pemrograman
 ├── docs/             docs fondasi Web3
 ├── solidity/         docs Solidity
 ├── tools/            docs tooling smart contract
-└── nextjs/           docs frontend Web3
+├── nextjs/           docs frontend Web3
+└── deploy/           docs deploy dApp ke Sepolia testnet
 ```
 
-Setiap folder berisi `index.html`, `styles.css`, `app.js`, dan `README.md` sendiri. Folder `docs/` juga punya `DESIGN.md` yang menjelaskan arah desain.
+Setiap folder berisi `index.html`, `styles.css`, `app.js`, dan `README.md` sendiri. Folder `docs/`, `deploy/`, dan `fundamentals/` juga punya `DESIGN.md` yang menjelaskan arah desain.
 
 ## Catatan teknis
 
