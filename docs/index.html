@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buku Besar: Fondasi Blockchain dan Web3</title>
+  <meta name="description" content="Docs belajar blockchain dan Web3 untuk pemula: 10 konsep dasar, lab interaktif, perbandingan Web2 dan Web3, serta uji kompetensi. Bahasa Indonesia.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23145c43'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='24' fill='%23f4f5f0' text-anchor='middle'%3EBB%3C/text%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("bukubesar.theme");
+        var saved = raw;
+        try { saved = JSON.parse(raw); } catch (parseError) {}
+        if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#konten">Lewati ke konten</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#mulai" aria-label="Buku Besar, kembali ke awal">
+        <span class="brand-mark" aria-hidden="true">BB</span>
+        <span class="brand-text">
+          <strong>Buku Besar</strong>
+          <span>Catatan belajar Web3</span>
+        </span>
+      </a>
+
+      <div class="header-tools">
+        <div class="search" role="search">
+          <label class="sr-only" for="search-input">Cari materi di docs ini</label>
+          <input id="search-input" type="search" placeholder="Cari materi" autocomplete="off" aria-expanded="false" aria-controls="search-results">
+          <div class="search-results" id="search-results" hidden></div>
+        </div>
+
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Ganti ke mode gelap">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="btn-label" id="theme-label">Mode gelap</span>
+        </button>
+
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Buka daftar bab" aria-controls="sidebar" aria-expanded="false">
+          <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false">
+            <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="1.6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navigasi materi">
+      <span class="sidebar-kicker">Tahap 2 / Minggu 3</span>
+      <p class="sidebar-title">Fondasi Web3</p>
+
+      <div class="progress-block">
+        <div class="progress-label">
+          <span>Progres belajar</span>
+          <span id="progress-text">0 dari 13</span>
+        </div>
+        <div class="progress-track" id="progress-track" role="progressbar" aria-label="Progres belajar" aria-valuemin="0" aria-valuemax="13" aria-valuenow="0">
+          <span class="progress-fill" id="progress-fill"></span>
+        </div>
+      </div>
+
+      <nav class="chapter-nav" aria-label="Daftar bab">
+        <p class="nav-group">Orientasi</p>
+        <a class="nav-link" href="#mulai" data-nav="mulai">
+          <span class="nav-num" aria-hidden="true">00</span>
+          <span class="nav-label">Mulai di sini</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#peta" data-nav="peta">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Peta kurikulum</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#cara-pakai" data-nav="cara-pakai">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Cara pakai docs</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Fondasi</p>
+        <a class="nav-link" href="#blockchain" data-nav="blockchain">
+          <span class="nav-num" aria-hidden="true">01</span>
+          <span class="nav-label">Apa itu blockchain</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#jaringan" data-nav="jaringan">
+          <span class="nav-num" aria-hidden="true">02</span>
+          <span class="nav-label">Ledger dan jaringan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#kunci" data-nav="kunci">
+          <span class="nav-num" aria-hidden="true">03</span>
+          <span class="nav-label">Public dan private key</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#wallet" data-nav="wallet">
+          <span class="nav-num" aria-hidden="true">04</span>
+          <span class="nav-label">Wallet dan signature</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#hashing" data-nav="hashing">
+          <span class="nav-num" aria-hidden="true">05</span>
+          <span class="nav-label">Hashing dan kriptografi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#transaksi" data-nav="transaksi">
+          <span class="nav-num" aria-hidden="true">06</span>
+          <span class="nav-label">Transaksi dan blok</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#gas" data-nav="gas">
+          <span class="nav-num" aria-hidden="true">07</span>
+          <span class="nav-label">Gas fee</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#konsensus" data-nav="konsensus">
+          <span class="nav-num" aria-hidden="true">08</span>
+          <span class="nav-label">Consensus mechanism</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#node-rpc" data-nav="node-rpc">
+          <span class="nav-num" aria-hidden="true">09</span>
+          <span class="nav-label">Node dan RPC</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#layer" data-nav="layer">
+          <span class="nav-num" aria-hidden="true">10</span>
+          <span class="nav-label">Layer 1 dan Layer 2</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Jembatan</p>
+        <a class="nav-link" href="#web2-web3" data-nav="web2-web3">
+          <span class="nav-num" aria-hidden="true">11</span>
+          <span class="nav-label">Web2 vs Web3</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#studi-kasus" data-nav="studi-kasus">
+          <span class="nav-num" aria-hidden="true">12</span>
+          <span class="nav-label">Studi kasus wallet</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Latihan</p>
+        <a class="nav-link" href="#uji" data-nav="uji">
+          <span class="nav-num" aria-hidden="true">13</span>
+          <span class="nav-label">Uji kompetensi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#glosarium" data-nav="glosarium">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Glosarium dan cheatsheet</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#sumber" data-nav="sumber">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Sumber belajar</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <p>Semua lab berjalan di browser ini. Tidak ada wallet yang terhubung dan tidak ada data lab yang dikirim.</p>
+        <p>Progres disimpan di penyimpanan lokal perangkatmu.</p>
+        <p><a href="../solidity/">Lanjut ke Tahap 3: Solidity dan EVM</a></p>
+        <p><a href="../tools/">Lanjut ke Tahap 4: Foundry, Remix, dan OpenZeppelin</a></p>
+      </div>
+    </aside>
+
+    <div class="scrim" data-close-nav aria-hidden="true"></div>
+
+    <main class="content" id="konten" tabindex="-1">
+      <section class="hero" id="mulai" data-title="Mulai di sini">
+        <div class="hero-copy">
+          <p class="chapter-mark">Tahap 2 / Minggu 3 / Fondasi Web3</p>
+          <h1>Blockchain bukan sulap. Ini buku besar yang dijaga bersama.</h1>
+          <p class="hero-lead">Sebelum menulis smart contract, kamu perlu tahu apa yang sebenarnya terjadi saat sebuah transaksi disetujui. Docs ini menjelaskan sepuluh konsep dasar Web3 dengan bahasa sehari-hari, diagram, dan lab yang bisa langsung dicoba.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#blockchain">Mulai Bab 01</a>
+            <a class="btn btn-quiet" href="#peta">Lihat peta kurikulum</a>
+          </div>
+          <p class="hero-note">13 bab, 10 lab interaktif, 15 soal uji kompetensi. Tanpa akun, tanpa wallet, tanpa data lab yang dikirim.</p>
+        </div>
+
+        <div class="hash-instrument" aria-labelledby="inst-title">
+          <div class="inst-head">
+            <h2 class="inst-title" id="inst-title">Coba sekarang: hash</h2>
+            <span class="inst-tag">SHA-256, lokal</span>
+          </div>
+          <div class="hash-field">
+            <label for="hero-hash-input">Teks apa pun</label>
+            <input id="hero-hash-input" type="text" value="blockchain" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="hash-output" id="hero-hash-output" aria-live="polite">
+            <span class="hash-label">Hasil hash</span>
+          </div>
+          <div class="hash-actions">
+            <button class="btn btn-quiet btn-small" id="hero-hash-mutate" type="button">Ubah satu karakter</button>
+            <button class="btn btn-quiet btn-small" id="hero-hash-copy" type="button">Salin hash</button>
+          </div>
+          <p class="inst-note">Ubah satu huruf dan seluruh hasil berubah. Ethereum memakai Keccak-256, bukan SHA-256. Bedanya dibahas di Bab 05.</p>
+        </div>
+      </section>
+
+      <section class="home-block" id="peta" data-title="Peta kurikulum">
+        <h2>Sepuluh konsep, satu urutan yang masuk akal.</h2>
+        <p class="block-lead">Bab disusun mengikuti cara kerja jaringan: dari blok dan akun, sampai biaya, konsensus, dan lapisan di atasnya. Kamu bisa melompat, tetapi urutan ini paling sedikit membuat kepala pusing.</p>
+        <ol class="curriculum">
+          <li><a href="#blockchain"><span class="curr-num">01</span><span><span class="curr-title">Apa itu blockchain</span><span class="curr-desc">Buku besar, blok, hash, dan batas kemampuannya.</span></span></a></li>
+          <li><a href="#jaringan"><span class="curr-num">02</span><span><span class="curr-title">Distributed ledger dan jaringan</span><span class="curr-desc">Salinan banyak node, gossip, dan spektrum desentralisasi.</span></span></a></li>
+          <li><a href="#kunci"><span class="curr-num">03</span><span><span class="curr-title">Public key dan private key</span><span class="curr-desc">Pasangan kunci, alamat, seed phrase, dan kesalahan fatal.</span></span></a></li>
+          <li><a href="#wallet"><span class="curr-num">04</span><span><span class="curr-title">Wallet dan digital signature</span><span class="curr-desc">Apa yang sebenarnya kamu setujui saat menandatangani.</span></span></a></li>
+          <li><a href="#hashing"><span class="curr-num">05</span><span><span class="curr-title">Hashing dan kriptografi</span><span class="curr-desc">Sidik jari data, avalanche effect, dan Merkle tree.</span></span></a></li>
+          <li><a href="#transaksi"><span class="curr-num">06</span><span><span class="curr-title">Transaksi dan block</span><span class="curr-desc">Anatomi transaksi, mempool, konfirmasi, dan reorg.</span></span></a></li>
+          <li><a href="#gas"><span class="curr-num">07</span><span><span class="curr-title">Gas fee</span><span class="curr-desc">Harga komputasi, EIP-1559, dan biaya transaksi gagal.</span></span></a></li>
+          <li><a href="#konsensus"><span class="curr-num">08</span><span><span class="curr-title">Consensus mechanism</span><span class="curr-desc">PoW, PoS, finality, dan serangan 51 persen.</span></span></a></li>
+          <li><a href="#node-rpc"><span class="curr-num">09</span><span><span class="curr-title">Node dan RPC</span><span class="curr-desc">Pintu bertanya ke jaringan, read, write, dan penandatangan.</span></span></a></li>
+          <li><a href="#layer"><span class="curr-num">10</span><span><span class="curr-title">Layer 1 dan Layer 2</span><span class="curr-desc">Rollup, sidechain, biaya, dan risiko bridge.</span></span></a></li>
+        </ol>
+        <aside class="note">
+          <span class="note-label">Cakupan minggu 3</span>
+          <p>Sepuluh poin di silabusmu ada di Bab 01 sampai 10. Bab 11 merangkum perbedaan Web2 dan Web3, lalu Bab 12 menghubungkan semuanya ke proyek wallet yang sudah ada di folder ini.</p>
+        </aside>
+      </section>
+
+      <section class="home-block" id="cara-pakai" data-title="Cara pakai docs">
+        <h2>Cara memakai docs ini.</h2>
+        <p class="block-lead">Tidak perlu menghafal. Yang penting kamu bisa menjelaskan ulang dengan kata-katamu sendiri dan tahu ke mana harus mencari saat lupa.</p>
+        <ul class="usage-list">
+          <li>
+            <h3>Baca satu ide besar</h3>
+            <p>Setiap bab punya satu gagasan utama dan beberapa istilah. Berhenti setelah bisa menjelaskan gagasan itu tanpa membuka catatan.</p>
+          </li>
+          <li>
+            <h3>Kerjakan lab</h3>
+            <p>Lab menghitung hal nyata di browser. Tidak ada wallet, tidak ada dana, dan tidak ada data yang keluar dari perangkatmu.</p>
+          </li>
+          <li>
+            <h3>Tandai dan uji</h3>
+            <p>Tekan tombol selesai di akhir bab. Setelah semua bab, kerjakan 15 soal. Progres dan skor terbaik tersimpan lokal.</p>
+          </li>
+        </ul>
+
+        <h3>Setelah selesai, kamu bisa:</h3>
+        <ul class="outcomes">
+          <li>Membedakan public key, private key, alamat, dan wallet tanpa mencampurnya.</li>
+          <li>Membaca transaksi di block explorer dan tahu bagian mana yang dibayar.</li>
+          <li>Menghitung biaya gas maksimum sebelum menekan konfirmasi.</li>
+          <li>Memilih kapan data masuk on-chain dan kapan tetap di database.</li>
+          <li>Menjelaskan alur request dari halaman web sampai validator.</li>
+          <li>Mengenali klaim Web3 yang tidak masuk akal atau terlalu mahal.</li>
+          <li>Menjelaskan kenapa tanda tangan wallet bukan sekadar login biasa.</li>
+          <li>Membaca dokumentasi teknis Ethereum tanpa panik.</li>
+        </ul>
+      </section>
+
+      <section class="chapter" id="blockchain" data-chapter="blockchain" data-track="true" data-title="Apa itu blockchain">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 01</p>
+          <h2>Apa itu blockchain?</h2>
+          <p class="chapter-lead">Blockchain adalah buku besar yang disimpan banyak komputer, di mana setiap halaman baru mengunci halaman sebelumnya. Kalau satu angka diubah, semua kunci setelahnya patah.</p>
+          <ul class="goals">
+            <li>Menjelaskan blockchain tanpa memakai kata "revolusioner".</li>
+            <li>Menyebut empat bagian yang selalu ada: transaksi, blok, hash, dan konsensus.</li>
+            <li>Memahami kenapa riwayat lama sulit diubah, tetapi bukan mustahil.</li>
+            <li>Mengenali hal yang tidak dijamin oleh blockchain.</li>
+          </ul>
+        </header>
+
+        <h3>Buku besar, bukan database biasa</h3>
+        <p>Database biasa menyimpan keadaan terkini. Kalau kamu mengubah saldo di database, baris lama bisa hilang dan tidak ada yang tahu. Blockchain menyimpan riwayat perubahan yang sudah disepakati. Setiap komputer yang menyimpan salinan bisa memeriksa apakah riwayat itu masih konsisten.</p>
+        <p>Setiap kumpulan transaksi dibungkus menjadi <strong>blok</strong>. Blok baru menyimpan sidik jari (<strong>hash</strong>) blok sebelumnya. Karena sidik jari itu ikut berubah kalau isi blok lama berubah, blok-blok membentuk rantai yang saling mengunci. Itulah asal nama <em>blockchain</em>.</p>
+
+        <div class="definition">
+          <strong>Definisi kerja:</strong> blockchain adalah urutan blok yang saling terhubung oleh hash, disimpan dan divalidasi oleh banyak node, lalu diperbarui mengikuti aturan konsensus yang sama.
+        </div>
+
+        <h3>Empat bagian yang selalu ada</h3>
+        <ul>
+          <li><strong>Transaksi:</strong> instruksi bertanda tangan, misalnya "kirim 0,5 ETH ke alamat ini" atau "panggil fungsi kontrak dengan data ini".</li>
+          <li><strong>Blok:</strong> paket transaksi yang disepakati untuk ditambahkan pada urutan. Satu blok punya nomor, waktu, dan batas ukuran.</li>
+          <li><strong>Hash:</strong> sidik jari data. Fungsinya mengunci isi blok dan memungkinkan komputer lain memeriksa perubahan dengan cepat.</li>
+          <li><strong>Konsensus dan node:</strong> aturan dan komputer yang memutuskan blok mana yang sah. Tanpa ini, rantai hanya file lokal yang bisa disunting siapa saja.</li>
+        </ul>
+
+        <div class="diagram">
+          <svg viewBox="0 0 720 210" role="img" aria-labelledby="chain-title chain-desc">
+            <title id="chain-title">Tiga blok yang saling terhubung oleh hash</title>
+            <desc id="chain-desc">Blok 11 punya hash 9f2c. Blok 12 menyimpan prev 9f2c dan punya hash 00a1. Blok 13 menyimpan prev 00a1 dan punya hash 3d7e.</desc>
+            <rect class="svg-box" x="14" y="30" width="204" height="144" rx="2"></rect>
+            <text class="svg-label" x="30" y="56">Blok 11</text>
+            <text class="svg-small" x="30" y="82">3 transaksi</text>
+            <text class="svg-small" x="30" y="104">hash: 9f2c...</text>
+            <text class="svg-small" x="30" y="126">prev: 71be...</text>
+            <text class="svg-small" x="30" y="148">waktu: 12:00</text>
+
+            <rect class="svg-box" x="258" y="30" width="204" height="144" rx="2"></rect>
+            <text class="svg-label" x="274" y="56">Blok 12</text>
+            <text class="svg-small" x="274" y="82">5 transaksi</text>
+            <text class="svg-small" x="274" y="104">hash: 00a1...</text>
+            <text class="svg-small" x="274" y="126">prev: 9f2c...</text>
+            <text class="svg-small" x="274" y="148">waktu: 12:12</text>
+
+            <rect class="svg-box-accent svg-box" x="502" y="30" width="204" height="144" rx="2"></rect>
+            <text class="svg-label" x="518" y="56">Blok 13</text>
+            <text class="svg-small" x="518" y="82">2 transaksi</text>
+            <text class="svg-small" x="518" y="104">hash: 3d7e...</text>
+            <text class="svg-small" x="518" y="126">prev: 00a1...</text>
+            <text class="svg-small" x="518" y="148">waktu: 12:24</text>
+
+            <line class="svg-arrow" x1="220" y1="102" x2="250" y2="102"></line>
+            <path class="svg-arrow-head" d="M250 102l-7 -4v8z"></path>
+            <line class="svg-arrow" x1="464" y1="102" x2="494" y2="102"></line>
+            <path class="svg-arrow-head" d="M494 102l-7 -4v8z"></path>
+          </svg>
+          <p class="diagram-caption">Blok 13 menyimpan hash Blok 12. Kalau isi Blok 12 berubah, hash-nya berubah, dan tautan dari Blok 13 tidak lagi cocok. Ilustrasi angka, bukan data jaringan nyata.</p>
+        </div>
+
+        <h3>Kenapa data lama sulit diubah</h3>
+        <p>Bayangkan kamu mengubah satu transaksi di Blok 12. Hash Blok 12 langsung berubah. Blok 13 masih menyimpan hash lama, jadi Blok 13 menjadi tidak sah. Kalau kamu ingin menutup jejak, kamu harus menambang ulang Blok 12, Blok 13, dan semua blok setelahnya, lalu meyakinkan mayoritas jaringan untuk menerima versi barumu.</p>
+        <p>Itu bukan pekerjaan mustahil. Serangan 51 persen, bug konsensus, dan kesepakatan sosial bisa mengubah riwayat. Tetapi biayanya besar dan jejaknya terlihat. Klaim yang benar bukan "tidak bisa diubah", melainkan "sangat mahal untuk diubah tanpa diketahui".</p>
+
+        <h3>Apa yang blockchain tidak janjikan</h3>
+        <ul>
+          <li><strong>Bukan otomatis privat.</strong> Alamat bersifat pseudonim, bukan anonim. Semua transaksi bisa dibaca siapa saja.</li>
+          <li><strong>Bukan otomatis gratis.</strong> Menulis state ke jaringan membutuhkan biaya komputasi yang disebut gas.</li>
+          <li><strong>Bukan tempat semua data.</strong> Menyimpan foto, video, atau data pribadi on-chain mahal dan sering kali tidak pantas.</li>
+          <li><strong>Bukan jaminan bebas bug.</strong> Smart contract bisa salah, dapat dieksploitasi, atau memiliki admin key.</li>
+          <li><strong>Bukan jaminan data dunia nyata benar.</strong> Kalau oracle memasukkan harga yang salah, jaringan bisa sepakat pada angka yang salah.</li>
+        </ul>
+
+        <aside class="note">
+          <span class="note-label">Inti bab</span>
+          <p>Blockchain menjamin integritas riwayat yang sudah ditulis dan disepakati. Blockchain tidak menjamin bahwa isi dunia nyata benar, bahwa kode bebas bug, atau bahwa penggunanya terlindungi.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Jelaskan dengan kata-katamu sendiri: kenapa mengubah satu transaksi di blok lama memaksa mengubah semua blok setelahnya?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Karena setiap blok menyimpan hash blok sebelumnya. Mengubah isi satu blok mengubah hash-nya. Blok berikutnya masih menunjuk ke hash lama, sehingga tautannya tidak valid. Untuk membuat rantai baru yang konsisten, semua blok setelah titik perubahan harus dihitung ulang dan disepakati ulang oleh jaringan.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="jaringan" data-chapter="jaringan" data-track="true" data-title="Distributed ledger dan jaringan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 02</p>
+          <h2>Distributed ledger dan decentralized network.</h2>
+          <p class="chapter-lead">Satu server bisa mati atau dimatikan. Jaringan yang menyimpan salinan yang sama di banyak tempat tidak punya satu titik gagal, tetapi harus membayar ongkos koordinasi.</p>
+          <ul class="goals">
+            <li>Membedakan ledger terdistribusi dan blockchain.</li>
+            <li>Memahami desentralisasi sebagai spektrum, bukan tombol on/off.</li>
+            <li>Mengikuti perjalanan transaksi antar node.</li>
+            <li>Menyebut trade-off desentralisasi dengan jujur.</li>
+          </ul>
+        </header>
+
+        <h3>Ledger terdistribusi</h3>
+        <p><em>Ledger</em> adalah catatan transaksi. <em>Distributed ledger</em> berarti catatan itu disimpan dan dipelihara oleh beberapa pihak, bukan satu server pusat. Blockchain adalah salah satu jenis ledger terdistribusi: catatan disusun dalam blok, dan blok-blok itu diikat oleh hash.</p>
+        <p>Setiap <strong>full node</strong> menyimpan salinan dan memeriksa aturan yang sama. Saat ada transaksi baru, node memvalidasi lalu meneruskannya ke tetangga. Proses menyebarkan informasi dari mulut ke mulut ini disebut <strong>gossip</strong>. Tidak semua node menerima pada milidetik yang sama, tetapi protokol konsensus memastikan mereka akhirnya sepakat pada urutan yang sama.</p>
+
+        <h3>Desentralisasi bukan saklar</h3>
+        <p>Desentralisasi sering diukur dari tiga sisi yang berbeda:</p>
+        <ul>
+          <li><strong>Arsitektural:</strong> berapa banyak komputer yang menjalankan salinan, dan siapa yang bisa menjalankannya.</li>
+          <li><strong>Logis:</strong> berapa banyak tim atau organisasi independen yang mengendalikan perangkat lunak dan aturannya.</li>
+          <li><strong>Politik:</strong> siapa yang boleh mengusulkan perubahan aturan, dan seberapa sulit perubahan itu dilakukan.</li>
+        </ul>
+        <p>Sebuah jaringan bisa punya lima node yang semuanya dijalankan satu perusahaan. Secara arsitektur ia terdistribusi, tetapi secara politik ia tetap satu kendali. Sebaliknya, jaringan dengan banyak operator independen bisa tetap memakai klien dan aturan yang sama. Jangan menilai desentralisasi hanya dari jumlah node di dashboard.</p>
+
+        <h3>Perjalanan satu transaksi</h3>
+        <ol>
+          <li>Wallet membuat transaksi dan meminta tanda tanganmu.</li>
+          <li>Transaksi yang sudah ditandatangani dikirim ke node lewat RPC.</li>
+          <li>Node memeriksa tanda tangan, saldo, nonce, dan aturan biaya.</li>
+          <li>Transaksi valid masuk ke <strong>mempool</strong>, ruang tunggu lokal node.</li>
+          <li>Validator atau penambang memilih transaksi, menyusun blok, dan menyebarkannya.</li>
+          <li>Node lain memeriksa blok. Kalau sah, blok ditambahkan ke salinan mereka.</li>
+        </ol>
+        <p>Transaksi yang sudah masuk blok belum tentu final. Ia bisa berada di blok yang kemudian ditinggalkan dalam <em>reorg</em> kecil. Semakin banyak blok menumpuk di atasnya, semakin mahal membatalkannya.</p>
+
+        <h3>Ongkos desentralisasi</h3>
+        <p>Desentralisasi tidak gratis. Koordinasi antar node lebih lambat daripada satu database. Data harus disimpan berulang kali. Peningkatan protokol harus disepakati banyak pihak. Pengalaman pengguna menjadi lebih rumit karena pengguna harus memegang kunci dan memahami biaya.</p>
+        <p>Sistem terpusat bisa jauh lebih cepat dan murah, tetapi kamu harus percaya pada operatornya. Pilihan yang tepat bergantung pada siapa yang perlu memeriksa kebenaran data dan apa yang terjadi kalau operator berbohong.</p>
+
+        <div class="lab" id="lab-jaringan">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 01</p>
+            <h3>Matikan node satu per satu</h3>
+            <p>Lima node kecil menyimpan salinan yang sama. Matikan beberapa dan lihat apakah data masih bisa diakses.</p>
+          </div>
+          <div class="lab-body">
+            <p class="field-label" id="net-label">Status node</p>
+            <ul class="pill-list" id="net-nodes" aria-labelledby="net-label">
+              <li><button class="node-btn" type="button" data-node="1" aria-pressed="true"><span class="node-dot" aria-hidden="true"></span>Node 1</button></li>
+              <li><button class="node-btn" type="button" data-node="2" aria-pressed="true"><span class="node-dot" aria-hidden="true"></span>Node 2</button></li>
+              <li><button class="node-btn" type="button" data-node="3" aria-pressed="true"><span class="node-dot" aria-hidden="true"></span>Node 3</button></li>
+              <li><button class="node-btn" type="button" data-node="4" aria-pressed="true"><span class="node-dot" aria-hidden="true"></span>Node 4</button></li>
+              <li><button class="node-btn" type="button" data-node="5" aria-pressed="true"><span class="node-dot" aria-hidden="true"></span>Node 5</button></li>
+            </ul>
+            <div class="lab-actions">
+              <button class="btn btn-primary btn-small" id="net-access" type="button">Minta salinan buku besar</button>
+            </div>
+            <p class="status is-good" id="net-status" role="status" aria-live="polite">5 dari 5 node online. Salinan tersedia.</p>
+            <p class="readout" id="net-result" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <aside class="note">
+          <span class="note-label">Batas lab</span>
+          <p>Lab ini hanya lima node. Kalau kelimanya mati, salinan di lab hilang. Jaringan publik seperti Ethereum punya ribuan node independen. Selama masih ada satu salinan yang dapat diakses, data bisa diverifikasi. Kalau benar-benar semua salinan hilang, data juga hilang.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Sebuah startup bilang produknya "100 persen desentralisasi" karena memakai teknologi blockchain. Pertanyaan apa yang perlu kamu ajukan sebelum percaya?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Tanyakan siapa yang menjalankan node, siapa yang bisa mengubah kontrak atau aturan, apakah ada admin key, bagaimana upgrade diputuskan, dan apakah pengguna bisa memindahkan aset tanpa izin tim. Blockchain di belakang satu perusahaan bisa tetap terpusat secara logis dan politik.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="kunci" data-chapter="kunci" data-track="true" data-title="Public key dan private key">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 03</p>
+          <h2>Public key dan private key.</h2>
+          <p class="chapter-lead">Satu kunci untuk membuktikan, satu kunci untuk menjaga. Kamu tidak pernah membagikan yang kedua, dan tidak ada layanan pelanggan yang boleh memintanya.</p>
+          <ul class="goals">
+            <li>Menjelaskan peran private key, public key, dan address.</li>
+            <li>Memahami kenapa alamat aman dibagikan, sedangkan private key tidak.</li>
+            <li>Membedakan seed phrase, private key, dan akun wallet.</li>
+            <li>Mengenali pola penyimpanan kunci yang berbahaya.</li>
+          </ul>
+        </header>
+
+        <h3>Dua kunci, satu pasangan</h3>
+        <p>Kriptografi kunci publik memakai sepasang kunci yang dibuat bersamaan. <strong>Private key</strong> adalah angka rahasia yang sangat besar. Dari angka itu diturunkan <strong>public key</strong>, lalu dari public key diturunkan <strong>address</strong>.</p>
+        <p>Private key dipakai untuk menandatangani pesan. Public key dipakai untuk memverifikasi bahwa tanda tangan itu dibuat oleh pemilik private key yang sesuai. Kamu bisa membagikan public key dan address ke siapa saja. Kamu tidak boleh membagikan private key, bahkan kepada "admin" atau "support" yang mengaku dari wallet resmi.</p>
+
+        <div class="note">
+          <span class="note-label">Analogi yang berguna</span>
+          <p>Private key seperti cetakan kunci fisik. Public key seperti gembok yang bisa kamu bagikan. Orang lain bisa memasang pesan di dalam kotak dan mengunci dengan gembokmu, tetapi hanya kamu yang bisa membukanya. Untuk tanda tangan digital, arahnya sedikit berbeda: kamu yang menghasilkan bukti, orang lain yang memeriksa dengan public key.</p>
+        </div>
+
+        <h3>Alamat bukan kunci</h3>
+        <p>Address Ethereum adalah 20 byte terakhir dari hash Keccak-256 public key, ditulis dengan awalan <code>0x</code>. Panjangnya 42 karakter. Alamat adalah identitas publik yang aman dibagikan untuk menerima aset atau berinteraksi dengan kontrak.</p>
+        <p>Di Ethereum, public key biasanya tidak muncul di transaksi sehari-hari. Wallet menyimpan public key, lalu menurunkan address. Saat kamu menandatangani transaksi, signature memungkinkan node memulihkan public key dan memeriksa address yang sesuai. Itulah sebabnya address saja cukup untuk memverifikasi.</p>
+        <p>Huruf besar-kecil pada alamat Ethereum punya fungsi checksum. Kalau satu huruf diubah, checksum tidak cocok dan wallet yang baik akan menolak alamat itu. Selalu salin alamat utuh, jangan mengetik ulang dari layar.</p>
+
+        <h3>Kenapa 256 bit cukup</h3>
+        <p>Private key Ethereum adalah angka 256 bit. Ruang kemungkinannya sekitar 2 pangkat 256. Menebak secara acak tidak praktis dengan teknologi saat ini. Yang biasanya bocor bukan angkanya, melainkan cara penyimpanannya: screenshot, catatan cloud, clipboard, atau situs palsu yang meminta kamu menempelkan seed phrase.</p>
+        <p>Karena itu, kualitas keacakan juga penting. Jangan membuat private key dari kata sandi, tanggal lahir, atau potongan lagu. Pakai wallet yang menggunakan generator acak yang benar.</p>
+
+        <div class="lab" id="lab-kunci">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 02</p>
+            <h3>Buat pasangan kunci demo</h3>
+            <p>Kunci dibuat di browser ini memakai Web Crypto API. Tidak ada yang dikirim ke server. Ini demo konsep, bukan wallet untuk menyimpan dana.</p>
+          </div>
+          <div class="lab-body">
+            <div class="lab-actions">
+              <button class="btn btn-primary btn-small" id="key-generate" type="button">Buat pasangan kunci</button>
+              <button class="btn btn-quiet btn-small" id="key-clear" type="button">Hapus dari memori</button>
+            </div>
+            <p class="status" id="key-status" role="status" aria-live="polite">Belum ada kunci. Tekan tombol untuk memulai.</p>
+            <div id="key-output" hidden>
+              <p class="field-label">Public key dan fingerprint</p>
+              <p class="readout" id="key-public"></p>
+              <p class="readout" id="key-fingerprint"></p>
+              <div class="lab-actions">
+                <button class="btn btn-quiet btn-small" id="key-private-toggle" type="button" aria-expanded="false" aria-controls="key-private">Tampilkan private key demo</button>
+              </div>
+              <p class="readout" id="key-private" hidden></p>
+            </div>
+            <p class="inst-note">Demo ini memakai ECDSA P-256. Ethereum memakai secp256k1 dan Keccak-256. Konsepnya sama, tetapi kunci demo ini jangan dipakai untuk dompet sungguhan.</p>
+          </div>
+        </div>
+
+        <h3>Seed phrase, private key, dan wallet</h3>
+        <ul>
+          <li><strong>Seed phrase</strong> (12 atau 24 kata) adalah master secret yang bisa menurunkan banyak private key. Siapa pun yang punya frasa ini bisa memulihkan seluruh wallet, termasuk akun yang belum kamu pakai.</li>
+          <li><strong>Private key</strong> mengendalikan satu akun. Kalau bocor, aset di akun itu bisa dipindahkan.</li>
+          <li><strong>Wallet aplikasi</strong> menyimpan kunci terenkripsi di perangkat atau meminta hardware wallet menandatangani. Wallet bukan tempat menyimpan koin; koin ada di state blockchain.</li>
+          <li><strong>Wallet custodial</strong> di exchange memegang kunci untukmu. Kamu punya klaim pada exchange, bukan kendali langsung atas alamat.</li>
+        </ul>
+
+        <aside class="warn">
+          <span class="note-label">Penting</span>
+          <p>Siapa pun yang punya seed phrase atau private key bisa memindahkan aset. Tidak ada tombol undo dan tidak ada pusat yang bisa membatalkan transaksi. Tim resmi wallet tidak pernah meminta seed phrase, private key, atau kode verifikasi lewat chat.</p>
+        </aside>
+
+        <h3>Kesalahan yang sering terjadi</h3>
+        <ul>
+          <li>Menyimpan seed phrase di screenshot, Notes, Google Drive, atau chat pribadi.</li>
+          <li>Mengetik private key ke situs yang mengaku sebagai "wallet recovery".</li>
+          <li>Mengira "connect wallet" memberi situs akses penuh ke dana. Connect hanya membagikan alamat; transaksi tetap butuh tanda tangan.</li>
+          <li>Memakai kunci yang sama untuk semua hal, lalu menempelkannya ke skrip atau file proyek.</li>
+          <li>Membeli "wallet baru" dari tautan iklan, lalu memasukkan seed phrase ke aplikasi palsu.</li>
+        </ul>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Seorang teman mengirim screenshot seed phrase kepadamu dan bertanya apakah aman menyimpannya di folder cloud pribadi. Apa jawabanmu?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Tidak aman. Folder cloud bisa diakses dari perangkat atau akun yang dibajak, ikut tersinkron ke perangkat lain, atau terekspos lewat insiden penyedia layanan. Seed phrase sebaiknya ditulis di media fisik, disimpan terpisah dari perangkat, dan tidak difoto. Kalau screenshot sudah tersebar, buat wallet baru dan pindahkan aset, karena seed itu harus dianggap bocor.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="wallet" data-chapter="wallet" data-track="true" data-title="Wallet dan digital signature">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 04</p>
+          <h2>Wallet dan digital signature.</h2>
+          <p class="chapter-lead">Wallet tidak menyimpan uang. Wallet memegang kunci dan meminta izinmu untuk menandatangani. Saldo ada di blockchain, bukan di dalam aplikasi.</p>
+          <ul class="goals">
+            <li>Menjelaskan apa yang terjadi saat wallet "connect".</li>
+            <li>Membedakan tanda tangan pesan dan tanda tangan transaksi.</li>
+            <li>Membaca izin wallet: connect, signature, approval, transaction.</li>
+            <li>Mengenali pola phishing yang menyamar sebagai login.</li>
+          </ul>
+        </header>
+
+        <h3>Wallet sebagai penandatangan</h3>
+        <p>Wallet adalah pengelola kunci plus antarmuka untuk menandatangani. Saat situs meminta "connect wallet", wallet biasanya hanya membagikan alamatmu. Situs bisa membaca saldo dan riwayat publik, tetapi tidak bisa memindahkan dana tanpa tanda tanganmu.</p>
+        <p>Yang berbahaya bukan tombol connect, melainkan tanda tangan yang kamu setujui setelahnya. Tanda tangan bisa berarti login, bisa berarti mengizinkan kontrak mengambil token, dan bisa berarti mengirim transaksi. Wallet yang baik menampilkan bedanya. Kamu tetap harus membaca.</p>
+
+        <h3>Tanda tangan: dari pesan ke bukti</h3>
+        <ol>
+          <li>Wallet menyusun pesan yang akan ditandatangani. Untuk login, pesan biasanya berisi domain, alamat, nonce, dan waktu kedaluwarsa.</li>
+          <li>Pesan di-hash mengikuti standar tertentu, misalnya EIP-191 untuk pesan sederhana atau EIP-712 untuk data terstruktur.</li>
+          <li>Wallet menandatangani hash itu dengan private key. Private key tidak pernah keluar dari wallet.</li>
+          <li>Situs atau kontrak memverifikasi tanda tangan dengan public key dan memulihkan address penandatangan.</li>
+          <li>Kalau address cocok dan nonce valid, server menerima login. Kalau pesan berubah satu karakter, verifikasi gagal.</li>
+        </ol>
+        <p>Tanda tangan membuktikan bahwa pemegang kunci menyetujui isi pesan tertentu. Tanda tangan tidak mengenkripsi pesan dan tidak menyembunyikan isinya. Jangan menandatangani teks yang tidak kamu mengerti, terutama data terstruktur yang panjang.</p>
+
+        <div class="lab" id="lab-tanda-tangan">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 03</p>
+            <h3>Tandatangani dan verifikasi pesan</h3>
+            <p>Lab ini memakai kunci demo dari Lab 02. Kalau belum punya kunci, buat dulu di <a href="#lab-kunci">Lab 02</a>. Setelah menandatangani, ubah pesan lalu coba verifikasi lagi.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field">
+              <label for="sig-message">Pesan yang ditandatangani</label>
+              <textarea id="sig-message" spellcheck="false">Saya mengizinkan aplikasi demo ini membaca alamat wallet saya. Nonce: 7f3a. Berlaku sampai: 12 November 2026.</textarea>
+              <span class="hint">Di aplikasi nyata, pesan login harus memuat domain, nonce, dan waktu kedaluwarsa agar tidak bisa dipakai ulang.</span>
+            </div>
+            <div class="lab-actions">
+              <button class="btn btn-primary btn-small" id="sig-sign" type="button">Tandatangani pesan</button>
+              <button class="btn btn-quiet btn-small" id="sig-verify" type="button">Verifikasi</button>
+              <button class="btn btn-quiet btn-small" id="sig-tamper" type="button">Ubah pesan</button>
+            </div>
+            <p class="status" id="sig-status" role="status" aria-live="polite">Belum ada tanda tangan.</p>
+            <p class="readout" id="sig-output"></p>
+            <p class="readout" id="sig-verify-output" aria-live="polite"></p>
+            <p class="inst-note">Signature di lab ini memakai ECDSA P-256 dan ditampilkan dalam base64. Signature Ethereum memakai secp256k1 dan format yang berbeda, tetapi prinsip verifikasinya sama.</p>
+          </div>
+        </div>
+
+        <h3>Tanda tangan pesan dan tanda tangan transaksi</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Perbedaan praktis yang perlu kamu kenali di layar wallet.</caption>
+            <thead>
+              <tr><th scope="col">Aspek</th><th scope="col">Tanda tangan pesan</th><th scope="col">Tanda tangan transaksi</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Contoh</td><td>Login, setuju syarat, daftar allowlist</td><td>Kirim ETH, swap, mint NFT, approve token</td></tr>
+              <tr><td>Biaya gas</td><td>Tidak ada, karena tidak ditulis ke blockchain</td><td>Ada, karena transaksi disiarkan ke jaringan</td></tr>
+              <tr><td>Efek state</td><td>Tidak mengubah state blockchain</td><td>Mengubah state kalau berhasil</td></tr>
+              <tr><td>Risiko</td><td>Pesan bisa dipakai ulang kalau nonce dan domain tidak dijaga</td><td>Dana atau izin token bisa berubah permanen</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Izin yang sering disalahpahami</h3>
+        <ul>
+          <li><strong>Connect:</strong> berbagi alamat. Tidak memberi izin memindahkan dana.</li>
+          <li><strong>Login signature:</strong> membuktikan kamu memegang kunci. Tidak mengubah state. Tetap periksa domain dan isi pesan.</li>
+          <li><strong>Token approval:</strong> mengizinkan kontrak mengambil token sampai batas tertentu. Banyak situs meminta jumlah tidak terbatas. Batasi jumlah dan cabut izin lama.</li>
+          <li><strong>Permit:</strong> izin berbasis tanda tangan yang bisa dieksekusi orang lain. Mirip approval, tetapi tidak selalu memunculkan transaksi terpisah.</li>
+          <li><strong>Transaction:</strong> aksi yang ditulis ke chain dan membayar gas. Bisa berupa transfer, swap, atau panggilan kontrak.</li>
+        </ul>
+
+        <aside class="warn">
+          <span class="note-label">Penting</span>
+          <p>Drainer sering menyamar sebagai "login" atau "verifikasi wallet". Di layar wallet, periksa domain, jenis pesan, kontrak yang dituju, dan izin yang diminta. Kalau kamu tidak memahami isinya, jangan tanda tangani. Batalkan dengan aman.</p>
+        </aside>
+
+        <h3>Mengenali situs penipu</h3>
+        <ul>
+          <li>Domain hampir mirip, misalnya memakai huruf pengganti atau tambahan kata.</li>
+          <li>Mendesak: "klaim dalam 5 menit" atau "wallet kamu akan dibekukan".</li>
+          <li>Meminta seed phrase, private key, atau kode verifikasi.</li>
+          <li>Meminta kamu menandatangani pesan panjang yang tidak bisa dibaca.</li>
+          <li>Mengaku dari tim resmi, lalu mengarahkan ke chat pribadi.</li>
+        </ul>
+        <p>URL yang benar dan buku markah pribadi lebih kuat daripada tampilan yang meyakinkan. Kalau ragu, tutup tab, buka situs lewat alamat resmi, dan periksa kontrak di block explorer.</p>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Sebuah situs meminta kamu menandatangani pesan "Login" tanpa biaya gas. Setelah itu saldo token di wallet hilang. Apakah mungkin, dan bagaimana?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Mungkin. Tanda tangan login murni tidak bisa memindahkan dana, tetapi drainer bisa menyamarkan izin berbahaya sebagai pesan login. Contohnya tanda tangan permit atau approval yang memberi kontrak hak menarik token. Wallet yang menampilkan detail seharusnya memperlihatkan jenis izin dan kontraknya. Karena itu, jangan menandatangani pesan yang tidak kamu pahami, sekalipun labelnya "login" dan tidak ada gas.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="hashing" data-chapter="hashing" data-track="true" data-title="Hashing dan kriptografi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 05</p>
+          <h2>Hashing dan kriptografi.</h2>
+          <p class="chapter-lead">Hash adalah sidik jari data. Panjangnya selalu sama, isinya tidak bisa dibalik, dan satu perubahan kecil mengubah seluruh hasil.</p>
+          <ul class="goals">
+            <li>Menyebut empat sifat fungsi hash.</li>
+            <li>Membedakan SHA-256 dan Keccak-256 di Ethereum.</li>
+            <li>Menjelaskan kegunaan Merkle tree.</li>
+            <li>Memahami batas kriptografi: matematika kuat, implementasi bisa salah.</li>
+          </ul>
+        </header>
+
+        <h3>Empat sifat fungsi hash</h3>
+        <ul>
+          <li><strong>Deterministik:</strong> input yang sama selalu menghasilkan output yang sama.</li>
+          <li><strong>Satu arah:</strong> dari output, sangat sulit menemukan input aslinya. Ini bukan enkripsi, karena tidak ada kunci untuk membuka.</li>
+          <li><strong>Avalanche effect:</strong> perubahan satu bit pada input mengubah kira-kira setengah bit output. Hasilnya terlihat acak total.</li>
+          <li><strong>Tahan tabrakan:</strong> sangat sulit menemukan dua input berbeda dengan hash yang sama.</li>
+        </ul>
+        <p>Fungsi hash mengubah data dengan panjang berapa pun menjadi string dengan panjang tetap. SHA-256 selalu menghasilkan 256 bit, atau 64 karakter heksadesimal. File 1 KB dan file 4 GB sama-sama menghasilkan 64 karakter.</p>
+
+        <h3>SHA-256 dan Keccak-256</h3>
+        <p>Bitcoin memakai SHA-256. Ethereum memakai <strong>Keccak-256</strong> untuk hash transaksi, alamat, slot penyimpanan, dan banyak turunan lainnya. Keccak-256 adalah fungsi yang menjadi dasar SHA-3, tetapi Ethereum memakai parameter asli Keccak, bukan versi yang distandarkan NIST. Hasil keduanya berbeda.</p>
+        <p>Lab di halaman ini memakai SHA-256 karena Web Crypto API menyediakannya di browser. Itu cukup untuk menunjukkan sifat hash. Jangan memakai hasil lab ini sebagai hash Ethereum atau alamat wallet.</p>
+
+        <div class="lab" id="lab-hash">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 04</p>
+            <h3>Lihat avalanche effect</h3>
+            <p>Ketik teks, lihat hash-nya, lalu ubah satu karakter. Perhatikan berapa banyak karakter heksadesimal yang berubah.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field">
+              <label for="hash-input">Masukan</label>
+              <input id="hash-input" type="text" value="Blockchain adalah buku besar bersama" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="lab-actions">
+              <button class="btn btn-primary btn-small" id="hash-mutate" type="button">Ubah satu karakter</button>
+              <button class="btn btn-quiet btn-small" id="hash-reset" type="button">Kembalikan contoh</button>
+            </div>
+            <p class="readout" id="hash-output" aria-live="polite"></p>
+            <div id="hash-compare" hidden>
+              <p class="field-label">Perbandingan hash</p>
+              <p class="readout" id="hash-before"></p>
+              <p class="readout" id="hash-after"></p>
+              <p class="status" id="hash-diff" role="status" aria-live="polite"></p>
+            </div>
+            <p class="inst-note">Hasil dihitung dengan SHA-256 di browser ini. 64 karakter heksadesimal sama dengan 256 bit.</p>
+          </div>
+        </div>
+
+        <h3>Merkle tree: ringkasan ribuan transaksi</h3>
+        <p>Blok bisa berisi ratusan transaksi. Menyimpan semua hash transaksi di header blok akan membuat header besar. Solusinya adalah <strong>Merkle tree</strong>: hash transaksi dipasangkan, lalu hasil pasangannya di-hash lagi, berulang sampai tersisa satu <strong>Merkle root</strong>.</p>
+        <p>Root itu masuk ke header blok. Kalau satu transaksi berubah, root berubah. Untuk membuktikan bahwa satu transaksi ada di blok, kamu tidak perlu mengunduh seluruh blok. Kamu hanya perlu beberapa hash di sepanjang jalur dari daun ke root. Bukti inilah yang disebut Merkle proof.</p>
+
+        <div class="diagram">
+          <svg viewBox="0 0 720 270" role="img" aria-labelledby="merkle-title merkle-desc">
+            <title id="merkle-title">Struktur Merkle tree dengan empat transaksi</title>
+            <desc id="merkle-desc">Empat hash transaksi dipasangkan menjadi dua hash induk, lalu kedua hash induk menghasilkan Merkle root.</desc>
+            <rect class="svg-box-accent svg-box" x="280" y="18" width="160" height="44" rx="2"></rect>
+            <text class="svg-label" x="360" y="45" text-anchor="middle">Merkle root</text>
+
+            <rect class="svg-box" x="140" y="110" width="160" height="40" rx="2"></rect>
+            <text class="svg-small" x="220" y="134" text-anchor="middle">hash(H1 + H2)</text>
+            <rect class="svg-box" x="420" y="110" width="160" height="40" rx="2"></rect>
+            <text class="svg-small" x="500" y="134" text-anchor="middle">hash(H3 + H4)</text>
+
+            <line class="svg-line" x1="330" y1="62" x2="240" y2="106"></line>
+            <line class="svg-line" x1="390" y1="62" x2="480" y2="106"></line>
+            <line class="svg-line" x1="220" y1="150" x2="140" y2="196"></line>
+            <line class="svg-line" x1="220" y1="150" x2="300" y2="196"></line>
+            <line class="svg-line" x1="500" y1="150" x2="420" y2="196"></line>
+            <line class="svg-line" x1="500" y1="150" x2="580" y2="196"></line>
+
+            <rect class="svg-box" x="80" y="200" width="120" height="38" rx="2"></rect>
+            <text class="svg-small" x="140" y="223" text-anchor="middle">H1: tx 1</text>
+            <rect class="svg-box" x="240" y="200" width="120" height="38" rx="2"></rect>
+            <text class="svg-small" x="300" y="223" text-anchor="middle">H2: tx 2</text>
+            <rect class="svg-box" x="360" y="200" width="120" height="38" rx="2"></rect>
+            <text class="svg-small" x="420" y="223" text-anchor="middle">H3: tx 3</text>
+            <rect class="svg-box" x="520" y="200" width="120" height="38" rx="2"></rect>
+            <text class="svg-small" x="580" y="223" text-anchor="middle">H4: tx 4</text>
+          </svg>
+          <p class="diagram-caption">Empat transaksi diringkas menjadi satu root. Untuk membuktikan H2 ada di blok, cukup kirim H2, H1, dan hash(H3 + H4). Kamu tidak perlu seluruh isi blok.</p>
+        </div>
+
+        <h3>Kriptografi bukan tameng ajaib</h3>
+        <p>Kriptografi yang kuat tidak menutup semua kesalahan. Private key bisa bocor lewat phishing. Smart contract bisa punya bug logika. Data on-chain bisa dibaca siapa saja, dan hash tidak membuat data rahasia kalau input-nya bisa ditebak. Oracle bisa dimanipulasi.</p>
+        <p>Hashing password dengan SHA-256 juga bukan praktik yang benar. Password perlu fungsi lambat dengan salt, seperti Argon2, bcrypt, atau scrypt. Fungsi hash cepat justru memudahkan penyerang mencoba banyak tebakan.</p>
+
+        <aside class="note">
+          <span class="note-label">Inti bab</span>
+          <p>Hash membuktikan integritas, bukan kebenaran, kerahasiaan, atau keamanan aplikasi. Kriptografi hanya sekuat implementasi dan kebiasaan penggunanya.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kenapa menyimpan hash sebuah dokumen di blockchain bisa membuktikan dokumen itu tidak berubah, meskipun dokumen aslinya tidak disimpan on-chain?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Karena hash bersifat deterministik dan tahan tabrakan. Kalau dokumen asli di-hash ulang dan hasilnya sama dengan hash yang tercatat on-chain, dokumen itu hampir pasti sama. Kalau satu karakter berubah, hash berubah total. Dokumen asli tetap bisa disimpan di tempat murah, sementara bukti integritasnya ada di blockchain.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="transaksi" data-chapter="transaksi" data-track="true" data-title="Transaksi dan blok">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 06</p>
+          <h2>Transaction dan block.</h2>
+          <p class="chapter-lead">Transaksi adalah instruksi bertanda tangan. Blok adalah halaman tempat instruksi itu dicatat. Di antara keduanya ada antrean, validasi, dan biaya.</p>
+          <ul class="goals">
+            <li>Membaca field penting pada transaksi Ethereum.</li>
+            <li>Mengikuti perjalanan transaksi dari wallet sampai blok.</li>
+            <li>Memahami nonce, konfirmasi, dan reorg.</li>
+            <li>Melihat sendiri bagaimana perubahan data mematahkan rantai.</li>
+          </ul>
+        </header>
+
+        <h3>Anatomi transaksi Ethereum</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Field yang sering kamu lihat di wallet atau block explorer. Nama field bisa berbeda tergantung jenis transaksi.</caption>
+            <thead>
+              <tr><th scope="col">Field</th><th scope="col">Artinya</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>from</code></td><td>Alamat pengirim. Transaksi harus ditandatangani kunci privat alamat ini.</td></tr>
+              <tr><td><code>to</code></td><td>Alamat tujuan. Bisa wallet biasa atau kontrak. Kosong saat membuat kontrak baru.</td></tr>
+              <tr><td><code>value</code></td><td>Jumlah ETH yang dikirim, dalam wei. Bisa nol untuk panggilan kontrak.</td></tr>
+              <tr><td><code>data</code></td><td>Data tambahan. Untuk kontrak, ini berisi selector fungsi dan argumen yang di-encode.</td></tr>
+              <tr><td><code>nonce</code></td><td>Jumlah transaksi yang sudah dikirim akun ini. Mencegah replay dan mengatur urutan.</td></tr>
+              <tr><td><code>gasLimit</code></td><td>Batas maksimum gas yang boleh dipakai. Sisa gas dikembalikan.</td></tr>
+              <tr><td><code>maxFeePerGas</code></td><td>Batas harga gas per unit untuk transaksi EIP-1559.</td></tr>
+              <tr><td><code>maxPriorityFeePerGas</code></td><td>Tip untuk validator agar transaksi diprioritaskan.</td></tr>
+              <tr><td><code>chainId</code></td><td>Identitas jaringan. Mencegah transaksi yang ditandatangani untuk satu chain dipakai di chain lain.</td></tr>
+              <tr><td><code>v, r, s</code></td><td>Bagian dari signature. Membuktikan transaksi dibuat oleh pemilik kunci.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Dari tombol sampai blok</h3>
+        <ol>
+          <li><strong>Susun:</strong> wallet atau library menyusun transaksi, mengambil nonce, dan memperkirakan gas.</li>
+          <li><strong>Tandatangani:</strong> wallet meminta persetujuanmu, lalu menandatangani dengan private key.</li>
+          <li><strong>Kirim:</strong> transaksi mentah dikirim ke node lewat RPC, biasanya dengan <code>eth_sendRawTransaction</code>.</li>
+          <li><strong>Antre:</strong> node memvalidasi dan menaruh transaksi di mempool. Harga gas terlalu rendah bisa membuatnya menunggu lama.</li>
+          <li><strong>Masuk blok:</strong> validator memilih transaksi, mengeksekusinya, dan menyebarkan blok baru.</li>
+          <li><strong>Konfirmasi:</strong> blok berikutnya menumpuk di atasnya. Setelah cukup banyak blok, biaya untuk membatalkan semakin besar.</li>
+        </ol>
+        <p>Hash transaksi muncul segera setelah transaksi disiarkan, tetapi itu belum berarti transaksi berhasil. Hash hanya identitas. Status sebenarnya ada di <em>receipt</em>: berhasil atau gagal, berapa gas terpakai, dan log apa yang dihasilkan.</p>
+
+        <h3>Blok berisi apa</h3>
+        <ul>
+          <li><strong>Header:</strong> nomor blok, timestamp, hash blok sebelumnya, state root, transaction root, receipt root, base fee, dan field konsensus.</li>
+          <li><strong>Daftar transaksi:</strong> transaksi yang dieksekusi dalam urutan tertentu.</li>
+          <li><strong>State root:</strong> komitmen terhadap seluruh state setelah blok dieksekusi. Node menyimpan state secara terpisah; root adalah ringkasannya.</li>
+          <li><strong>Receipt:</strong> hasil eksekusi tiap transaksi, termasuk status dan log. Receipt tidak disimpan di dalam daftar transaksi, tetapi root-nya tercatat di header.</li>
+        </ul>
+
+        <h3>Nonce dan transaksi yang macet</h3>
+        <p>Nonce adalah penghitung per akun. Transaksi dengan nonce 5 tidak akan diproses sebelum nonce 4 selesai. Kalau transaksi nonce 4 macet karena gas terlalu rendah, transaksi berikutnya ikut menunggu. Solusinya bukan mengirim transaksi baru dengan nonce 6, tetapi mengganti transaksi nonce 4 dengan biaya lebih tinggi atau menunggu.</p>
+
+        <h3>Finality dan reorg</h3>
+        <p>Blok terbaru bisa saja ditinggalkan kalau ada rantai lain yang lebih berat atau lebih didukung. Peristiwa ini disebut <em>reorg</em>. Di Ethereum proof of stake, finality dicapai lewat checkpoint setelah dua epoch dalam kondisi normal. Sebelum final, aplikasi biasanya menunggu beberapa konfirmasi sebelum menganggap pembayaran selesai.</p>
+        <p>Jangan menukar barang digital hanya berdasarkan hash transaksi. Tunggu receipt berstatus berhasil dan, untuk nilai besar, tunggu finality.</p>
+
+        <div class="lab" id="lab-rantai">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 05</p>
+            <h3>Rusak rantai, lalu tambang ulang</h3>
+            <p>Ubah isi blok dan lihat tautan hash patah. Tambang ulang untuk memperbaiki rantai. Ini memakai hash sungguhan di browser dengan kesulitan kecil.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row">
+              <div class="field">
+                <label for="chain-difficulty">Kesulitan penambangan</label>
+                <select id="chain-difficulty">
+                  <option value="2">2 nol di depan (cepat)</option>
+                  <option value="3">3 nol di depan (lebih lambat)</option>
+                </select>
+                <span class="hint">Jaringan nyata memakai target yang jauh lebih sulit. Angka ini hanya untuk demonstrasi.</span>
+              </div>
+              <div class="field">
+                <span class="field-label">Fungsi hash</span>
+                <p class="inst-note" style="margin: 0;">SHA-256, dihitung langsung di browser. Bukan Keccak-256.</p>
+              </div>
+            </div>
+            <div class="chain" id="chain-blocks"></div>
+            <div class="lab-actions">
+              <button class="btn btn-primary btn-small" id="chain-mine-all" type="button">Tambang semua blok</button>
+              <button class="btn btn-quiet btn-small" id="chain-reset" type="button">Reset contoh</button>
+            </div>
+            <p class="status" id="chain-status" role="status" aria-live="polite">Rantai valid. Coba ubah data di salah satu blok.</p>
+            <p class="readout" id="chain-result" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <aside class="note">
+          <span class="note-label">Yang perlu diperhatikan</span>
+          <p>Menambang ulang blok pertama tidak cukup. Blok berikutnya masih menyimpan prev hash lama. Kamu harus menambang ulang seluruh rantai setelah titik perubahan, persis seperti yang harus dilakukan penyerang di jaringan nyata, tetapi dengan biaya yang jauh lebih besar.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kamu mengubah data di Blok 1 tanpa menambang ulang. Apa yang terjadi pada Blok 2 dan mengapa?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Hash Blok 1 berubah, sehingga field prevHash di Blok 2 tidak lagi cocok. Validasi menandai Blok 2 tidak sah, begitu juga blok setelahnya. Untuk memperbaiki, semua blok setelah perubahan harus ditambang ulang agar prevHash dan hash-nya kembali konsisten.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="gas" data-chapter="gas" data-track="true" data-title="Gas fee">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 07</p>
+          <h2>Gas fee.</h2>
+          <p class="chapter-lead">Gas adalah harga komputasi. Kamu membayar usaha jaringan untuk mengeksekusi instruksimu, bukan nilai ETH yang kamu kirim.</p>
+          <ul class="goals">
+            <li>Membedakan gas, gas price, dan biaya total.</li>
+            <li>Membaca base fee, priority fee, dan max fee pada EIP-1559.</li>
+            <li>Memahami kenapa transaksi gagal tetap dibayar.</li>
+            <li>Menghitung biaya maksimum sebelum mengonfirmasi.</li>
+          </ul>
+        </header>
+
+        <h3>Gas, gas price, dan gwei</h3>
+        <p><strong>Gas</strong> adalah satuan usaha komputasi. Transfer ETH sederhana memakai 21.000 gas. Panggilan kontrak bisa jauh lebih banyak karena setiap operasi, dari penjumlahan sampai penyimpanan state, punya harga gas sendiri.</p>
+        <p><strong>Gas price</strong> adalah harga per unit gas, diukur dalam wei. Karena angka wei sangat kecil, orang memakai <strong>gwei</strong>. Satu gwei sama dengan 10 pangkat 9 wei, dan satu ETH sama dengan 10 pangkat 18 wei. Jadi 1 ETH = 1 miliar gwei.</p>
+        <div class="definition">
+          <strong>Rumus dasar:</strong> biaya = gas terpakai x harga gas efektif. Satuan akhirnya wei, lalu ditampilkan dalam ETH.
+        </div>
+
+        <h3>EIP-1559: base fee dan tip</h3>
+        <p>Sejak EIP-1559, transaksi tipe 2 memakai dua komponen harga:</p>
+        <ul>
+          <li><strong>Base fee:</strong> ditentukan protokol berdasarkan seberapa penuh blok sebelumnya. Base fee dibakar, tidak diberikan kepada validator.</li>
+          <li><strong>Priority fee:</strong> tip yang kamu tambahkan agar validator memilih transaksimu lebih dulu.</li>
+          <li><strong>Max fee:</strong> batas tertinggi yang mau kamu bayar per gas. Isinya base fee plus priority fee, dengan sedikit ruang kalau base fee naik.</li>
+        </ul>
+        <p>Kalau base fee turun, kamu membayar lebih sedikit dari max fee dan selisihnya dikembalikan. Kalau max fee tidak cukup, transaksi menunggu di mempool. Gas limit yang tidak cukup membuat eksekusi kehabisan gas: transaksi gagal, state dikembalikan, tetapi gas yang sudah dipakai tetap dibayar.</p>
+
+        <div class="lab" id="lab-gas">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 06</p>
+            <h3>Hitung biaya sebelum konfirmasi</h3>
+            <p>Ubah angka dan lihat biaya maksimum, biaya nyata, serta gas yang dikembalikan. Semua angka adalah contoh, bukan tarif jaringan live.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row">
+              <div class="field">
+                <label for="gas-limit">Gas limit</label>
+                <input id="gas-limit" type="number" value="21000" min="21000" step="1000">
+              </div>
+              <div class="field">
+                <label for="gas-used">Gas terpakai</label>
+                <input id="gas-used" type="number" value="21000" min="0" step="1000">
+              </div>
+              <div class="field">
+                <label for="gas-base">Base fee (gwei)</label>
+                <input id="gas-base" type="number" value="25" min="0" step="1">
+              </div>
+              <div class="field">
+                <label for="gas-priority">Priority fee (gwei)</label>
+                <input id="gas-priority" type="number" value="2" min="0" step="1">
+              </div>
+            </div>
+            <div class="lab-actions" aria-label="Contoh transaksi">
+              <button class="btn btn-quiet btn-small" type="button" data-gas-preset="transfer">Transfer ETH</button>
+              <button class="btn btn-quiet btn-small" type="button" data-gas-preset="token">Approve token</button>
+              <button class="btn btn-quiet btn-small" type="button" data-gas-preset="swap">Swap di DEX</button>
+            </div>
+            <p class="readout" id="gas-output" aria-live="polite"></p>
+            <p class="status" id="gas-status" role="status" aria-live="polite"></p>
+            <p class="inst-note">Contoh gas untuk approve dan swap adalah perkiraan ilustrasi. Kontrak yang berbeda bisa memakai gas jauh lebih banyak. Selalu baca estimasi dari wallet.</p>
+          </div>
+        </div>
+
+        <h3>Kenapa transaksi gagal tetap dibayar</h3>
+        <p>Transaksi gagal bukan berarti tidak ada yang terjadi. Validator tetap harus menjalankan komputasinya, memeriksa state, dan memasukkan transaksi ke blok. Kalau transaksi akhirnya revert, perubahan state dibatalkan, tetapi kerja komputasi dan ruang blok sudah terpakai. Karena itu gas tetap dibayar.</p>
+        <p>Contoh umum: swap dengan slippage terlalu ketat, mint yang sudah habis, atau panggilan kontrak yang memakai gas melebihi limit. Wallet sering menampilkan estimasi, tetapi estimasi bukan jaminan. Kondisi pasar bisa berubah sebelum transaksi masuk blok.</p>
+
+        <h3>Cara menghemat biaya</h3>
+        <ul>
+          <li>Gunakan Layer 2 untuk aktivitas sehari-hari kalau tersedia dan didukung walletmu.</li>
+          <li>Hindari mengeksekusi transaksi saat jaringan sangat sibuk, kecuali memang mendesak.</li>
+          <li>Batasi token approval, dan cabut izin yang sudah tidak dipakai.</li>
+          <li>Jangan menurunkan gas limit di bawah estimasi hanya agar terlihat murah. Transaksi bisa gagal dan tetap memakan biaya.</li>
+          <li>Gabungkan beberapa aksi dalam satu transaksi kalau kontraknya mendukung, daripada mengirim banyak transaksi kecil.</li>
+        </ul>
+
+        <aside class="note">
+          <span class="note-label">Gas di Layer 2</span>
+          <p>Di rollup, kamu tetap membayar eksekusi di L2 dan biaya data yang dikirim ke L1. Karena banyak transaksi dibagi dalam satu batch, porsi biaya L1 per transaksi menjadi jauh lebih kecil. Ini dijelaskan di Bab 10.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Gas limit 21.000, gas terpakai 21.000, base fee 20 gwei, priority fee 2 gwei. Berapa biaya dalam ETH?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Harga efektif = 20 + 2 = 22 gwei per gas. Biaya = 21.000 x 22 gwei = 462.000 gwei. Karena 1 ETH = 1 miliar gwei, biayanya 0,000462 ETH.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="konsensus" data-chapter="konsensus" data-track="true" data-title="Consensus mechanism">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 08</p>
+          <h2>Consensus mechanism.</h2>
+          <p class="chapter-lead">Konsensus adalah cara jaringan menyepakati urutan kejadian tanpa satu bos. Yang diperebutkan bukan kebenaran dunia nyata, melainkan blok mana yang sah menurut aturan.</p>
+          <ul class="goals">
+            <li>Menjelaskan masalah Sybil dan kenapa konsensus dibutuhkan.</li>
+            <li>Membandingkan proof of work dan proof of stake.</li>
+            <li>Memahami finality dan serangan 51 persen secara proporsional.</li>
+            <li>Melihat bahwa konsensus tidak memperbaiki data masukan yang salah.</li>
+          </ul>
+        </header>
+
+        <h3>Masalah yang harus dipecahkan</h3>
+        <p>Siapa yang boleh menulis blok berikutnya? Kalau semua orang boleh, penyerang bisa membuat ribuan identitas palsu dan membanjiri jaringan. Ini disebut <strong>serangan Sybil</strong>. Konsensus membuat penulisan blok mahal atau memberi bobot berdasarkan sumber daya yang langka dan bisa diverifikasi.</p>
+        <p>Proof of work membuat penulisan mahal lewat energi dan perangkat. Proof of stake membuat penulisan mahal lewat modal yang dipertaruhkan. Keduanya punya tujuan yang sama: membuat kejujuran lebih menguntungkan daripada kecurangan.</p>
+
+        <h3>Proof of Work</h3>
+        <p>Penambang menyusun blok, lalu mengubah angka <em>nonce</em> sampai hash blok memenuhi target tertentu, misalnya diawali sejumlah nol. Menemukan nonce butuh percobaan berulang, tetapi memverifikasinya sangat cepat. Penambang yang menemukan blok mendapat imbalan dan biaya transaksi.</p>
+        <p>Kalau ada dua rantai bersaing, jaringan mengikuti rantai dengan total kerja terbesar. Penyerang yang menguasai lebih dari separuh hash rate bisa menambang rantai rahasia dan menyalip rantai publik. Biayanya besar, tetapi bukan tidak mungkin. Bitcoin masih memakai model ini. Ethereum beralih ke proof of stake pada September 2022.</p>
+
+        <h3>Proof of Stake</h3>
+        <p>Validator mengunci sejumlah ETH sebagai jaminan. Di Ethereum, satu validator butuh 32 ETH untuk aktif. Validator dipilih secara pseudorandom dengan bobot sebanding stake-nya untuk mengusulkan blok dan memberi attestation. Kalau validator melanggar aturan, sebagian stake-nya bisa dipotong melalui <em>slashing</em>.</p>
+        <p>Keamanan datang dari modal yang bisa hilang, bukan dari listrik. Finality dicapai lewat checkpoint setelah dua epoch dalam kondisi normal. Proof of stake lebih hemat energi, tetapi membawa risiko lain: konsentrasi stake, layanan staking bersama, dan ketergantungan pada klien mayoritas.</p>
+
+        <h3>Finality dan serangan 51 persen</h3>
+        <p>Pada PoW, finality bersifat probabilistik. Semakin banyak blok di atas transaksi, semakin kecil kemungkinan transaksi itu dibatalkan. Pada PoS, ada finality eksplisit untuk checkpoint yang sudah disepakati. Menyerang finality bukan sekadar masalah teknis, tetapi juga masalah sosial dan ekonomi.</p>
+        <p>Serangan 51 persen tidak berarti penyerang bisa mencuri dana dari wallet orang lain. Yang bisa dilakukan biasanya adalah menulis ulang blok terbaru, melakukan double spend, atau menyensor transaksi. Penyerang tidak bisa memalsukan tanda tangan pemilik kunci lain.</p>
+
+        <div class="lab" id="lab-konsensus">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 07</p>
+            <h3>Rasakan biaya menulis blok</h3>
+            <p>Bagian pertama menambang blok dengan hash sungguhan. Bagian kedua memilih validator berdasarkan stake. Keduanya simulasi kecil, bukan model keamanan jaringan nyata.</p>
+          </div>
+          <div class="lab-body">
+            <h4>Proof of work: cari nonce</h4>
+            <p class="status" id="pow-status" role="status" aria-live="polite">Siap menambang blok contoh.</p>
+            <div class="lab-actions">
+              <button class="btn btn-primary btn-small" id="pow-mine" type="button">Tambang blok (3 nol)</button>
+            </div>
+            <p class="readout" id="pow-result" aria-live="polite"></p>
+
+            <h4 style="margin-top: 28px;">Proof of stake: pilih validator</h4>
+            <div class="field-row-3">
+              <div class="field">
+                <label for="stake-1">Stake validator A (ETH)</label>
+                <input id="stake-1" type="number" value="32" min="0" step="1">
+              </div>
+              <div class="field">
+                <label for="stake-2">Stake validator B (ETH)</label>
+                <input id="stake-2" type="number" value="64" min="0" step="1">
+              </div>
+              <div class="field">
+                <label for="stake-3">Stake validator C (ETH)</label>
+                <input id="stake-3" type="number" value="32" min="0" step="1">
+              </div>
+            </div>
+            <div class="lab-actions">
+              <button class="btn btn-primary btn-small" id="pos-run" type="button">Pilih 20 slot</button>
+            </div>
+            <ul class="meter-list" id="pos-meters" aria-label="Peluang terpilih"></ul>
+            <p class="status" id="pos-status" role="status" aria-live="polite"></p>
+            <p class="inst-note">Lab memakai SHA-256 dan angka stake contoh, bukan model keamanan mainnet. PoW Ethereum sudah digantikan proof of stake sejak The Merge pada 2022.</p>
+          </div>
+        </div>
+
+        <h3>Konsensus bukan bukti kebenaran</h3>
+        <p>Konsensus memastikan semua node setuju pada hasil aturan yang sama. Kalau smart contract menerima harga dari oracle yang dimanipulasi, seluruh jaringan bisa setuju pada harga yang salah. Kalau kontrak punya bug, konsensus tetap menjalankan bug itu dengan rapi.</p>
+        <p>Karena itu, keamanan aplikasi Web3 terdiri dari beberapa lapisan: konsensus untuk urutan, kriptografi untuk otorisasi, kode kontrak untuk logika, oracle untuk data luar, dan tata kelola untuk perubahan. Satu lapisan kuat tidak menutupi lapisan lain yang lemah.</p>
+
+        <aside class="warn">
+          <span class="note-label">Jangan tertukar</span>
+          <p>Desentralisasi validator bukan jaminan aplikasi aman. Protokol bisa sehat, tetapi kontrak di atasnya tetap bisa memiliki admin key, bug, atau oracle yang bergantung pada satu penyedia data.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kenapa penyerang yang menguasai 51 persen hash rate tidak otomatis bisa memindahkan ETH dari wallet orang lain?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Karena memindahkan ETH membutuhkan tanda tangan private key pemiliknya. Hash rate mengendalikan produksi blok dan urutan transaksi, bukan kunci. Penyerang bisa mencoba double spend atau menyensor transaksi, tetapi tidak bisa memalsukan tanda tangan yang valid untuk akun orang lain.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="node-rpc" data-chapter="node-rpc" data-track="true" data-title="Node dan RPC">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 09</p>
+          <h2>Node dan RPC.</h2>
+          <p class="chapter-lead">Node adalah komputer yang menjalankan aturan jaringan. RPC adalah pintu untuk bertanya dan mengirim. Wallet memegang kunci; node tidak.</p>
+          <ul class="goals">
+            <li>Membedakan full node, archive node, light client, dan validator.</li>
+            <li>Membaca struktur request JSON-RPC.</li>
+            <li>Membedakan operasi baca dan operasi tulis.</li>
+            <li>Memahami kenapa node tidak bisa menandatangani untukmu.</li>
+          </ul>
+        </header>
+
+        <h3>Node, client, dan validator</h3>
+        <p><strong>Node</strong> adalah komputer yang menjalankan perangkat lunak client Ethereum, misalnya Geth, Nethermind, Besu, Erigon, atau Reth. Full node memvalidasi blok dan menyimpan state terkini. Archive node menyimpan seluruh riwayat state. Light client mengandalkan bukti dan node lain untuk menghemat ruang.</p>
+        <p><strong>Validator</strong> adalah peran yang mengusulkan dan mengesahkan blok. Satu validator biasanya berjalan di atas node, tetapi tidak semua node adalah validator. Menjalankan node sendiri meningkatkan privasi dan kemampuan memverifikasi, meskipun tidak memberi imbalan staking.</p>
+
+        <h3>RPC: bahasa antara aplikasi dan node</h3>
+        <p>Ethereum memakai <strong>JSON-RPC 2.0</strong>. Aplikasi mengirim objek JSON berisi <code>method</code>, <code>params</code>, dan <code>id</code>. Node membalas dengan <code>result</code> atau <code>error</code>. Endpoint bisa berupa HTTP atau WebSocket.</p>
+        <p>Kamu bisa memakai node sendiri, node publik, atau penyedia RPC seperti Alchemy, Infura, dan QuickNode. Penyedia praktis, tetapi menambah ketergantungan, batas laju, dan pertimbangan privasi. API key jangan ditaruh di frontend publik.</p>
+
+        <div class="code-block">
+          <div class="code-head"><span>request JSON-RPC</span><button class="copy-btn" type="button" data-copy-target="rpc-example">Salin</button></div>
+          <pre><code id="rpc-example">{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "eth_getBalance",
+  "params": ["0x1111111111111111111111111111111111111111", "latest"]
+}</code></pre>
+        </div>
+
+        <h3>Read dan write</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Method yang sering dipakai. Nama dan dukungan bisa berbeda antar penyedia RPC.</caption>
+            <thead>
+              <tr><th scope="col">Method</th><th scope="col">Jenis</th><th scope="col">Kegunaan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>eth_chainId</code></td><td>Baca</td><td>Mengembalikan ID chain, misalnya Sepolia 11155111.</td></tr>
+              <tr><td><code>eth_blockNumber</code></td><td>Baca</td><td>Nomor blok terbaru yang diketahui node.</td></tr>
+              <tr><td><code>eth_getBalance</code></td><td>Baca</td><td>Saldo alamat dalam wei.</td></tr>
+              <tr><td><code>eth_call</code></td><td>Baca</td><td>Menjalankan fungsi kontrak tanpa transaksi dan tanpa gas.</td></tr>
+              <tr><td><code>eth_estimateGas</code></td><td>Baca</td><td>Memperkirakan gas yang dibutuhkan sebuah panggilan.</td></tr>
+              <tr><td><code>eth_sendRawTransaction</code></td><td>Tulis</td><td>Menyiarkan transaksi yang sudah ditandatangani.</td></tr>
+              <tr><td><code>eth_getTransactionReceipt</code></td><td>Baca</td><td>Mengambil status dan gas terpakai setelah transaksi masuk blok.</td></tr>
+              <tr><td><code>eth_sendTransaction</code></td><td>Tulis</td><td>Meminta wallet atau node yang mengelola akun untuk menandatangani. Node publik biasanya menolaknya.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Siapa yang menandatangani?</h3>
+        <p>Node RPC tidak memegang private key-mu. Saat kamu memakai MetaMask, wallet membangun transaksi, meminta persetujuan, menandatangani, lalu mengirim transaksi mentah ke RPC. Library seperti ethers atau viem membungkus proses ini, tetapi prinsipnya tetap: kunci tidak pernah dikirim ke node.</p>
+        <p>Itulah sebabnya <code>eth_sendTransaction</code> sering hanya berfungsi di wallet yang mengelola akun. Node publik menolaknya karena tidak punya kunci. Untuk aplikasi produksi, alur yang lebih umum adalah membangun transaksi, meminta wallet menandatangani, lalu mengirim hasilnya lewat <code>eth_sendRawTransaction</code>.</p>
+
+        <div class="lab" id="lab-rpc">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 08</p>
+            <h3>Bentuk request dan respons RPC</h3>
+            <p>Pilih method, lihat request JSON, lalu jalankan simulasi. Respons di bawah adalah contoh, bukan data live dari jaringan.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field">
+              <label for="rpc-method">Method</label>
+              <select id="rpc-method">
+                <option value="chainId">eth_chainId</option>
+                <option value="blockNumber">eth_blockNumber</option>
+                <option value="getBalance">eth_getBalance</option>
+                <option value="sendTransaction">eth_sendTransaction</option>
+              </select>
+            </div>
+            <div id="rpc-params"></div>
+            <p class="field-label">Request</p>
+            <pre class="readout" id="rpc-request"></pre>
+            <div class="lab-actions">
+              <button class="btn btn-primary btn-small" id="rpc-run" type="button">Jalankan simulasi</button>
+              <button class="btn btn-quiet btn-small" id="rpc-copy" type="button">Salin request</button>
+            </div>
+            <p class="status" id="rpc-status" role="status" aria-live="polite">Pilih method untuk melihat request.</p>
+            <p class="field-label">Respons simulasi</p>
+            <pre class="readout" id="rpc-response" aria-live="polite"></pre>
+          </div>
+        </div>
+
+        <h3>Membaca error RPC</h3>
+        <ul>
+          <li><strong>4001:</strong> pengguna menolak permintaan di wallet. Ini bukan bug aplikasi.</li>
+          <li><strong>-32002:</strong> permintaan sudah menunggu di wallet, biasanya popup sebelumnya belum ditutup.</li>
+          <li><strong>-32602:</strong> parameter tidak valid, misalnya alamat atau jumlah argumen salah.</li>
+          <li><strong>-32000:</strong> eksekusi kontrak gagal, sering disertai alasan revert.</li>
+          <li><strong>429:</strong> terlalu banyak permintaan ke penyedia RPC. Butuh backoff atau kuota lebih besar.</li>
+        </ul>
+        <p>Jangan menampilkan pesan error mentah ke pengguna tanpa konteks. Terjemahkan menjadi kalimat yang menjelaskan apa yang terjadi dan apa yang bisa dilakukan.</p>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kenapa aplikasi Web3 tetap membutuhkan wallet meskipun sudah terhubung ke node RPC yang bisa membaca seluruh blockchain?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Karena membaca state tidak sama dengan mengotorisasi perubahan. Node bisa membaca saldo dan mengeksekusi panggilan baca, tetapi tidak memegang private key pengguna. Untuk mengubah state, transaksi harus ditandatangani wallet. Node hanya memvalidasi dan menyiarkan transaksi yang sudah sah.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="layer" data-chapter="layer" data-track="true" data-title="Layer 1 dan Layer 2">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 10</p>
+          <h2>Layer 1 dan Layer 2.</h2>
+          <p class="chapter-lead">Layer 1 menyediakan keamanan. Layer 2 mengerjakan transaksi lebih murah, lalu menyerahkan bukti dan datanya ke Layer 1.</p>
+          <ul class="goals">
+            <li>Menjelaskan masalah scaling tanpa menyederhanakan trilemma secara berlebihan.</li>
+            <li>Membedakan rollup, sidechain, dan chain mandiri.</li>
+            <li>Memahami kenapa rollup bisa lebih murah.</li>
+            <li>Menyebut risiko bridge, sequencer, dan masa tunggu penarikan.</li>
+          </ul>
+        </header>
+
+        <h3>Masalah scaling</h3>
+        <p>Layer 1 adalah rantai dasar tempat keamanan dan konsensus terjadi. Setiap blok punya ruang terbatas. Kalau batas gas dinaikkan terus, node harus menyimpan dan memproses lebih banyak data, sehingga biaya menjalankan node naik dan desentralisasi bisa tergerus.</p>
+        <p>Trilemma skalabilitas mengatakan bahwa keamanan, desentralisasi, dan skalabilitas sulit dimaksimalkan bersamaan. Ini bukan hukum fisika, tetapi berguna untuk membaca trade-off. Banyak desain mencoba memindahkan eksekusi ke luar L1 tanpa memindahkan kepercayaan sepenuhnya.</p>
+
+        <h3>Rollup, bukan sekadar chain cepat</h3>
+        <p><strong>Rollup</strong> mengeksekusi transaksi di luar L1, lalu mengirim data dan komitmen hasilnya ke L1. Keamanan eksekusi tetap bisa diperiksa dari L1. Ada dua keluarga besar:</p>
+        <ul>
+          <li><strong>Optimistic rollup:</strong> menganggap hasil eksekusi benar selama ada periode tantangan. Kalau ada yang menemukan kesalahan, fraud proof diajukan. Penarikan ke L1 biasanya menunggu periode tantangan.</li>
+          <li><strong>ZK rollup:</strong> mengirim validity proof yang membuktikan hasil eksekusi benar. Verifikasi di L1 mahal, tetapi bukti bisa membuat finality lebih cepat. Biaya prover dan kompleksitas teknis menjadi trade-off.</li>
+        </ul>
+        <p><strong>Sidechain</strong> punya konsensus sendiri dan tidak mewarisi keamanan L1 secara langsung. Ia bisa lebih murah dan fleksibel, tetapi kamu harus mempercayai set validator dan bridge-nya. Jangan menyebut semua chain cepat sebagai Layer 2.</p>
+
+        <h3>Kenapa lebih murah</h3>
+        <p>Biaya L1 dibagi ke banyak transaksi. Seratus transaksi yang dikompres menjadi satu batch hanya membayar satu kali data dan satu kali komitmen di L1. Sejak EIP-4844, rollup juga bisa memakai blob untuk data yang lebih murah dibanding calldata.</p>
+        <p>Namun tidak gratis. Pengguna tetap membayar eksekusi di L2, biaya data L1, dan margin operator. Kalau L1 sedang mahal, biaya L2 ikut naik meskipun tidak sebesar transaksi L1 langsung.</p>
+
+        <div class="lab" id="lab-l2">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 09</p>
+            <h3>Banyak transaksi, satu batch</h3>
+            <p>Geser jumlah transaksi dan lihat bagaimana mereka dikelompokkan sebelum dikirim ke L1. Ini visualisasi konsep, bukan perhitungan biaya nyata.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field">
+              <label for="l2-count">Jumlah transaksi di L2: <output id="l2-count-out" for="l2-count">1.000</output></label>
+              <input id="l2-count" type="range" min="100" max="5000" step="100" value="1000">
+              <span class="hint">Satu batch di contoh ini berisi maksimum 1.000 transaksi.</span>
+            </div>
+            <div class="l2-visual" id="l2-visual" aria-hidden="true"></div>
+            <p class="readout" id="l2-output" aria-live="polite"></p>
+            <p class="status" id="l2-status"></p>
+          </div>
+        </div>
+
+        <h3>Risiko yang sering diabaikan</h3>
+        <ul>
+          <li><strong>Bridge:</strong> kontrak jembatan memegang aset dan menjadi target serangan. Riwayat kerugian bridge cukup panjang. Pakai jembatan resmi dan jumlah kecil saat mencoba.</li>
+          <li><strong>Sequencer:</strong> banyak rollup masih memakai sequencer terpusat untuk mengurutkan transaksi. Kalau sequencer mati atau menyensor, pengalaman pengguna terganggu.</li>
+          <li><strong>Admin key:</strong> upgrade kontrak bisa mengubah aturan. Periksa siapa yang memegang kunci dan berapa banyak pihak yang diperlukan.</li>
+          <li><strong>Masa tunggu penarikan:</strong> menarik aset dari optimistic rollup ke L1 bisa memakan waktu. Jangan menjanjikan likuiditas instan tanpa memahami mekanismenya.</li>
+          <li><strong>Fragmentasi likuiditas:</strong> aset yang sama di banyak chain membuat pengalaman dan harga berbeda. Jembatan menambah lapisan risiko.</li>
+        </ul>
+
+        <aside class="note">
+          <span class="note-label">Cara membaca klaim L2</span>
+          <p>Tanyakan: di mana data disimpan, siapa yang bisa menghentikan sequencer, bagaimana bukti kesalahan dibuat, berapa lama penarikan, dan apakah state bisa dipulihkan kalau operator hilang. "Layer 2" adalah kategori, bukan sertifikat keamanan.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Sebuah chain mengaku Layer 2 karena transaksinya murah, tetapi memiliki validator sendiri dan tidak mengirim bukti ke Ethereum. Apa pertanyaan yang perlu kamu ajukan?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Tanyakan apakah chain itu benar-benar mewarisi keamanan Ethereum atau hanya memakai jembatan. Kalau ia punya konsensus dan set validator sendiri, itu lebih tepat disebut sidechain atau chain mandiri. Murah bukan bukti Layer 2. Periksa mekanisme bukti, data availability, dan asumsi kepercayaan pada operator.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="web2-web3" data-chapter="web2-web3" data-track="true" data-title="Web2 vs Web3">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 11</p>
+          <h2>Web2 dan Web3.</h2>
+          <p class="chapter-lead">Web3 bukan pengganti semua Web2. Ini cara lain untuk bagian yang membutuhkan kepercayaan bersama, bukan cara memindahkan seluruh aplikasi ke blockchain.</p>
+          <ul class="goals">
+            <li>Membandingkan komponen Web2 dan Web3 tanpa slogan.</li>
+            <li>Mengenali arsitektur hybrid yang dipakai aplikasi nyata.</li>
+            <li>Memilih kapan data layak on-chain dan kapan tetap off-chain.</li>
+            <li>Memahami login wallet dan batasnya.</li>
+          </ul>
+        </header>
+
+        <h3>Perbandingan inti</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Ini bukan pertentangan mutlak. Banyak aplikasi memakai keduanya sekaligus.</caption>
+            <thead>
+              <tr><th scope="col">Kebutuhan</th><th scope="col">Web2</th><th scope="col">Web3</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Logika aplikasi</td><td>Backend server</td><td>Smart contract</td></tr>
+              <tr><td>Penyimpanan state</td><td>Database</td><td>State blockchain</td></tr>
+              <tr><td>Identitas pengguna</td><td>Akun pengguna</td><td>Alamat wallet</td></tr>
+              <tr><td>Autentikasi</td><td>Password dan sesi</td><td>Tanda tangan wallet</td></tr>
+              <tr><td>Kendali data</td><td>Server mengontrol data</td><td>State dikelola jaringan blockchain</td></tr>
+              <tr><td>Antarmuka program</td><td>API</td><td>RPC dan interface smart contract</td></tr>
+              <tr><td>Biaya operasi</td><td>Server dan database</td><td>Gas, RPC, indexer, dan infrastruktur lain</td></tr>
+              <tr><td>Kecepatan</td><td>Milidetik, bisa di-cache</td><td>Beberapa detik sampai menit, tergantung finality</td></tr>
+              <tr><td>Hapus data</td><td>Mudah</td><td>Sulit dan mahal, sering tidak mungkin</td></tr>
+              <tr><td>Kepercayaan</td><td>Percaya operator</td><td>Verifikasi aturan dan bukti, tetapi tetap ada titik kepercayaan lain</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Aplikasi hybrid adalah norma</h3>
+        <p>Aplikasi Web3 modern biasanya tetap memakai server dan database biasa. Frontend bisa berupa React atau Next.js. Gambar disimpan di CDN atau IPFS. Pencarian dan feed memakai database. Indexer membaca event dari blockchain dan menyusun data agar cepat dicari. Wallet menandatangani transaksi. RPC meneruskan transaksi ke node.</p>
+        <p>Contoh marketplace NFT: kepemilikan NFT ada on-chain, tetapi gambar, metadata, dan riwayat tampilan sering disimpan off-chain atau di IPFS. Pembayaran ada on-chain. Ulasan, pencarian, dan rekomendasi tetap di database. Tidak ada gunanya menaruh semua itu di blockchain.</p>
+
+        <div class="diagram">
+          <svg viewBox="0 0 720 250" role="img" aria-labelledby="hybrid-title hybrid-desc">
+            <title id="hybrid-title">Arsitektur aplikasi Web3 hybrid</title>
+            <desc id="hybrid-desc">Browser terhubung ke wallet, API dan database, serta RPC. RPC terhubung ke blockchain. Indexer membaca blockchain dan menulis ke database.</desc>
+
+            <rect class="svg-box" x="18" y="88" width="150" height="70" rx="2"></rect>
+            <text class="svg-label" x="93" y="118" text-anchor="middle">Browser</text>
+            <text class="svg-small" x="93" y="138" text-anchor="middle">UI dan state lokal</text>
+
+            <rect class="svg-box-accent svg-box" x="216" y="20" width="150" height="62" rx="2"></rect>
+            <text class="svg-label" x="291" y="48" text-anchor="middle">Wallet</text>
+            <text class="svg-small" x="291" y="66" text-anchor="middle">kunci dan signature</text>
+
+            <rect class="svg-box" x="216" y="104" width="150" height="62" rx="2"></rect>
+            <text class="svg-label" x="291" y="132" text-anchor="middle">API dan database</text>
+            <text class="svg-small" x="291" y="150" text-anchor="middle">konten, pencarian, sesi</text>
+
+            <rect class="svg-box" x="216" y="188" width="150" height="52" rx="2"></rect>
+            <text class="svg-label" x="291" y="212" text-anchor="middle">RPC</text>
+            <text class="svg-small" x="291" y="229" text-anchor="middle">baca dan kirim</text>
+
+            <rect class="svg-box" x="444" y="88" width="150" height="76" rx="2"></rect>
+            <text class="svg-label" x="519" y="118" text-anchor="middle">Blockchain</text>
+            <text class="svg-small" x="519" y="138" text-anchor="middle">kontrak dan state</text>
+
+            <rect class="svg-box" x="444" y="190" width="150" height="50" rx="2"></rect>
+            <text class="svg-label" x="519" y="212" text-anchor="middle">Indexer</text>
+            <text class="svg-small" x="519" y="229" text-anchor="middle">event ke database</text>
+
+            <line class="svg-line" x1="168" y1="112" x2="210" y2="57"></line>
+            <line class="svg-line" x1="168" y1="123" x2="210" y2="123"></line>
+            <line class="svg-line" x1="168" y1="136" x2="210" y2="207"></line>
+            <line class="svg-arrow" x1="366" y1="207" x2="438" y2="207"></line>
+            <path class="svg-arrow-head" d="M438 207l-7 -4v8z"></path>
+            <line class="svg-arrow" x1="438" y1="126" x2="372" y2="126"></line>
+            <path class="svg-arrow-head" d="M372 126l7 -4v8z"></path>
+            <line class="svg-line" x1="594" y1="214" x2="640" y2="214" stroke-dasharray="3 3"></line>
+            <text class="svg-small" x="646" y="218" text-anchor="end" opacity="0">.</text>
+          </svg>
+          <p class="diagram-caption">Browser berbicara dengan wallet untuk tanda tangan, dengan API dan database untuk data cepat, dan dengan RPC untuk blockchain. Indexer menjembatani event on-chain ke database yang mudah dicari.</p>
+        </div>
+
+        <h3>Kapan blockchain masuk akal</h3>
+        <ul>
+          <li>Ada beberapa pihak yang tidak sepenuhnya saling percaya dan butuh state bersama.</li>
+          <li>Kepemilikan atau pembayaran harus bisa diverifikasi tanpa satu admin pusat.</li>
+          <li>Riwayat perubahan perlu diaudit publik dan tidak boleh diedit diam-diam.</li>
+          <li>Aset digital harus bisa dipindahkan antar aplikasi tanpa izin platform.</li>
+          <li>Aturan harus berjalan otomatis tanpa operator yang bisa campur tangan.</li>
+        </ul>
+
+        <h3>Kapan tidak perlu blockchain</h3>
+        <ul>
+          <li>Aplikasi punya satu admin tepercaya dan pengguna tidak perlu memeriksa state sendiri.</li>
+          <li>Data berukuran besar, sering berubah, atau bersifat pribadi.</li>
+          <li>Kamu butuh pencarian cepat, moderasi konten, atau hapus data sesuai permintaan pengguna.</li>
+          <li>Volume transaksi tinggi dengan latensi rendah dan biaya sangat kecil.</li>
+          <li>Masalahnya hanya butuh database biasa, autentikasi, dan backup.</li>
+        </ul>
+
+        <div class="lab" id="lab-klasifikasi">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 10</p>
+            <h3>On-chain atau off-chain?</h3>
+            <p>Pilih tempat yang paling umum untuk setiap data. Jawaban bisa berbeda tergantung desain, jadi perhatikan alasannya, bukan hanya skornya.</p>
+          </div>
+          <div class="lab-body">
+            <div id="classify-list"></div>
+            <p class="status" id="classify-score" role="status" aria-live="polite">0 dari 6 dijawab.</p>
+          </div>
+        </div>
+
+        <h3>Login dengan wallet</h3>
+        <p>Login Web3 biasanya memakai tanda tangan, bukan password. Server mengirim pesan yang berisi domain, alamat, nonce, dan waktu kedaluwarsa. Wallet menandatangani pesan. Server memverifikasi signature dan memastikan nonce belum dipakai. Standar yang sering dipakai adalah Sign-In with Ethereum (EIP-4361).</p>
+        <p>Connect wallet saja bukan login. Connect hanya membagikan alamat. Login baru terjadi setelah server memverifikasi tanda tangan atas pesan yang dibuat server. Setelah itu, aplikasi tetap membutuhkan sesi, cookie, atau token seperti Web2. Wallet menggantikan password, bukan seluruh sistem autentikasi.</p>
+
+        <aside class="warn">
+          <span class="note-label">Privasi</span>
+          <p>Alamat wallet bersifat pseudonim, bukan anonim. Semua transaksi bisa dilacak. Jangan mengira data on-chain otomatis aman atau rahasia. Data pribadi sebaiknya tetap off-chain, dan on-chain cukup simpan hash atau referensi bila perlu.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Sebuah aplikasi menampilkan feed sosial, menyimpan foto, dan mencatat "likes" pengguna. Apakah semua itu perlu on-chain? Jelaskan.</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Tidak. Feed, foto, dan likes biasanya lebih murah dan lebih baik di database karena sering berubah, butuh pencarian, dan bisa dimoderasi. Yang mungkin perlu on-chain adalah kepemilikan aset, pembayaran, atau bukti tertentu yang harus dipercaya bersama. Menaruh semua interaksi sosial on-chain membuat biaya meledak dan privasi memburuk tanpa manfaat yang sepadan.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="studi-kasus" data-chapter="studi-kasus" data-track="true" data-title="Studi kasus wallet">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 12</p>
+          <h2>Studi kasus: wallet kecil di folder ini.</h2>
+          <p class="chapter-lead">Teori baru berguna kalau bisa dibaca di kode. Proyek wallet sederhana di folder induk memakai MetaMask, ethers, dan empat state UI yang sudah kamu pelajari.</p>
+          <ul class="goals">
+            <li>Menghubungkan konsep wallet, RPC, signature, dan gas ke kode nyata.</li>
+            <li>Membaca alur connect dan kirim ETH.</li>
+            <li>Menemukan celah keamanan yang umum di dApp pemula.</li>
+            <li>Mempraktikkan perbaikan kecil tanpa menyentuh mainnet.</li>
+          </ul>
+        </header>
+
+        <h3>Proyek yang dimaksud</h3>
+        <p>Di folder induk ada proyek <strong>Web3 Ku</strong> dengan file <code>index.html</code>, <code>style.css</code>, <code>app.js</code>, dan <code>README.md</code>. Proyek itu menghubungkan MetaMask, menampilkan alamat dan saldo, lalu mengirim ETH di jaringan yang dipilih wallet.</p>
+        <p><a href="../index.html">Buka proyek wallet</a>. Gunakan testnet seperti Sepolia. Jangan pernah memakai seed phrase asli untuk latihan.</p>
+
+        <h3>Alur connect</h3>
+        <ol>
+          <li>Tombol memanggil <code>eth_requestAccounts</code>. MetaMask membuka popup persetujuan.</li>
+          <li>Kalau pengguna setuju, wallet mengembalikan daftar alamat. Alamat ini aman ditampilkan.</li>
+          <li>Kode membuat <code>Web3Provider</code> dari <code>window.ethereum</code>, lalu meminta network dan saldo.</li>
+          <li>Saldo dari RPC masih dalam wei. <code>formatEther</code> mengubahnya menjadi ETH untuk ditampilkan.</li>
+        </ol>
+
+        <div class="code-block">
+          <div class="code-head"><span>app.js / connect</span><button class="copy-btn" type="button" data-copy-target="code-connect">Salin</button></div>
+          <pre><code id="code-connect"><span class="c">// Meminta izin membagikan alamat, bukan memindahkan dana</span>
+<span class="k">await</span> window.ethereum.request({ method: <span class="s">"eth_requestAccounts"</span> });
+<span class="k">const</span> provider = <span class="k">new</span> ethers.providers.Web3Provider(window.ethereum);
+<span class="k">const</span> network = <span class="k">await</span> provider.getNetwork();
+<span class="k">const</span> balance = <span class="k">await</span> provider.getBalance(address);</code></pre>
+        </div>
+
+        <h3>Alur kirim ETH</h3>
+        <ol>
+          <li>Form memeriksa format alamat tujuan dengan <code>isAddress</code>.</li>
+          <li>Jumlah ETH diubah menjadi wei dengan <code>parseEther</code>, lalu dikirim sebagai nilai transaksi.</li>
+          <li><code>eth_sendTransaction</code> meminta MetaMask menandatangani dan menyiarkan transaksi. Halaman tidak pernah melihat private key.</li>
+          <li>MetaMask mengembalikan hash transaksi. Hash itu belum berarti transaksi berhasil; status akhir perlu dicek lewat receipt.</li>
+        </ol>
+
+        <h3>Yang sudah benar dan yang perlu diperbaiki</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Bacaan kode proyek wallet. Beberapa poin sengaja disederhanakan untuk latihan.</caption>
+            <thead>
+              <tr><th scope="col">Bagian</th><th scope="col">Status</th><th scope="col">Catatan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Empat state UI</td><td>Baik</td><td>Ada state belum connect, loading, terhubung, dan error.</td></tr>
+              <tr><td>Penolakan pengguna</td><td>Baik</td><td>Kode 4001 diperlakukan sebagai pembatalan, bukan error sistem.</td></tr>
+              <tr><td>Perubahan akun dan chain</td><td>Baik</td><td>Event <code>accountsChanged</code> dan <code>chainChanged</code> ditangani.</td></tr>
+              <tr><td>Validasi alamat</td><td>Baik</td><td>Alamat tujuan diperiksa sebelum transaksi.</td></tr>
+              <tr><td>Pemeriksaan chain sebelum kirim</td><td>Perlu diperbaiki</td><td>Pastikan chainId sesuai testnet yang diinginkan sebelum mengirim.</td></tr>
+              <tr><td>Menunggu receipt</td><td>Perlu diperbaiki</td><td>Hash transaksi belum tentu berhasil. Tunggu <code>wait()</code> atau receipt.</td></tr>
+              <tr><td>Estimasi gas</td><td>Perlu diperbaiki</td><td>Tambahkan estimasi dan tampilkan perkiraan biaya ke pengguna.</td></tr>
+              <tr><td>Tautan explorer</td><td>Perlu diperbaiki</td><td>Hash sebaiknya bisa diklik ke explorer jaringan yang sesuai.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Latihan pengembangan</h3>
+        <ol>
+          <li>Tambahkan pemeriksaan <code>chainId</code> sebelum mengirim. Kalau bukan Sepolia, tampilkan pesan dan jangan lanjutkan.</li>
+          <li>Tampilkan alamat lengkap dengan tombol salin, bukan hanya bentuk pendek.</li>
+          <li>Setelah transaksi terkirim, tunggu receipt dan tampilkan status berhasil atau gagal.</li>
+          <li>Tambahkan estimasi gas dan perkiraan biaya dalam ETH sebelum tombol kirim ditekan.</li>
+          <li>Tangani error <code>-32002</code> dengan pesan "Selesaikan popup MetaMask yang sudah terbuka".</li>
+        </ol>
+
+        <details>
+          <summary>Petunjuk pemeriksaan chain</summary>
+          <p>Gunakan <code>provider.getNetwork()</code> atau <code>eth_chainId</code>. Bandingkan dengan <code>11155111</code> untuk Sepolia. Jangan mengandalkan nama jaringan dari wallet, karena nama bisa berubah. Simpan chain yang diizinkan dalam satu konstanta dan tampilkan pesan yang jelas kalau tidak cocok.</p>
+        </details>
+
+        <aside class="warn">
+          <span class="note-label">Sebelum ke mainnet</span>
+          <p>Proyek ini adalah alat belajar, bukan dompet produksi. Sebelum menyentuh mainnet, tambahkan audit kode, pengujian di beberapa wallet, penanganan jaringan yang lebih ketat, dan kebijakan privasi. Jangan pernah meminta seed phrase di aplikasi apa pun.</p>
+        </aside>
+
+        <div class="practice">
+          <span class="note-label">Latihan</span>
+          <p>Kenapa menampilkan hash transaksi saja belum cukup untuk memberi tahu pengguna bahwa pembayaran berhasil?</p>
+          <details>
+            <summary>Lihat jawaban</summary>
+            <p>Hash hanya identitas transaksi yang disiarkan. Transaksi bisa gagal, kehabisan gas, atau belum dimasukkan ke blok. Status berhasil diketahui dari receipt: field status, gas terpakai, dan log. Untuk nilai besar, tunggu cukup banyak konfirmasi atau finality sebelum menganggap pembayaran selesai.</p>
+          </details>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="uji" data-chapter="uji" data-track="true" data-title="Uji kompetensi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 13</p>
+          <h2>Uji kompetensi.</h2>
+          <p class="chapter-lead">Lima belas soal untuk menemukan lubang pemahaman. Tidak ada batas waktu. Skor 12 atau lebih berarti kamu siap lanjut ke smart contract.</p>
+          <ul class="goals">
+            <li>Menguji konsep, bukan hafalan istilah.</li>
+            <li>Melihat penjelasan untuk setiap jawaban.</li>
+            <li>Menyimpan skor terbaik di perangkat ini.</li>
+          </ul>
+        </header>
+
+        <noscript>
+          <div class="warn">
+            <span class="note-label">JavaScript dibutuhkan</span>
+            <p>Uji kompetensi dirender oleh JavaScript. Aktifkan JavaScript untuk memakai kuis ini. Materi tetap bisa dibaca tanpa JavaScript.</p>
+          </div>
+        </noscript>
+
+        <form id="quiz-form" novalidate></form>
+
+        <div class="lab-actions">
+          <button class="btn btn-primary" id="quiz-submit" type="submit" form="quiz-form">Periksa jawaban</button>
+          <button class="btn btn-quiet" id="quiz-retry" type="button">Ulangi dari awal</button>
+        </div>
+        <p class="status" id="quiz-status" role="status" aria-live="polite">Belum ada jawaban yang diperiksa.</p>
+        <div id="quiz-result" tabindex="-1"></div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="glosarium" data-title="Glosarium dan cheatsheet">
+        <header class="chapter-head">
+          <p class="chapter-mark">Rujukan</p>
+          <h2>Glosarium dan cheatsheet.</h2>
+          <p class="chapter-lead">Tempat kembali ketika ada istilah yang lupa. Ringkas, bukan pengganti bab.</p>
+        </header>
+
+        <h3>Glosarium</h3>
+        <dl class="glossary">
+          <div><dt>ABI</dt><dd>Deskripsi antarmuka kontrak: nama fungsi, argumen, dan tipe data. Dibutuhkan aplikasi untuk memanggil kontrak.</dd></div>
+          <div><dt>Address</dt><dd>Identitas publik 20 byte, biasanya ditulis 42 karakter dengan awalan 0x. Aman dibagikan.</dd></div>
+          <div><dt>Base fee</dt><dd>Biaya dasar per gas yang ditentukan protokol EIP-1559 dan dibakar.</dd></div>
+          <div><dt>Block</dt><dd>Paket transaksi beserta header yang ditambahkan ke rantai.</dd></div>
+          <div><dt>Bridge</dt><dd>Mekanisme memindahkan aset atau pesan antar chain. Sering menjadi target serangan.</dd></div>
+          <div><dt>Chain ID</dt><dd>Nomor identitas jaringan, misalnya 1 untuk Ethereum mainnet dan 11155111 untuk Sepolia.</dd></div>
+          <div><dt>Consensus</dt><dd>Aturan yang membuat node menyepakati blok dan urutan transaksi.</dd></div>
+          <div><dt>dApp</dt><dd>Aplikasi terdesentralisasi yang biasanya memakai wallet, kontrak, dan RPC.</dd></div>
+          <div><dt>EOA</dt><dd>Externally Owned Account, akun yang dikendalikan private key, bukan kontrak.</dd></div>
+          <div><dt>EVM</dt><dd>Ethereum Virtual Machine, mesin yang mengeksekusi bytecode kontrak.</dd></div>
+          <div><dt>Finality</dt><dd>Titik ketika pembatalan blok dianggap sangat tidak mungkin atau melanggar aturan finalitas.</dd></div>
+          <div><dt>Gas</dt><dd>Satuan komputasi. Biaya transaksi adalah gas terpakai dikali harga gas.</dd></div>
+          <div><dt>Gwei</dt><dd>Satuan harga gas. 1 gwei = 10 pangkat 9 wei.</dd></div>
+          <div><dt>Hash</dt><dd>Sidik jari data dengan panjang tetap. Tidak bisa dibalik dan berubah total bila input berubah.</dd></div>
+          <div><dt>JSON-RPC</dt><dd>Protokol request dan response yang dipakai aplikasi untuk berbicara dengan node.</dd></div>
+          <div><dt>Keccak-256</dt><dd>Fungsi hash yang dipakai Ethereum, berbeda dari SHA-256 dan SHA3-256 standar NIST.</dd></div>
+          <div><dt>Layer 1</dt><dd>Rantai dasar tempat konsensus dan keamanan terjadi, misalnya Ethereum.</dd></div>
+          <div><dt>Layer 2</dt><dd>Jaringan di atas L1 yang memindahkan eksekusi, tetapi tetap bersandar pada keamanan L1.</dd></div>
+          <div><dt>Mempool</dt><dd>Ruang tunggu transaksi yang sudah divalidasi tetapi belum masuk blok.</dd></div>
+          <div><dt>Merkle root</dt><dd>Hash tunggal yang merangkum seluruh transaksi dalam blok.</dd></div>
+          <div><dt>Node</dt><dd>Komputer yang menjalankan client dan memvalidasi aturan jaringan.</dd></div>
+          <div><dt>Nonce</dt><dd>Penghitung transaksi per akun. Mencegah replay dan menentukan urutan.</dd></div>
+          <div><dt>Oracle</dt><dd>Layanan yang memasukkan data dunia nyata ke blockchain. Sumber utama kesalahan data.</dd></div>
+          <div><dt>Private key</dt><dd>Angka rahasia untuk menandatangani. Tidak boleh dibagikan kepada siapa pun.</dd></div>
+          <div><dt>Public key</dt><dd>Kunci turunan yang dipakai untuk memverifikasi signature. Address diturunkan dari sini.</dd></div>
+          <div><dt>Rollup</dt><dd>Layer 2 yang mengeksekusi transaksi di luar L1 dan mengirim data atau bukti ke L1.</dd></div>
+          <div><dt>Seed phrase</dt><dd>Frasa master yang dapat memulihkan banyak akun. Kebocoran berarti kehilangan kendali.</dd></div>
+          <div><dt>Signature</dt><dd>Bukti kriptografis bahwa pemegang private key menyetujui pesan atau transaksi tertentu.</dd></div>
+          <div><dt>Slashing</dt><dd>Pemotongan stake validator karena melanggar aturan konsensus.</dd></div>
+          <div><dt>Smart contract</dt><dd>Kode yang berjalan di blockchain dan dapat mengubah state bila dipanggil.</dd></div>
+          <div><dt>Testnet</dt><dd>Jaringan uji dengan aset tanpa nilai nyata, misalnya Sepolia.</dd></div>
+          <div><dt>Validator</dt><dd>Peran yang mengusulkan dan mengesahkan blok pada proof of stake.</dd></div>
+          <div><dt>Wei</dt><dd>Satuan terkecil ETH. 1 ETH = 10 pangkat 18 wei.</dd></div>
+          <div><dt>Wallet</dt><dd>Aplikasi atau perangkat yang mengelola kunci dan menandatangani transaksi.</dd></div>
+        </dl>
+
+        <h3>Cheatsheet satuan dan angka protokol</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Angka protokol dapat berubah. Cek dokumentasi resmi sebelum memakainya untuk keputusan produksi.</caption>
+            <thead>
+              <tr><th scope="col">Besaran</th><th scope="col">Nilai</th><th scope="col">Catatan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1 ETH</td><td>10<sup>18</sup> wei</td><td>Satuan terkecil adalah wei.</td></tr>
+              <tr><td>1 gwei</td><td>10<sup>9</sup> wei</td><td>1 ETH = 10<sup>9</sup> gwei.</td></tr>
+              <tr><td>Transfer ETH dasar</td><td>21.000 gas</td><td>Panggilan kontrak bisa jauh lebih banyak.</td></tr>
+              <tr><td>Slot Ethereum</td><td>sekitar 12 detik</td><td>Finality normal setelah dua epoch.</td></tr>
+              <tr><td>Stake validator</td><td>32 ETH</td><td>Syarat aktivasi validator Ethereum.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cheatsheet keamanan</h3>
+        <ul>
+          <li>Seed phrase dan private key tidak pernah dibagikan, difoto, atau disimpan di cloud.</li>
+          <li>Connect wallet bukan izin memindahkan dana. Baca setiap signature dan approval.</li>
+          <li>Batasi token allowance dan cabut izin yang tidak dipakai.</li>
+          <li>Periksa domain, chain ID, dan alamat kontrak sebelum bertransaksi.</li>
+          <li>Gunakan testnet untuk belajar, mainnet hanya setelah paham risikonya.</li>
+          <li>Jangan menandatangani pesan atau transaksi yang tidak bisa kamu jelaskan.</li>
+        </ul>
+
+        <h3>Cheatsheet alur request</h3>
+        <ol>
+          <li>Frontend membangun transaksi atau pesan.</li>
+          <li>Wallet menampilkan detail dan meminta persetujuan.</li>
+          <li>Wallet menandatangani dengan private key.</li>
+          <li>Transaksi dikirim ke RPC, lalu ke mempool.</li>
+          <li>Validator mengeksekusi dan memasukkan ke blok.</li>
+          <li>Receipt memberi status berhasil atau gagal.</li>
+          <li>Konfirmasi atau finality menentukan kapan aman dianggap selesai.</li>
+        </ol>
+      </section>
+
+      <section class="chapter" id="sumber" data-title="Sumber belajar">
+        <header class="chapter-head">
+          <p class="chapter-mark">Rujukan</p>
+          <h2>Sumber belajar.</h2>
+          <p class="chapter-lead">Dokumentasi resmi dan standar teknis untuk memeriksa detail yang berubah. Buka tautan di tab baru.</p>
+        </header>
+
+        <ul class="sources">
+          <li><a href="https://ethereum.org/en/developers/docs/intro-to-ethereum/" target="_blank" rel="noopener noreferrer">Ethereum: Introduction to Ethereum</a><span>Gambaran dasar akun, transaksi, kontrak, dan EVM.</span></li>
+          <li><a href="https://ethereum.org/en/developers/docs/transactions/" target="_blank" rel="noopener noreferrer">Ethereum: Transactions</a><span>Anatomi transaksi, nonce, gas, dan receipt.</span></li>
+          <li><a href="https://ethereum.org/en/developers/docs/gas/" target="_blank" rel="noopener noreferrer">Ethereum: Gas and fees</a><span>Gas, base fee, priority fee, dan EIP-1559.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-1559" target="_blank" rel="noopener noreferrer">EIP-1559: Fee market change</a><span>Spesifikasi base fee dan pembakaran biaya.</span></li>
+          <li><a href="https://ethereum.org/en/developers/docs/nodes-and-clients/" target="_blank" rel="noopener noreferrer">Ethereum: Nodes and clients</a><span>Jenis node, client, dan peran validator.</span></li>
+          <li><a href="https://ethereum.org/en/developers/docs/scaling/" target="_blank" rel="noopener noreferrer">Ethereum: Scaling</a><span>Rollup, sidechain, dan desain scaling.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-191" target="_blank" rel="noopener noreferrer">EIP-191: Signed data standard</a><span>Format pesan bertanda tangan untuk login.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-712" target="_blank" rel="noopener noreferrer">EIP-712: Typed structured data</a><span>Tanda tangan data terstruktur yang bisa dibaca wallet.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-4361" target="_blank" rel="noopener noreferrer">EIP-4361: Sign-In with Ethereum</a><span>Standar login wallet dengan domain dan nonce.</span></li>
+          <li><a href="https://docs.soliditylang.org/" target="_blank" rel="noopener noreferrer">Solidity documentation</a><span>Bahasa kontrak untuk tahap berikutnya.</span></li>
+          <li><a href="https://docs.metamask.io/" target="_blank" rel="noopener noreferrer">MetaMask documentation</a><span>Provider, RPC, dan alur izin wallet.</span></li>
+          <li><a href="https://l2beat.com/" target="_blank" rel="noopener noreferrer">L2BEAT</a><span>Perbandingan risiko dan status Layer 2.</span></li>
+          <li><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener noreferrer">Bitcoin whitepaper</a><span>Sumber asli proof of work dan rantai blok.</span></li>
+        </ul>
+
+        <aside class="note">
+          <span class="note-label">Catatan sumber</span>
+          <p>Materi di docs ini ditulis ulang untuk pembelajaran, bukan salinan resmi. Kalau ada perbedaan antara docs ini dan spesifikasi protokol, spesifikasi resmi yang berlaku.</p>
+        </aside>
+      </section>
+
+
+      <footer class="site-footer">
+        <p><strong>Buku Besar</strong> adalah docs belajar mandiri untuk tahap 2 minggu 3. Materi ditulis ulang dengan contoh lokal, bukan salinan dokumentasi resmi.</p>
+        <p>Dibuat untuk dibaca pelan-pelan. Kalau ada angka protokol yang berubah, cek sumber resmi di bagian <a href="#sumber">Sumber belajar</a>.</p>
+      </footer>
+    </main>
+
+    <aside class="toc" aria-label="Di halaman ini">
+      <p class="toc-title">Di halaman ini</p>
+      <nav class="toc-nav" id="toc-nav"></nav>
+      <a class="toc-top" href="#mulai">Kembali ke atas</a>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>

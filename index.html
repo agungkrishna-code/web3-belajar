@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buku Besar: Docs belajar Web3, Solidity, dan Tooling</title>
+  <meta name="description" content="Indeks tiga seri docs belajar Web3 berbahasa Indonesia: fondasi blockchain, Solidity, dan tooling smart contract. Semua materi berjalan statis di browser.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23145c43'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='24' fill='%23f4f5f0' text-anchor='middle'%3EBB%3C/text%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("bukubesar.theme");
+        var saved = raw;
+        try { saved = JSON.parse(raw); } catch (parseError) {}
+        if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f4f5f0;
+      --surface: #fbfcf8;
+      --ink: #18201b;
+      --ink-soft: #38443c;
+      --muted: #5b665f;
+      --line: #d4d9cf;
+      --line-strong: #aab4a9;
+      --accent: #145c43;
+      --accent-hover: #0e4633;
+      --accent-soft: #dcebe2;
+      --font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --font-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", "Cascadia Mono", Consolas, monospace;
+      --header-h: 68px;
+      --radius: 4px;
+      color-scheme: light;
+    }
+
+    [data-theme="dark"] {
+      --paper: #101512;
+      --surface: #161d18;
+      --ink: #e7e9e1;
+      --ink-soft: #c5ccc3;
+      --muted: #a4afa6;
+      --line: #2b352e;
+      --line-strong: #46544a;
+      --accent: #6fd3a6;
+      --accent-hover: #8ee2ba;
+      --accent-soft: #1b3428;
+      color-scheme: dark;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -60px;
+      padding: 8px 14px;
+      background: var(--accent);
+      color: var(--paper);
+      border-radius: var(--radius);
+      z-index: 20;
+    }
+
+    .skip-link:focus {
+      top: 12px;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: var(--header-h);
+      padding: 0 24px;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      border-radius: 2px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .brand-text strong {
+      font-weight: 600;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .theme-toggle {
+      padding: 7px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--ink-soft);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    main {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .hero {
+      max-width: 720px;
+      padding: clamp(48px, 8vw, 88px) 0 clamp(36px, 5vw, 56px);
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 22px;
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 6vw, 4rem);
+      font-weight: 500;
+      line-height: 1.06;
+      letter-spacing: -0.015em;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 62ch;
+      color: var(--ink-soft);
+      font-size: 18px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .ledger {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .entry {
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: start;
+      padding: 26px 12px 26px 0;
+      border-bottom: 1px solid var(--line);
+      color: inherit;
+      text-decoration: none;
+      transition: background-color 140ms ease;
+    }
+
+    .entry:hover {
+      background: var(--surface);
+      color: inherit;
+    }
+
+    .entry:focus-visible {
+      outline-offset: -2px;
+    }
+
+    .entry-number {
+      padding-top: 4px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-body h3 {
+      margin: 0 0 6px;
+      font-family: var(--font-display);
+      font-size: 25px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .entry-body p {
+      margin: 0;
+      max-width: 58ch;
+      color: var(--ink-soft);
+      font-size: 15.5px;
+    }
+
+    .entry-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-top: 6px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .entry-meta .stage {
+      color: var(--accent);
+    }
+
+    .entry-arrow {
+      display: block;
+      margin-top: 10px;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .notes {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 32px;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .notes h2 {
+      margin: 0 0 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .notes p {
+      margin: 0 0 12px;
+      color: var(--ink-soft);
+      font-size: 15px;
+    }
+
+    .notes ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink-soft);
+      font-size: 15px;
+    }
+
+    .notes li + li {
+      margin-top: 6px;
+    }
+
+    .notes code {
+      padding: 1px 5px;
+      background: var(--accent-soft);
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .site-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .site-footer p {
+      margin: 0;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        font-size: 16px;
+      }
+
+      .site-header {
+        padding: 0 18px;
+      }
+
+      main {
+        padding: 0 18px 48px;
+      }
+
+      .entry {
+        grid-template-columns: 40px minmax(0, 1fr);
+        gap: 12px;
+        padding-right: 0;
+      }
+
+      .entry-meta {
+        grid-column: 2;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px 12px;
+        padding-top: 0;
+        text-align: left;
+      }
+
+      .entry-body h3 {
+        font-size: 22px;
+      }
+
+      .notes {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .section-head p {
+        text-align: left;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .entry {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#konten">Lewati ke konten</a>
+
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Buku Besar, halaman indeks">
+      <span class="brand-mark" aria-hidden="true">BB</span>
+      <span class="brand-text">
+        <strong>Buku Besar</strong>
+        <span>Catatan belajar Web3</span>
+      </span>
+    </a>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Tema gelap</button>
+  </header>
+
+  <main id="konten">
+    <section class="hero">
+      <p class="eyebrow">Indeks &middot; tiga seri</p>
+      <h1>Belajar Web3, dari fondasi sampai deploy.</h1>
+      <p class="lede">Tiga docs web statis berbahasa Indonesia. Mulai dari cara kerja blockchain, lanjut menulis kontrak Solidity, lalu menguji dan men-deploy dengan Foundry. Setiap seri punya lab interaktif dan uji kompetensi.</p>
+    </section>
+
+    <section aria-labelledby="judul-seri">
+      <div class="section-head">
+        <h2 id="judul-seri">Seri</h2>
+        <p>Dibaca berurutan, tapi setiap seri berdiri sendiri.</p>
+      </div>
+
+      <ol class="ledger">
+        <li>
+          <a class="entry" href="docs/">
+            <span class="entry-number" aria-hidden="true">01</span>
+            <span class="entry-body">
+              <h3>Fondasi blockchain dan Web3</h3>
+              <p>Sepuluh konsep dasar, perbandingan Web2 dan Web3, studi kasus wallet, serta uji kompetensi.</p>
+              <span class="entry-arrow">Buka docs fondasi &rarr;</span>
+            </span>
+            <span class="entry-meta">
+              <span class="stage">Tahap 2 &middot; minggu 3</span>
+              <span>13 bab</span>
+              <span>10 lab</span>
+              <span>15 soal</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="entry" href="solidity/">
+            <span class="entry-number" aria-hidden="true">02</span>
+            <span class="entry-body">
+              <h3>Solidity dan kontrak pintar</h3>
+              <p>Dari EVM dan tipe data sampai ERC-20, ERC-721, OpenZeppelin, dan proses deploy. Lima proyek kontrak lengkap.</p>
+              <span class="entry-arrow">Buka docs Solidity &rarr;</span>
+            </span>
+            <span class="entry-meta">
+              <span class="stage">Tahap 3</span>
+              <span>20 bab</span>
+              <span>11 lab</span>
+              <span>5 proyek</span>
+              <span>20 soal</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="entry" href="tools/">
+            <span class="entry-number" aria-hidden="true">03</span>
+            <span class="entry-body">
+              <h3>Tooling smart contract</h3>
+              <p>Foundry, Remix, unit test, fuzz, invariant, Anvil, forge script, Cast, fork test, dan debugging transaksi.</p>
+              <span class="entry-arrow">Buka docs tooling &rarr;</span>
+            </span>
+            <span class="entry-meta">
+              <span class="stage">Tahap 4</span>
+              <span>20 bab</span>
+              <span>13 lab</span>
+              <span>Proyek MiniVault</span>
+              <span>20 soal</span>
+            </span>
+          </a>
+        </li>
+      </ol>
+    </section>
+
+    <section class="notes" aria-labelledby="judul-catatan">
+      <div>
+        <h2 id="judul-catatan">Cara membaca</h2>
+        <p>Pilih satu seri, lalu ikuti bab secara berurutan. Progres per bab dan skor uji kompetensi disimpan di <code>localStorage</code> browser ini, jadi bisa dilanjutkan kapan saja di perangkat yang sama.</p>
+        <p>Semua lab berjalan di browser tanpa server, tanpa akun, dan tanpa wallet yang terhubung. Angka di dalam lab adalah ilustrasi, bukan data jaringan sungguhan.</p>
+      </div>
+      <div>
+        <h2>Menjalankan lokal</h2>
+        <p>Buka <code>index.html</code> langsung di browser, atau jalankan server statis dari folder ini:</p>
+        <ul>
+          <li><code>python -m http.server 8765</code></li>
+          <li>lalu buka <code>http://127.0.0.1:8765/</code></li>
+        </ul>
+        <p>Versi online tersedia lewat GitHub Pages di alamat repo ini.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>Buku Besar</strong> &middot; materi belajar mandiri berbahasa Indonesia.</p>
+    <p>Bukan salinan dokumentasi resmi. Selalu cek spesifikasi protokol terbaru sebelum dipakai di produksi.</p>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var button = document.getElementById("theme-toggle");
+      if (!button) return;
+
+      function current() {
+        return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+
+      function render() {
+        var dark = current() === "dark";
+        button.textContent = dark ? "Tema terang" : "Tema gelap";
+        button.setAttribute("aria-pressed", dark ? "true" : "false");
+      }
+
+      button.addEventListener("click", function () {
+        var next = current() === "dark" ? "light" : "dark";
+        if (next === "dark") {
+          root.setAttribute("data-theme", "dark");
+        } else {
+          root.removeAttribute("data-theme");
+        }
+        try {
+          localStorage.setItem("bukubesar.theme", JSON.stringify(next));
+        } catch (e) {}
+        render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
