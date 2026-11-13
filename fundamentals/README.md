@@ -15,12 +15,7 @@ python -m http.server 8765
 
 Lalu buka `http://127.0.0.1:8765/fundamentals/`.
 
-Kalau hanya ingin membaca docs, server dari folder ini juga cukup:
-
-```powershell
-cd fundamentals
-python -m http.server 8765
-```
+Karena CSS dan JavaScript bersama berada di `../assets/`, jalankan server dari folder induk `web3-belajar`, bukan dari folder modul ini.
 
 ## Isi
 
@@ -67,8 +62,11 @@ python -m http.server 8765
 ## Struktur file
 
 - `index.html`: seluruh materi, markup lab, glosarium, cheatsheet, dan kuis.
-- `styles.css`: sistem desain Buku Besar, komponen lab, tema terang dan gelap, layout responsif.
-- `app.js`: pencarian, progres, tema, TOC, state lab, semua interaksi, dan kuis.
+- `styles.css`: delta gaya khusus Pondasi (lab presisi) setelah base bersama.
+- `app.js`: state lab, interaksi, dan kuis khusus modul ini.
+- `../assets/base.css`: design system, tema terang/gelap, layout responsif, dan komponen bersama.
+- `../assets/core.js`: pencarian, progres, tema, navigasi, daftar isi, dan toolbar mengambang.
+- `../assets/utilities.css`: helper kecil seperti `.mono`, `.sr-only`, `.row`, dan `.col`.
 - `DESIGN.md`: arah desain dan alasan keputusan visual.
 
 ## Asumsi versi

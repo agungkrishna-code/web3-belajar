@@ -15,12 +15,7 @@ python -m http.server 8765
 
 Lalu buka `http://127.0.0.1:8765/nextjs/`.
 
-Kalau hanya ingin membaca docs, server dari folder ini juga cukup:
-
-```powershell
-cd nextjs
-python -m http.server 8765
-```
+Karena CSS dan JavaScript bersama berada di `../assets/`, jalankan server dari folder induk `web3-belajar`, bukan dari folder modul ini.
 
 ## Isi
 
@@ -70,8 +65,9 @@ python -m http.server 8765
 ## Struktur file
 
 - `index.html`: seluruh materi, markup lab, glosarium, cheatsheet, dan kuis.
-- `styles.css`: sistem desain Buku Besar, komponen wallet dan transaksi, tema terang dan gelap, layout responsif.
-- `app.js`: sorotan kode, pencarian, progres, tema, TOC, state simulasi, semua lab, dan kuis.
+- `app.js`: sorotan kode, state lab, dan kuis khusus modul ini.
+- `../assets/base.css` lalu `../assets/stage-solidity.css`, `../assets/stage-tools.css`, dan `../assets/stage-nextjs.css`: design system berlapis.
+- `../assets/core.js` dan `../assets/utilities.css`: perilaku dan helper bersama.
 
 ## Asumsi versi
 

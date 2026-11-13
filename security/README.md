@@ -15,11 +15,7 @@ python -m http.server 8765
 
 Lalu buka `http://127.0.0.1:8765/security/`.
 
-Kalau hanya ingin membaca docs, server dari folder ini juga cukup:
-
-```powershell
-python -m http.server 8765
-```
+Karena CSS dan JavaScript bersama berada di `../assets/`, jalankan server dari folder induk `web3-belajar`, bukan dari folder modul ini.
 
 ## Isi
 
@@ -95,6 +91,13 @@ Kalau kamu memakai versi lain, baca dokumentasi versi tersebut. Perubahan nama f
 - `benteng.theme`
 
 Batas lulus ujian adalah 16 dari 20.
+
+## Struktur file
+
+- `index.html`: seluruh materi dan markup lab.
+- `app.js`: state lab, deep link, dan kuis khusus modul ini.
+- `../assets/base.css` lalu stage Solidity, Perkakas, Jembatan, Dermaga, dan `../assets/stage-security.css`: design system berlapis.
+- `../assets/core.js` dan `../assets/utilities.css`: perilaku dan helper bersama.
 
 ## Catatan teknis
 

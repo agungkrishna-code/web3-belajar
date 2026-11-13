@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-module="jembatan">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,7 @@
   <script>
     (function () {
       try {
-        var raw = localStorage.getItem("jembatan.theme");
+        var raw = localStorage.getItem(document.documentElement.dataset.module + ".theme");
         var saved = raw;
         try { saved = JSON.parse(raw); } catch (parseError) {}
         if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
@@ -21,7 +21,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../assets/base.css">
+  <link rel="stylesheet" href="../assets/stage-solidity.css">
+  <link rel="stylesheet" href="../assets/stage-tools.css">
+  <link rel="stylesheet" href="../assets/stage-nextjs.css">
+  <link rel="stylesheet" href="../assets/utilities.css">
 </head>
 <body>
   <a class="skip-link" href="#konten">Lewati ke konten</a>
@@ -39,7 +43,7 @@
       <div class="header-tools">
         <div class="search" role="search">
           <label class="sr-only" for="search-input">Cari materi di docs ini</label>
-          <input id="search-input" type="search" placeholder="Cari materi" autocomplete="off" aria-controls="search-results">
+          <input id="search-input" type="search" placeholder="Cari materi" autocomplete="off" aria-controls="search-results" data-hint="Coba &quot;wagmi&quot;, &quot;balance&quot;, &quot;signature&quot;, atau &quot;event&quot;.">
           <div class="search-results" id="search-results" hidden></div>
         </div>
 
@@ -73,9 +77,7 @@
           <span>Progres belajar</span>
           <span id="progress-text">0 dari 18</span>
         </div>
-        <div class="progress-track" id="progress-track" role="progressbar" aria-label="Progres belajar" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0">
-          <span class="progress-fill" id="progress-fill"></span>
-        </div>
+        <progress class="progress-track" id="progress-track" max="18" value="0" aria-label="Progres belajar">0 dari 18</progress>
       </div>
 
       <nav class="chapter-nav" aria-label="Daftar bab">
@@ -3082,6 +3084,7 @@ ABI encoding error           -> tipe argumen tidak cocok dengan ABI</code></pre>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="../assets/core.js" defer></script>
   <script src="app.js" defer></script>
 </body>
 </html>

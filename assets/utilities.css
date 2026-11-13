@@ -1,0 +1,50 @@
+/* ------------------------------------------------------------------
+   Utilitas kecil. Muat terakhir, setelah base dan stage modul.
+
+   Hanya helper yang benar-benar dipakai atau jelas berguna untuk
+   penulisan lab baru. Komponen tetap tinggal di base/stage.
+   ------------------------------------------------------------------ */
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.hidden {
+  display: none !important;
+}

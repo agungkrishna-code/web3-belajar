@@ -19,13 +19,7 @@ python -m http.server 8765
 
 Lalu buka `http://127.0.0.1:8765/docs/`.
 
-Kalau hanya ingin membaca docs, kamu juga bisa menjalankan server dari folder ini dan membuka `http://127.0.0.1:8765/`.
-
-Alternatif:
-
-```powershell
-npx serve .
-```
+Karena CSS dan JavaScript bersama berada di `../assets/`, jalankan server dari folder induk `web3-belajar`, bukan dari folder modul ini. Dari folder induk, `npx serve .` juga bisa dipakai.
 
 ## Isi
 
@@ -56,8 +50,10 @@ npx serve .
 ## Struktur file
 
 - `index.html`: seluruh materi dan markup lab.
-- `styles.css`: sistem desain, tema terang dan gelap, layout responsif.
-- `app.js`: hash SHA-256, lab, pencarian, progres, tema, navigasi, dan kuis.
+- `app.js`: hash SHA-256, state lab, dan kuis khusus modul ini.
+- `../assets/base.css`: design system, tema terang/gelap, layout responsif, dan komponen bersama.
+- `../assets/core.js`: pencarian, progres, tema, navigasi, daftar isi, dan toolbar mengambang.
+- `../assets/utilities.css`: helper kecil seperti `.mono`, `.sr-only`, `.row`, dan `.col`.
 - `DESIGN.md`: arah desain, alasan keputusan visual, dan dial.
 
 ## Catatan teknis

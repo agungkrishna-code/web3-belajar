@@ -1,0 +1,30 @@
+/* Delta tahap Benteng. Muat setelah semua stage sebelumnya. */
+
+@keyframes event-in {
+  from { background: var(--accent-soft); }
+  to { background: transparent; }
+}
+
+.sig-output p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.readout-grid dd.is-good {
+  color: var(--accent);
+}
+
+.readout-grid dd.is-bad {
+  color: var(--warn);
+}
+
+@keyframes quickbar-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

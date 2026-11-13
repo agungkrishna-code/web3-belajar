@@ -13,11 +13,7 @@ python -m http.server 8765
 
 Lalu buka `http://127.0.0.1:8765/solidity/`.
 
-Kalau hanya ingin membaca docs, server dari folder ini juga cukup:
-
-```powershell
-python -m http.server 8765
-```
+Karena CSS dan JavaScript bersama berada di `../assets/`, jalankan server dari folder induk `web3-belajar`, bukan dari folder modul ini.
 
 ## Isi
 
@@ -59,8 +55,9 @@ python -m http.server 8765
 ## Struktur file
 
 - `index.html`: seluruh materi, markup lab, dan kuis.
-- `styles.css`: sistem desain, tema terang dan gelap, komponen lab, layout responsif.
-- `app.js`: sorotan kode, pencarian, progres, tema, TOC, semua lab, dan kuis.
+- `app.js`: sorotan kode, state lab, dan kuis khusus modul ini.
+- `../assets/base.css` lalu `../assets/stage-solidity.css`: design system dan tambahan gaya tahap Solidity.
+- `../assets/core.js` dan `../assets/utilities.css`: perilaku dan helper bersama.
 
 ## Asumsi versi
 

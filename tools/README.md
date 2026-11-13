@@ -15,11 +15,7 @@ python -m http.server 8765
 
 Lalu buka `http://127.0.0.1:8765/tools/`.
 
-Kalau hanya ingin membaca docs, server dari folder ini juga cukup:
-
-```powershell
-python -m http.server 8765
-```
+Karena CSS dan JavaScript bersama berada di `../assets/`, jalankan server dari folder induk `web3-belajar`, bukan dari folder modul ini.
 
 ## Isi
 
@@ -60,8 +56,9 @@ python -m http.server 8765
 ## Struktur file
 
 - `index.html`: seluruh materi, markup lab, glosarium, cheatsheet, dan kuis.
-- `styles.css`: sistem desain Buku Besar, komponen tooling, tema terang dan gelap, layout responsif.
-- `app.js`: sorotan kode, pencarian, progres, tema, TOC, semua lab, dan kuis.
+- `app.js`: sorotan kode, state lab, dan kuis khusus modul ini.
+- `../assets/base.css`, `../assets/stage-solidity.css`, lalu `../assets/stage-tools.css`: design system dan tambahan gaya tahap ini.
+- `../assets/core.js` dan `../assets/utilities.css`: perilaku dan helper bersama.
 
 ## Asumsi versi
 

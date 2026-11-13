@@ -36,17 +36,29 @@ npx serve .
 
 ```text
 .
-├── index.html        halaman indeks
-├── fundamentals/     docs fondasi pemrograman
-├── docs/             docs fondasi Web3
-├── solidity/         docs Solidity
-├── tools/            docs tooling smart contract
-├── nextjs/           docs frontend Web3
-├── deploy/           docs deploy dApp ke Sepolia testnet
-└── security/         docs keamanan dan konsep lanjutan
+├── index.html            halaman indeks
+├── assets/
+│   ├── base.css          gaya dasar bersama
+│   ├── core.js           tema, pencarian, progres, navigasi, toolbar
+│   ├── utilities.css     helper kecil
+│   └── stage-*.css       delta gaya per tahap, dimuat berurutan
+├── fundamentals/         docs fondasi pemrograman
+├── docs/                 docs fondasi Web3
+├── solidity/             docs Solidity
+├── tools/                docs tooling smart contract
+├── nextjs/               docs frontend Web3
+├── deploy/               docs deploy dApp ke Sepolia testnet
+└── security/             docs keamanan dan konsep lanjutan
 ```
 
-Setiap folder berisi `index.html`, `styles.css`, `app.js`, dan `README.md` sendiri. Folder `docs/`, `deploy/`, `fundamentals/`, dan `security/` juga punya `DESIGN.md` yang menjelaskan arah desain.
+## Arsitektur aset
+
+- `assets/base.css` adalah gaya dasar yang dipakai semua modul. Isinya layout, token warna, tipografi, komponen, dan toolbar.
+- `assets/stage-solidity.css`, `stage-tools.css`, `stage-nextjs.css`, `stage-deploy.css`, dan `stage-security.css` adalah delta kumulatif. Modul memuat base lalu stage miliknya dan semua stage sebelumnya, sesuai urutan di `index.html`.
+- `assets/core.js` menangani bagian yang sama di semua modul: tema, navigasi mobile, pencarian, progres, daftar isi, dan toolbar. Logika lab serta kuis tetap di `app.js` masing-masing modul.
+- `assets/utilities.css` berisi helper kecil seperti `.mono`, `.sr-only`, `.row`, dan `.col`.
+- Tidak ada build step. Browser meng-cache file bersama, jadi berpindah antar modul tidak mengunduh ulang gaya dasar.
+
 
 ## Catatan teknis
 
