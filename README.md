@@ -1,6 +1,6 @@
 # Buku Besar
 
-Enam docs web statis berbahasa Indonesia untuk belajar Web3, dari fondasi pemrograman sampai deploy dApp ke testnet. Semua materi berjalan di browser, tanpa akun, tanpa server, dan tanpa wallet yang terhubung. Progres belajar disimpan di `localStorage` perangkat.
+Tujuh docs web statis berbahasa Indonesia untuk belajar Web3, dari fondasi pemrograman sampai deploy dApp ke testnet, ditutup dengan keamanan smart contract. Semua materi berjalan di browser, tanpa akun, tanpa server, dan tanpa wallet yang terhubung. Progres belajar disimpan di `localStorage` perangkat.
 
 ## Isi
 
@@ -12,8 +12,9 @@ Enam docs web statis berbahasa Indonesia untuk belajar Web3, dari fondasi pemrog
 | [`tools/`](tools/) | Foundry, Remix, test, fuzz, invariant, Anvil, Cast, fork test | 20 bab, 13 lab, proyek MiniVault, 20 soal |
 | [`nextjs/`](nextjs/) | Next.js, TypeScript, Wagmi, Viem, MetaMask, frontend dApp | 17 bab, 12 lab, proyek MiniVault dApp, 20 soal |
 | [`deploy/`](deploy/) | RPC, Sepolia, faucet, deploy, verifikasi, gas, explorer, frontend testnet | 20 bab, 13 lab, proyek MiniVault ke Sepolia, 20 soal |
+| [`security/`](security/) | Keamanan smart contract: reentrancy, akses, integer, oracle, MEV, flash loan, signature, audit, DeFi, DAO, NFT, AA, L2, IPFS, ZK | 22 bab, 13 lab, mini-audit MiniVault, 20 soal |
 
-`index.html` di root adalah halaman indeks yang menautkan keenamnya.
+`index.html` di root adalah halaman indeks yang menautkan ketujuh docs.
 
 ## Menjalankan lokal
 
@@ -41,10 +42,11 @@ npx serve .
 ├── solidity/         docs Solidity
 ├── tools/            docs tooling smart contract
 ├── nextjs/           docs frontend Web3
-└── deploy/           docs deploy dApp ke Sepolia testnet
+├── deploy/           docs deploy dApp ke Sepolia testnet
+└── security/         docs keamanan dan konsep lanjutan
 ```
 
-Setiap folder berisi `index.html`, `styles.css`, `app.js`, dan `README.md` sendiri. Folder `docs/`, `deploy/`, dan `fundamentals/` juga punya `DESIGN.md` yang menjelaskan arah desain.
+Setiap folder berisi `index.html`, `styles.css`, `app.js`, dan `README.md` sendiri. Folder `docs/`, `deploy/`, `fundamentals/`, dan `security/` juga punya `DESIGN.md` yang menjelaskan arah desain.
 
 ## Catatan teknis
 

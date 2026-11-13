@@ -2,7 +2,7 @@
 
 Docs web statis untuk tahap 6: RPC provider, testnet, wallet development, faucet, contract deployment, verifikasi, block explorer, estimasi gas, konfirmasi transaksi, dan frontend yang terhubung ke Sepolia. Materi berbahasa Indonesia, berjalan lokal, dan tidak mengirim data ke mana pun.
 
-Ini lanjutan dari [docs fondasi Web3](../docs/), [docs Solidity](../solidity/), [docs tooling](../tools/), dan [docs frontend](../nextjs/).
+Ini lanjutan dari [docs fondasi Web3](../docs/), [docs Solidity](../solidity/), [docs tooling](../tools/), [docs frontend](../nextjs/), dan [docs keamanan](../security/).
 
 ## Menjalankan
 

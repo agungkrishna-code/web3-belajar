@@ -1,0 +1,2709 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benteng: Keamanan Smart Contract dan Konsep Lanjutan Web3</title>
+  <meta name="description" content="Docs keamanan smart contract berbahasa Indonesia: reentrancy, access control, integer, oracle manipulation, front-running, flash loan, signature, pola pertahanan, audit, OWASP, DeFi, DAO, NFT, account abstraction, Layer 2, IPFS, dan zero knowledge proof.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23145c43'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='20' fill='%23f4f5f0' text-anchor='middle'%3EBT%3C/text%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("benteng.theme");
+        var saved = raw;
+        try { saved = JSON.parse(raw); } catch (parseError) {}
+        if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#konten">Lewati ke konten</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#mulai">
+        <span class="brand-mark" aria-hidden="true">BT</span>
+        <span class="brand-text">
+          <strong>Benteng</strong>
+          <span>Keamanan dan konsep lanjutan</span>
+        </span>
+      </a>
+
+      <div class="header-tools">
+        <div class="search" role="search">
+          <label class="sr-only" for="search-input">Cari materi di docs ini</label>
+          <input id="search-input" type="search" placeholder="Cari materi" autocomplete="off" aria-controls="search-results">
+          <div class="search-results" id="search-results" hidden></div>
+        </div>
+
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Ganti ke mode gelap">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="btn-label" id="theme-label">Mode gelap</span>
+        </button>
+
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Buka daftar bab" aria-controls="sidebar" aria-expanded="false">
+          <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false">
+            <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="1.6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navigasi materi">
+      <button class="icon-btn sidebar-close" id="sidebar-close" type="button" aria-label="Tutup daftar bab">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
+          <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.6"></path>
+        </svg>
+      </button>
+
+      <span class="sidebar-kicker">Tahap 7 / Keamanan</span>
+      <p class="sidebar-title">Benteng</p>
+
+      <div class="progress-block">
+        <div class="progress-label">
+          <span>Progres belajar</span>
+          <span id="progress-text">0 dari 23</span>
+        </div>
+        <progress class="progress-track" id="progress-track" max="23" value="0" aria-label="Progres belajar">0 dari 23</progress>
+      </div>
+
+      <nav class="chapter-nav" aria-label="Daftar bab">
+        <p class="nav-group">Orientasi</p>
+        <a class="nav-link" href="#mulai" data-nav="mulai">
+          <span class="nav-num" aria-hidden="true">00</span>
+          <span class="nav-label">Mulai di sini</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#peta" data-nav="peta">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Peta kurikulum</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#cara-pakai" data-nav="cara-pakai">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Cara pakai dan versi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Model ancaman</p>
+        <a class="nav-link" href="#permukaan" data-nav="permukaan">
+          <span class="nav-num" aria-hidden="true">01</span>
+          <span class="nav-label">Permukaan serangan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#model-ancaman" data-nav="model-ancaman">
+          <span class="nav-num" aria-hidden="true">02</span>
+          <span class="nav-label">Model ancaman</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#panggilan" data-nav="panggilan">
+          <span class="nav-num" aria-hidden="true">03</span>
+          <span class="nav-label">Anatomi panggilan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Tujuh vektor wajib</p>
+        <a class="nav-link" href="#reentrancy" data-nav="reentrancy">
+          <span class="nav-num" aria-hidden="true">04</span>
+          <span class="nav-label">Reentrancy</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#akses" data-nav="akses">
+          <span class="nav-num" aria-hidden="true">05</span>
+          <span class="nav-label">Access control</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#integer" data-nav="integer">
+          <span class="nav-num" aria-hidden="true">06</span>
+          <span class="nav-label">Integer dan pembulatan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#oracle" data-nav="oracle">
+          <span class="nav-num" aria-hidden="true">07</span>
+          <span class="nav-label">Manipulasi oracle</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#frontrunning" data-nav="frontrunning">
+          <span class="nav-num" aria-hidden="true">08</span>
+          <span class="nav-label">Front-running dan MEV</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#flashloan" data-nav="flashloan">
+          <span class="nav-num" aria-hidden="true">09</span>
+          <span class="nav-label">Flash loan attacks</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#signature" data-nav="signature">
+          <span class="nav-num" aria-hidden="true">10</span>
+          <span class="nav-label">Keamanan tanda tangan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Pertahanan</p>
+        <a class="nav-link" href="#pola" data-nav="pola">
+          <span class="nav-num" aria-hidden="true">11</span>
+          <span class="nav-label">Pola pertahanan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#pengujian" data-nav="pengujian">
+          <span class="nav-num" aria-hidden="true">12</span>
+          <span class="nav-label">Pengujian keamanan</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#owasp" data-nav="owasp">
+          <span class="nav-num" aria-hidden="true">13</span>
+          <span class="nav-label">OWASP dan triase</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#audit" data-nav="audit">
+          <span class="nav-num" aria-hidden="true">14</span>
+          <span class="nav-label">Audit dan insiden</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Eksplorasi</p>
+        <a class="nav-link" href="#defi" data-nav="defi">
+          <span class="nav-num" aria-hidden="true">15</span>
+          <span class="nav-label">DeFi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#dao" data-nav="dao">
+          <span class="nav-num" aria-hidden="true">16</span>
+          <span class="nav-label">DAO dan governance</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#nft" data-nav="nft">
+          <span class="nav-num" aria-hidden="true">17</span>
+          <span class="nav-label">NFT</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#akun-abstraksi" data-nav="akun-abstraksi">
+          <span class="nav-num" aria-hidden="true">18</span>
+          <span class="nav-label">Account abstraction</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#l2" data-nav="l2">
+          <span class="nav-num" aria-hidden="true">19</span>
+          <span class="nav-label">Layer 2 dan bridge</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#ipfs" data-nav="ipfs">
+          <span class="nav-num" aria-hidden="true">20</span>
+          <span class="nav-label">IPFS dan indexing</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#zk" data-nav="zk">
+          <span class="nav-num" aria-hidden="true">21</span>
+          <span class="nav-label">Zero knowledge proof</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#proyek" data-nav="proyek">
+          <span class="nav-num" aria-hidden="true">22</span>
+          <span class="nav-label">Mini-audit MiniVault</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+
+        <p class="nav-group">Ujian dan rujukan</p>
+        <a class="nav-link" href="#uji" data-nav="uji">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Uji kompetensi</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#glosarium" data-nav="glosarium">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Glosarium dan cheatsheet</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+        <a class="nav-link" href="#sumber" data-nav="sumber">
+          <span class="nav-num" aria-hidden="true"></span>
+          <span class="nav-label">Sumber belajar</span>
+          <span class="nav-check" aria-hidden="true"></span>
+        </a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <p>Semua lab berjalan di browser ini. Tidak ada kontrak, wallet, atau dana sungguhan, dan tidak ada data yang dikirim.</p>
+        <p>Progres dan skor tersimpan lokal di perangkatmu.</p>
+        <p><a href="../">Indeks semua seri</a></p>
+        <p><a href="../deploy/">Tahap sebelumnya: deploy ke testnet</a></p>
+        <p><a href="../nextjs/">Frontend Web3</a></p>
+        <p><a href="../tools/">Tooling dan Foundry</a></p>
+        <p><a href="../solidity/">Solidity dan EVM</a></p>
+        <p><a href="../docs/">Fondasi blockchain</a></p>
+      </div>
+    </aside>
+
+    <div class="scrim" data-close-nav aria-hidden="true"></div>
+
+    <main class="content" id="konten">
+      <section class="hero" id="mulai" data-title="Mulai di sini">
+        <div>
+          <p class="chapter-mark">Tahap 7 / Keamanan / Konsep lanjutan</p>
+          <h1>Kontrak yang aman menganggap serangan pasti datang.</h1>
+          <p class="hero-lead">Di tahap ini kamu berhenti bertanya "apakah kode ini jalan" dan mulai bertanya "siapa yang bisa membuatnya berperilaku lain". Kamu membedah tujuh vektor serangan wajib, memasang pola pertahanan, menguji invarian, lalu membuka delapan area lanjutan yang semuanya berdiri di atas fondasi yang sama: model ancaman yang jujur.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#permukaan">Mulai dari Bab 01</a>
+            <a class="btn btn-quiet" href="#proyek">Buka mini-audit</a>
+          </div>
+          <p class="hero-note">Tidak ada kontrak, wallet, atau dana sungguhan di halaman ini. Setiap angka di lab adalah simulasi yang diberi label.</p>
+        </div>
+
+        <div class="hero-board" role="group" aria-label="Ringkasan cakupan keamanan">
+          <div class="hero-board-head">
+            <strong>Papan serangan</strong>
+            <span>Peta singkat</span>
+          </div>
+          <div class="hero-board-grid">
+            <div class="hero-board-fact"><span>Fokus</span><strong>Smart contract dan protokol</strong></div>
+            <div class="hero-board-fact"><span>Vektor wajib</span><strong>7</strong></div>
+            <div class="hero-board-fact"><span>Rujukan</span><strong>OWASP SC Top 10 2026</strong></div>
+            <div class="hero-board-fact"><span>Sifat</span><strong>Aditif, bukan checklist</strong></div>
+            <div class="hero-board-fact"><span>Latihan</span><strong>13 lab simulasi</strong></div>
+            <div class="hero-board-fact"><span>Aturan</span><strong>Audit sebelum dana nyata</strong></div>
+          </div>
+          <p class="hero-board-foot">Keamanan bukan bab terakhir yang diselesaikan sekali. Ia keputusan yang diulang di setiap perubahan kode, parameter, dan hak admin.</p>
+        </div>
+      </section>
+
+      <section class="home-block" id="peta" data-title="Peta kurikulum">
+        <h2>Dari "kode ini berjalan" ke "kode ini tetap berperilaku benar saat diserang".</h2>
+        <p class="block-lead">Enam bagian. Model ancaman, tujuh vektor serangan, pola pertahanan, bukti pengujian, lalu eksplorasi protokol dan infrastruktur. Setiap bab menjawab satu pertanyaan yang muncul saat ada orang lain yang ingin membuat kontrakmu melakukan hal lain.</p>
+
+        <ol class="curriculum">
+          <li><a href="#permukaan"><span class="curr-num">01</span><span><span class="curr-title">Permukaan serangan</span><span class="curr-desc">Mengapa kontrak yang benar bisa tetap kehilangan dana.</span></span></a></li>
+          <li><a href="#model-ancaman"><span class="curr-num">02</span><span><span class="curr-title">Model ancaman</span><span class="curr-desc">Aset, aktor, kemampuan, jalur, dan dampak.</span></span></a></li>
+          <li><a href="#panggilan"><span class="curr-num">03</span><span><span class="curr-title">Anatomi panggilan</span><span class="curr-desc">msg.sender, tx.origin, call, dan delegatecall.</span></span></a></li>
+          <li><a href="#reentrancy"><span class="curr-num">04</span><span><span class="curr-title">Reentrancy</span><span class="curr-desc">Panggilan berulang sebelum state selesai diperbarui.</span></span></a></li>
+          <li><a href="#akses"><span class="curr-num">05</span><span><span class="curr-title">Access control</span><span class="curr-desc">Siapa boleh memanggil apa, dan siapa memegang kunci.</span></span></a></li>
+          <li><a href="#integer"><span class="curr-num">06</span><span><span class="curr-title">Integer dan pembulatan</span><span class="curr-desc">Overflow, casting, desimal, dan arah pembulatan.</span></span></a></li>
+          <li><a href="#oracle"><span class="curr-num">07</span><span><span class="curr-title">Manipulasi oracle</span><span class="curr-desc">Harga spot, TWAP, staleness, dan biaya menyerang.</span></span></a></li>
+          <li><a href="#frontrunning"><span class="curr-num">08</span><span><span class="curr-title">Front-running dan MEV</span><span class="curr-desc">Mempool publik, slippage, deadline, dan urutan transaksi.</span></span></a></li>
+          <li><a href="#flashloan"><span class="curr-num">09</span><span><span class="curr-title">Flash loan attacks</span><span class="curr-desc">Modal instan yang memperbesar bug kecil menjadi eksploit.</span></span></a></li>
+          <li><a href="#signature"><span class="curr-num">10</span><span><span class="curr-title">Keamanan tanda tangan</span><span class="curr-desc">ECDSA, EIP-712, nonce, deadline, dan replay.</span></span></a></li>
+          <li><a href="#pola"><span class="curr-num">11</span><span><span class="curr-title">Pola pertahanan</span><span class="curr-desc">CEI, guard, pull payment, least privilege, dan pause.</span></span></a></li>
+          <li><a href="#pengujian"><span class="curr-num">12</span><span><span class="curr-title">Pengujian keamanan</span><span class="curr-desc">Unit, fuzz, invariant, fork test, dan formal verification.</span></span></a></li>
+          <li><a href="#owasp"><span class="curr-num">13</span><span><span class="curr-title">OWASP dan triase</span><span class="curr-desc">Sepuluh kategori risiko dan cara memberi prioritas.</span></span></a></li>
+          <li><a href="#audit"><span class="curr-num">14</span><span><span class="curr-title">Audit dan insiden</span><span class="curr-desc">Persiapan audit, monitoring, runbook, dan postmortem.</span></span></a></li>
+          <li><a href="#defi"><span class="curr-num">15</span><span><span class="curr-title">DeFi</span><span class="curr-desc">AMM, lending, likuidasi, dan risiko komposabilitas.</span></span></a></li>
+          <li><a href="#dao"><span class="curr-num">16</span><span><span class="curr-title">DAO dan governance</span><span class="curr-desc">Quorum, timelock, vote buying, dan eksekusi proposal.</span></span></a></li>
+          <li><a href="#nft"><span class="curr-num">17</span><span><span class="curr-title">NFT</span><span class="curr-desc">Mint, metadata, royalty, dan approval marketplace.</span></span></a></li>
+          <li><a href="#akun-abstraksi"><span class="curr-num">18</span><span><span class="curr-title">Account abstraction</span><span class="curr-desc">ERC-4337, paymaster, validasi, dan EIP-7702.</span></span></a></li>
+          <li><a href="#l2"><span class="curr-num">19</span><span><span class="curr-title">Layer 2 dan bridge</span><span class="curr-desc">Rollup, sequencer, finality, dan model kepercayaan bridge.</span></span></a></li>
+          <li><a href="#ipfs"><span class="curr-num">20</span><span><span class="curr-title">IPFS dan indexing</span><span class="curr-desc">Content addressing, pinning, gateway, dan reorg.</span></span></a></li>
+          <li><a href="#zk"><span class="curr-num">21</span><span><span class="curr-title">Zero knowledge proof</span><span class="curr-desc">SNARK, STARK, zkEVM, privasi, dan skalabilitas.</span></span></a></li>
+          <li><a href="#proyek"><span class="curr-num">22</span><span><span class="curr-title">Mini-audit MiniVault</span><span class="curr-desc">Satu kontrak, empat temuan, dan gate kesiapan.</span></span></a></li>
+        </ol>
+
+        <div class="note">
+          <span class="note-label">Cara membaca</span>
+          <p>Jangan lompat ke bagian eksplorasi sebelum kamu bisa menjelaskan tujuh vektor wajib dengan contoh kode. DeFi, DAO, NFT, dan Layer 2 bukan topik terpisah dari keamanan. Mereka adalah tempat yang sama dengan aturan main yang lebih rumit dan dana yang lebih besar.</p>
+        </div>
+      </section>
+
+      <section class="home-block" id="cara-pakai" data-title="Cara pakai dan versi">
+        <h2>Yang kamu bangun di tahap ini adalah kebiasaan mencurigai kode sendiri.</h2>
+        <p class="block-lead">Tahap 7 tidak menambah fitur baru ke MiniVault. Ia mengubah cara kamu membaca, menguji, dan merilis kontrak yang sudah ada. Setiap bab menghasilkan satu pertanyaan yang bisa kamu ajukan ke kode sendiri, dan setiap lab memberi kesempatan melihat kegagalan sebelum terjadi di jaringan.</p>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Empat hasil yang harus bisa kamu tunjukkan di akhir tahap ini.</caption>
+            <thead>
+              <tr><th scope="col">Hasil</th><th scope="col">Bukti</th><th scope="col">Bukan bukti</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Model ancaman tertulis</td><td>Daftar aset, aktor, jalur serangan, dan mitigasi di repositori.</td><td>Kalimat "kontrak ini aman" tanpa daftar asumsi.</td></tr>
+              <tr><td>Mitigasi yang bisa diuji</td><td>Test yang gagal saat guard atau pemeriksaan dihapus.</td><td>Komentar "sudah dicek" atau nama fungsi yang terdengar aman.</td></tr>
+              <tr><td>Bukti pengujian</td><td>Unit, fuzz, dan invariant berjalan di CI dengan hasil tersimpan.</td><td>Layar terminal yang tidak bisa diulang.</td></tr>
+              <tr><td>Rencana insiden</td><td>Runbook, pemegang kunci, kanal komunikasi, dan kontak audit.</td><td>Niat baik saat panik terjadi.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="diagram">
+          <svg viewBox="0 0 720 240" role="img" aria-labelledby="rantai-title rantai-desc">
+            <title id="rantai-title">Rantai serangan yang umum</title>
+            <desc id="rantai-desc">Modal dari flash loan memasuki pool untuk menggeser harga oracle. Harga yang salah masuk ke logika protokol. Protokol mengizinkan aksi yang seharusnya tidak layak. External call mengirim dana keluar. Serangan selesai dalam satu transaksi dan pinjaman dikembalikan.</desc>
+            <rect class="svg-box" x="10" y="40" width="120" height="62" rx="2"></rect>
+            <text class="svg-label" x="24" y="66">Flash loan</text>
+            <text class="svg-small" x="24" y="85">modal instan</text>
+
+            <rect class="svg-box" x="160" y="40" width="120" height="62" rx="2"></rect>
+            <text class="svg-label" x="174" y="66">Oracle</text>
+            <text class="svg-small" x="174" y="85">harga bergeser</text>
+
+            <rect class="svg-box-accent svg-box" x="310" y="40" width="120" height="62" rx="2"></rect>
+            <text class="svg-label" x="324" y="66">Logika</text>
+            <text class="svg-small" x="324" y="85">cek jadi lolos</text>
+
+            <rect class="svg-box" x="460" y="40" width="120" height="62" rx="2"></rect>
+            <text class="svg-label" x="474" y="66">External call</text>
+            <text class="svg-small" x="474" y="85">dana keluar</text>
+
+            <rect class="svg-box" x="610" y="40" width="100" height="62" rx="2"></rect>
+            <text class="svg-label" x="624" y="66">Repay</text>
+            <text class="svg-small" x="624" y="85">satu transaksi</text>
+
+            <line class="svg-arrow" x1="130" y1="71" x2="154" y2="71"></line>
+            <path class="svg-arrow-head" d="M154 71l-7 -4v8z"></path>
+            <line class="svg-arrow" x1="280" y1="71" x2="304" y2="71"></line>
+            <path class="svg-arrow-head" d="M304 71l-7 -4v8z"></path>
+            <line class="svg-arrow" x1="430" y1="71" x2="454" y2="71"></line>
+            <path class="svg-arrow-head" d="M454 71l-7 -4v8z"></path>
+            <line class="svg-arrow" x1="580" y1="71" x2="604" y2="71"></line>
+            <path class="svg-arrow-head" d="M604 71l-7 -4v8z"></path>
+
+            <text class="svg-small" x="10" y="140">Setiap kotak bisa lolos review sendiri. Rantai inilah yang harus kamu uji, bukan hanya fungsi satu per satu.</text>
+            <text class="svg-small" x="10" y="160">Hilangkan satu mata rantai, dan serangan yang sama menjadi tidak ekonomis.</text>
+            <text class="svg-small" x="10" y="196">Pertahanan: TWAP dan batas harga, invariant, external call yang aman, serta batas pinjaman per blok.</text>
+          </svg>
+          <p class="diagram-caption">Serangan modern jarang memakai satu bug. Ia menyusun beberapa kelemahan kecil menjadi satu transaksi yang menguntungkan.</p>
+        </div>
+
+        <h3>Asumsi versi</h3>
+        <div class="grid-3">
+          <div>
+            <h4>Solidity ^0.8.24 dan OpenZeppelin 5.x</h4>
+            <p>Contoh memakai aritmetika checked bawaan, <code>ReentrancyGuard</code>, <code>AccessControl</code>, <code>Pausable</code>, <code>ECDSA</code>, dan <code>SafeERC20</code>. Perilaku <code>Ownable</code> di OpenZeppelin 5 membutuhkan alamat awal pada constructor.</p>
+          </div>
+          <div>
+            <h4>Foundry 1.x dan alat analisis</h4>
+            <p>Contoh test memakai <code>forge test</code>, fuzz, dan invariant. Alat tambahan seperti Echidna, Medusa, Halmos, dan Slither punya format input sendiri. Cek versi sebelum menyalin konfigurasi.</p>
+          </div>
+          <div>
+            <h4>OWASP Smart Contract Top 10 2026</h4>
+            <p>Kategori dan urutan mengikuti rilis 2026. Daftar 2025 memiliki urutan berbeda. Rujukan tetap berguna, tetapi jangan menganggap daftar mana pun lengkap.</p>
+          </div>
+        </div>
+
+        <div class="warn">
+          <span class="note-label">Batas simulasi</span>
+          <p>Lab tidak menjalankan EVM, tidak memanggil kontrak, dan tidak memakai dana. Semua saldo, hash, dan status adalah ilustrasi. Model matematika di lab oracle, front-running, dan flash loan memakai rumus nyata dari input, tetapi parameter pasar disederhanakan.</p>
+        </div>
+
+        <div class="note">
+          <span class="note-label">Satu aturan yang tidak berubah</span>
+          <p>Lulus lab bukan bukti kontrak aman. Lab mengajarkan bentuk serangan dan cara berpikir. Untuk dana nyata, kamu tetap membutuhkan audit independen, test yang kuat, multisig, monitoring, dan rencana pemulihan.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="permukaan" data-chapter="permukaan" data-track="true" data-title="Permukaan serangan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 01<span class="chapter-type">MODEL ANCAMAN</span></p>
+          <h2>Kontrak tidak punya tombol batal.</h2>
+          <p class="chapter-lead">Kode biasa gagal dengan cara yang membosankan: exception, log, lalu kamu memperbaiki dan mengulang. Kontrak gagal dengan cara yang mahal: dana berpindah, state berubah permanen, dan tidak ada admin yang bisa mengembalikan transaksi. Perbedaan ini bukan soal bahasa pemrograman. Ia soal konsekuensi.</p>
+          <ul class="goals">
+            <li>Menjelaskan tiga sifat yang membuat smart contract berbeda dari backend biasa.</li>
+            <li>Memetakan permukaan serangan dari entry point sampai dependensi eksternal.</li>
+            <li>Membedakan bug implementasi, bug desain, dan bug ekonomi.</li>
+            <li>Menilai fungsi berdasarkan nilai, hak, dan kemampuan mengubah state.</li>
+          </ul>
+        </header>
+
+        <h3>Tiga sifat yang mengubah segalanya</h3>
+        <p><strong>Pertama, ada nilai yang bisa dipindahkan.</strong> Kontrak yang memegang token, ETH, atau posisi utang selalu punya insentif untuk diserang. Bahkan kontrak tanpa dana bisa bernilai jika ia memegang izin, reputasi, atau hak suara.</p>
+        <p><strong>Kedua, lingkungannya adversarial.</strong> Setiap fungsi publik bisa dipanggil siapa saja, dalam urutan apa pun, dengan nilai apa pun, dan pada waktu yang tidak kamu rencanakan. Tidak ada asumsi "pengguna akan memakai UI kita". Penyerang memanggil kontrak langsung.</p>
+        <p><strong>Ketiga, komposisi tidak bisa dihindari.</strong> Kontrakmu memanggil token, oracle, pool, atau kontrak lain yang perilakunya bisa berubah. Kesepakatan yang terlihat aman hari ini bisa menjadi berbahaya ketika kontrak lain di sekitarnya berubah.</p>
+
+        <div class="definition">
+          <strong>Permukaan serangan</strong> adalah semua titik di mana pihak luar bisa memengaruhi state atau aliran dana kontrak: fungsi eksternal, callback, hak admin, dependensi eksternal, parameter konfigurasi, dan data off-chain yang dipercaya.
+        </div>
+
+        <h3>Lima lapis yang harus diperiksa</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Permukaan serangan yang sering terlewat.</caption>
+            <thead>
+              <tr><th scope="col">Lapis</th><th scope="col">Pertanyaan</th><th scope="col">Contoh kegagalan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Entry point</td><td>Fungsi mana yang bisa dipanggil pihak luar?</td><td><code>withdraw</code> tanpa batas atau tanpa pemeriksaan pemilik.</td></tr>
+              <tr><td>State</td><td>Urutan perubahan state bisa dilihat pihak lain?</td><td>Saldo dikurangi setelah ETH dikirim.</td></tr>
+              <tr><td>Hak istimewa</td><td>Siapa bisa mengubah parameter, oracle, atau implementasi?</td><td>Owner bisa mengganti oracle ke alamat jahat.</td></tr>
+              <tr><td>Dependensi</td><td>Apa yang diasumsikan tentang kontrak lain?</td><td>Token yang memanggil callback saat transfer.</td></tr>
+              <tr><td>Data off-chain</td><td>Siapa yang memasukkan harga, bukti, atau signature?</td><td>Harga spot dari pool tipis dianggap benar.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Bug implementasi, desain, dan ekonomi</h3>
+        <p>Bug implementasi adalah kode yang tidak melakukan apa yang tertulis: modifier lupa dipasang, variabel salah, atau urutan operasi keliru. Bug desain adalah kode yang berjalan sesuai rencana, tetapi rencananya salah: tidak ada cara untuk menghentikan protokol, atau harga mengikuti sumber yang bisa dimanipulasi. Bug ekonomi adalah desain yang benar secara logika, tetapi memberi insentif untuk berperilaku merugikan: likuidasi yang terlalu murah, hadiah yang lebih besar dari biaya serangan, atau parameter yang membuat pinjaman tanpa jaminan menguntungkan.</p>
+        <p>Audit statis sangat baik menemukan kategori pertama. Kategori kedua dan ketiga membutuhkan model ancaman, simulasi, dan pemahaman pasar. Itu sebabnya tahap ini menaruh model ancaman sebelum daftar serangan.</p>
+
+        <div class="lab" id="lab-permukaan">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 01</p>
+            <h3>Nilai setiap fungsi berdasarkan dampaknya.</h3>
+            <p>Enam fungsi dari satu kontrak vault. Tentukan tingkat risikonya jika fungsi itu disalahgunakan, bukan seberapa sering ia dipanggil. Fungsi baca bisa berisiko tinggi jika hasilnya dipakai untuk keputusan dana.</p>
+          </div>
+          <div class="lab-body">
+            <div class="stack-task" data-surface="total" data-answer="rendah">
+              <p><strong><code>totalAssets()</code></strong><small>Fungsi view, tidak menulis state, hanya mengembalikan saldo.</small></p>
+              <select aria-label="Risiko fungsi totalAssets">
+                <option value="">Pilih tingkat</option>
+                <option value="rendah">Rendah</option>
+                <option value="sedang">Sedang</option>
+                <option value="tinggi">Tinggi</option>
+              </select>
+            </div>
+            <div class="stack-task" data-surface="deposit" data-answer="sedang">
+              <p><strong><code>deposit(uint256 assets)</code></strong><small>Menerima token dan mencetak share. Tidak punya hak admin, tetapi mengubah state dan menambah kewajiban.</small></p>
+              <select aria-label="Risiko fungsi deposit">
+                <option value="">Pilih tingkat</option>
+                <option value="rendah">Rendah</option>
+                <option value="sedang">Sedang</option>
+                <option value="tinggi">Tinggi</option>
+              </select>
+            </div>
+            <div class="stack-task" data-surface="withdraw" data-answer="tinggi">
+              <p><strong><code>withdraw(uint256 assets)</code></strong><small>Mengirim ETH ke pemanggil dan mengurangi saldo. Ada external call serta aliran dana keluar.</small></p>
+              <select aria-label="Risiko fungsi withdraw">
+                <option value="">Pilih tingkat</option>
+                <option value="rendah">Rendah</option>
+                <option value="sedang">Sedang</option>
+                <option value="tinggi">Tinggi</option>
+              </select>
+            </div>
+            <div class="stack-task" data-surface="oracle" data-answer="tinggi">
+              <p><strong><code>setOracle(address feed)</code></strong><small>Hanya owner. Mengubah sumber harga yang dipakai seluruh protokol.</small></p>
+              <select aria-label="Risiko fungsi setOracle">
+                <option value="">Pilih tingkat</option>
+                <option value="rendah">Rendah</option>
+                <option value="sedang">Sedang</option>
+                <option value="tinggi">Tinggi</option>
+              </select>
+            </div>
+            <div class="stack-task" data-surface="pause" data-answer="tinggi">
+              <p><strong><code>pause()</code></strong><small>Hanya guardian. Menghentikan semua penarikan dan transfer.</small></p>
+              <select aria-label="Risiko fungsi pause">
+                <option value="">Pilih tingkat</option>
+                <option value="rendah">Rendah</option>
+                <option value="sedang">Sedang</option>
+                <option value="tinggi">Tinggi</option>
+              </select>
+            </div>
+            <div class="stack-task" data-surface="name" data-answer="rendah">
+              <p><strong><code>name()</code></strong><small>Fungsi pure, tidak membaca state, tidak menyentuh dana.</small></p>
+              <select aria-label="Risiko fungsi name">
+                <option value="">Pilih tingkat</option>
+                <option value="rendah">Rendah</option>
+                <option value="sedang">Sedang</option>
+                <option value="tinggi">Tinggi</option>
+              </select>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="surface-check" type="button">Periksa penilaian</button>
+              <button class="btn btn-quiet" id="surface-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="surface-status" role="status" aria-live="polite">Belum ada penilaian.</p>
+            <p class="lab-note">Fungsi view bisa menjadi titik serangan jika harganya dipakai untuk menghitung pinjaman. Risiko bukan sifat fungsi, melainkan sifat keputusan yang bergantung padanya.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="model-ancaman" data-chapter="model-ancaman" data-track="true" data-title="Model ancaman">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 02<span class="chapter-type">MODEL ANCAMAN</span></p>
+          <h2>Sebelum menulis mitigasi, tulis dulu siapa yang rugi.</h2>
+          <p class="chapter-lead">Sebagian besar diskusi keamanan berhenti di "pakai ReentrancyGuard". Model ancaman memaksa kamu menjawab pertanyaan yang lebih awal: apa yang dilindungi, dari siapa, dengan kemampuan apa, lewat jalur mana, dan seberapa besar kerugian yang bisa diterima. Tanpa jawaban itu, mitigasi hanya daftar kebiasaan.</p>
+          <ul class="goals">
+            <li>Menyusun model ancaman satu halaman untuk satu kontrak.</li>
+            <li>Memisahkan aset, aktor, batas kepercayaan, dan kemampuan penyerang.</li>
+            <li>Menulis asumsi yang bisa dibuktikan salah.</li>
+            <li>Menentukan prioritas berdasarkan dampak dan kemungkinan.</li>
+          </ul>
+        </header>
+
+        <h3>Enam kolom yang cukup</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Kerangka model ancaman yang bisa dipakai ulang.</caption>
+            <thead>
+              <tr><th scope="col">Kolom</th><th scope="col">Isi</th><th scope="col">Contoh MiniVault</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Aset</td><td>Apa yang bisa hilang atau berubah?</td><td>ETH pengguna, share, hak owner, reputasi protokol.</td></tr>
+              <tr><td>Aktor</td><td>Siapa yang punya motif dan kemampuan?</td><td>Pengguna biasa, pemegang share besar, admin, bot MEV, kontrak pinjaman.</td></tr>
+              <tr><td>Batas kepercayaan</td><td>Komponen mana yang dipercaya tetapi tidak dikendalikan?</td><td>Oracle, token, RPC, bridge, frontend, pemegang kunci.</td></tr>
+              <tr><td>Kemampuan</td><td>Apa yang bisa dilakukan penyerang?</td><td>Memanggil fungsi, meminjam flash loan, menaruh transaksi di mempool, mengganti oracle.</td></tr>
+              <tr><td>Jalur</td><td>Rangkaian langkah menuju kerugian.</td><td>Manipulasi harga, pinjam melebihi jaminan, tinggalkan utang.</td></tr>
+              <tr><td>Dampak</td><td>Apa yang terjadi jika jalur berhasil?</td><td>Dana keluar, protokol bangkrut, pengguna tidak bisa menarik.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Contoh model ancaman MiniVault</h3>
+        <p>MiniVault menyimpan ETH, mencetak share, dan memakai oracle untuk menilai kolateral. Model ancamannya bisa ditulis dalam satu halaman:</p>
+        <ul>
+          <li><strong>Aset utama:</strong> ETH di vault dan hak menarik. <strong>Aset sekunder:</strong> kewenangan owner untuk mengganti oracle atau menghentikan kontrak.</li>
+          <li><strong>Aktor luar:</strong> siapa pun yang bisa memanggil <code>deposit</code>, <code>withdraw</code>, dan <code>borrow</code>. <strong>Aktor dalam:</strong> owner dan guardian.</li>
+          <li><strong>Batas kepercayaan:</strong> feed harga, token ERC-20, dan asumsi bahwa owner jujur atau setidaknya tidak bisa bertindak instan.</li>
+          <li><strong>Kemampuan penyerang:</strong> modal tanpa batas dalam satu transaksi lewat flash loan, kendali atas urutan transaksi lewat gas, dan kemampuan memilih waktu panggilan.</li>
+          <li><strong>Jalur utama:</strong> geser harga oracle, buka posisi dengan kolateral yang dinilai terlalu tinggi, lalu tinggalkan posisi.</li>
+          <li><strong>Dampak:</strong> vault kehilangan ETH, pemegang share menanggung kerugian, protokol tidak bisa membayar semua penarikan.</li>
+        </ul>
+
+        <div class="note">
+          <span class="note-label">Asumsi harus bisa gagal</span>
+          <p>"Owner jujur" bukan asumsi keamanan, melainkan harapan. Tulis sebagai risiko dengan mitigasi: timelock, multisig, batas parameter, dan event yang dipantau. Asumsi yang tidak bisa diuji bukan bagian dari model ancaman.</p>
+        </div>
+
+        <h3>Anggaran penyerang</h3>
+        <p>Serangan terjadi ketika biaya lebih kecil daripada hasil. Biaya mencakup modal, bunga flash loan, slippage, gas, risiko tertangkap, dan kemungkinan dana dibekukan. Hasil mencakup dana yang bisa diambil, nilai posisi, atau keuntungan kompetitif. Mitigasi yang baik menaikkan biaya atau menurunkan hasil, bukan hanya menambah pemeriksaan.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Cara membaca prioritas tanpa angka palsu.</caption>
+            <thead>
+              <tr><th scope="col">Dampak</th><th scope="col">Kemungkinan</th><th scope="col">Tindakan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Dana hilang total</td><td>Bisa dilakukan satu transaksi</td><td>Blocker rilis. Perbaiki sebelum audit, bukan sesudah.</td></tr>
+              <tr><td>Dana hilang sebagian</td><td>Butuh kondisi pasar khusus</td><td>Uji skenario, batasi eksposur, pantau parameter.</td></tr>
+              <tr><td>Protokol macet</td><td>Bisa dipicu siapa saja</td><td>Perbaiki jalur keluar dan tambahkan mode darurat.</td></tr>
+              <tr><td>Kerugian reputasi</td><td>Sulit diukur</td><td>Transparansi, dokumentasi risiko, dan komunikasi insiden.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Model ancaman bukan dokumen sekali pakai</h3>
+        <p>Setiap kali kamu menambah oracle, mengubah parameter likuidasi, memasang proxy, atau memberi role baru, model ancaman berubah. Simpan dokumennya di repositori dan perbarui di pull request yang mengubah permukaan serangan. Model ancaman yang tidak pernah diperbarui lebih berbahaya daripada tidak ada, karena memberi rasa aman yang salah.</p>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="panggilan" data-chapter="panggilan" data-track="true" data-title="Anatomi panggilan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 03<span class="chapter-type">MODEL ANCAMAN</span></p>
+          <h2>Satu transaksi, tiga identitas yang sering tertukar.</h2>
+          <p class="chapter-lead">Banyak bug keamanan bukan berasal dari matematika yang rumit, melainkan dari salah membaca siapa yang berbicara. <code>msg.sender</code>, <code>tx.origin</code>, dan <code>address(this)</code> menjawab pertanyaan berbeda. Menukarnya bisa membuka pintu bagi siapa saja.</p>
+          <ul class="goals">
+            <li>Membedakan pemanggil langsung, pemrakarsa transaksi, dan kontrak itu sendiri.</li>
+            <li>Menjelaskan perilaku <code>call</code>, <code>staticcall</code>, dan <code>delegatecall</code>.</li>
+            <li>Mengenali mengapa external call adalah akar reentrancy.</li>
+            <li>Membaca alur state pada satu transaksi bertingkat.</li>
+          </ul>
+        </header>
+
+        <h3>Tiga identitas</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Siapa yang dimaksud di dalam kontrak.</caption>
+            <thead>
+              <tr><th scope="col">Ekspresi</th><th scope="col">Artinya</th><th scope="col">Bahaya umum</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>msg.sender</code></td><td>Alamat yang memanggil fungsi ini, bisa wallet atau kontrak.</td><td>Kontrak perantara bisa menjadi pemanggil tak terduga.</td></tr>
+              <tr><td><code>tx.origin</code></td><td>Wallet yang memulai seluruh rantai transaksi.</td><td>Dipakai untuk otorisasi, lalu ditipu lewat kontrak perantara.</td></tr>
+              <tr><td><code>address(this)</code></td><td>Alamat kontrak yang sedang berjalan.</td><td>Pemeriksaan pemilik yang salah sasaran.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Bayangkan korban membuka situs jahat. Situs meminta korban memanggil kontrak jahat. Kontrak jahat lalu memanggil <code>Vault.withdraw()</code>. Di dalam Vault, <code>tx.origin</code> adalah wallet korban, tetapi <code>msg.sender</code> adalah kontrak jahat. Kalau Vault memakai <code>tx.origin</code> sebagai pengganti pemilik, kontrak jahat lolos.</p>
+
+        <div class="code-block">
+          <div class="code-head"><span>Otorisasi dengan tx.origin</span><button class="copy-btn" type="button" data-copy-target="code-03-origin">Salin</button></div>
+          <pre><code id="code-03-origin" data-lang="solidity">function withdrawAll() external {
+    // SALAH: tx.origin adalah wallet yang memulai transaksi,
+    // bukan kontrak yang memanggil fungsi ini.
+    require(tx.origin == owner, "bukan owner");
+    payable(tx.origin).transfer(address(this).balance);
+}
+
+function withdrawAllSafe() external {
+    // BENAR: hanya owner yang boleh memanggil langsung.
+    require(msg.sender == owner, "bukan owner");
+    (bool ok, ) = owner.call{value: address(this).balance}("");
+    require(ok, "transfer gagal");
+}</code></pre>
+        </div>
+        <p>Aturan praktisnya sederhana: jangan pernah memakai <code>tx.origin</code> untuk otorisasi. Gunakan <code>msg.sender</code>, dan jika kontrak perlu menerima panggilan dari kontrak lain, desain antarmuka yang eksplisit untuk itu.</p>
+
+        <h3>Tiga cara memanggil</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Perbedaan panggilan tingkat rendah.</caption>
+            <thead>
+              <tr><th scope="col">Panggilan</th><th scope="col">Konteks</th><th scope="col">Bisa mengubah state</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>call</code></td><td>Menjalankan kode kontrak lain dengan storage kontrak lain, <code>msg.sender</code> menjadi kontrak pemanggil.</td><td>Ya.</td></tr>
+              <tr><td><code>staticcall</code></td><td>Sama seperti call, tetapi state tidak boleh berubah. Dipakai untuk fungsi view.</td><td>Tidak.</td></tr>
+              <tr><td><code>delegatecall</code></td><td>Menjalankan kode kontrak lain dengan storage dan alamat kontrak pemanggil.</td><td>Ya, pada storage pemanggil.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><code>delegatecall</code> adalah dasar proxy dan juga sumber bug serius. Kode yang dijalankan bisa menulis ke slot storage yang tidak ia ketahui. Jika implementasi proxy bisa diganti tanpa batas, siapa pun yang memegang hak upgrade memegang seluruh dana protokol.</p>
+
+        <h3>External call membuka pintu</h3>
+        <p>Saat kontrak mengirim ETH dengan <code>call</code>, penerima bisa menjalankan kode. Jika penerima adalah kontrak, ia bisa memanggil balik fungsi kontrak pengirim sebelum baris berikutnya dieksekusi. Inilah mekanisme dasar reentrancy.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Urutan yang membuka celah</span><button class="copy-btn" type="button" data-copy-target="code-03-order">Salin</button></div>
+          <pre><code id="code-03-order" data-lang="solidity">function withdraw(uint256 amount) external {
+    require(balanceOf[msg.sender] &gt;= amount, "saldo kurang");
+
+    // 1. Kirim ETH. Penerima boleh menjalankan kode di sini.
+    (bool ok, ) = msg.sender.call{value: amount}("");
+    require(ok, "gagal");
+
+    // 2. Baru kurangi saldo. Terlambat: penerima bisa memanggil ulang
+    //    withdraw sebelum baris ini dijalankan.
+    balanceOf[msg.sender] -= amount;
+}</code></pre>
+        </div>
+        <p>Bab berikutnya membedah serangan ini secara utuh. Untuk sekarang, ingat satu hal: setiap external call adalah titik di mana kendali berpindah ke kode yang tidak kamu tulis.</p>
+
+        <div class="note">
+          <span class="note-label">Baca dari sudut penyerang</span>
+          <p>Saat membaca fungsi, tanyakan: di baris mana kendali keluar dari kontrak ini, dan state apa yang belum konsisten saat kendali kembali? Jawaban pertanyaan itu menemukan lebih banyak bug daripada menghafal nama serangan.</p>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="reentrancy" data-chapter="reentrancy" data-track="true" data-title="Reentrancy">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 04<span class="chapter-type">VEKTOR WAJIB</span></p>
+          <h2>Reentrancy bukan bug satu fungsi. Ia bug satu urutan.</h2>
+          <p class="chapter-lead">Reentrancy terjadi ketika kontrak memanggil pihak luar sebelum state-nya selesai diperbarui. Pihak luar itu memanggil balik fungsi yang sama atau fungsi lain, melihat state lama, lalu mengeksekusi logika yang seharusnya tidak lagi tersedia. Serangan DAO 2016 adalah contoh paling terkenal, tetapi polanya masih muncul di kontrak baru dengan bentuk yang berbeda.</p>
+          <ul class="goals">
+            <li>Menjelaskan mekanisme reentrancy lewat urutan state, bukan hafalan.</li>
+            <li>Membedakan reentrancy satu fungsi, lintas fungsi, lintas kontrak, dan read-only.</li>
+            <li>Menerapkan checks-effects-interactions dan guard dengan benar.</li>
+            <li>Menguji apakah mitigasi benar-benar menutup jalur serangan.</li>
+          </ul>
+        </header>
+
+        <h3>Empat bentuk yang perlu dikenal</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Varian reentrancy dan jalurnya.</caption>
+            <thead>
+              <tr><th scope="col">Varian</th><th scope="col">Cara kerja</th><th scope="col">Contoh</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Satu fungsi</td><td>Fungsi yang sama dipanggil ulang sebelum state diperbarui.</td><td><code>withdraw</code> mengirim ETH sebelum mengurangi saldo.</td></tr>
+              <tr><td>Lintas fungsi</td><td>Fungsi A memanggil balik fungsi B yang memakai state setengah jadi.</td><td><code>withdraw</code> memicu <code>transfer</code> yang membaca saldo lama.</td></tr>
+              <tr><td>Lintas kontrak</td><td>Dua kontrak saling memanggil dan berbagi asumsi state.</td><td>Vault memanggil strategy, strategy memanggil vault lagi.</td></tr>
+              <tr><td>Read-only</td><td>Fungsi view membaca state setengah jadi untuk mengambil keputusan.</td><td>Harga share dibaca saat totalAssets belum diperbarui.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Read-only reentrancy sering terlewat karena tidak ada dana yang dikirim di dalam fungsi view. Kerugiannya muncul di protokol lain yang membaca harga atau rasio dari kontrak yang sedang dieksekusi.</p>
+
+        <h3>Kode yang bisa dikuras</h3>
+        <div class="code-block">
+          <div class="code-head"><span>Vault rentan</span><button class="copy-btn" type="button" data-copy-target="code-04-bad">Salin</button></div>
+          <pre><code id="code-04-bad" data-lang="solidity">contract Vault {
+    mapping(address =&gt; uint256) public balanceOf;
+
+    function deposit() external payable {
+        balanceOf[msg.sender] += msg.value;
+    }
+
+    function withdraw() external {
+        uint256 amount = balanceOf[msg.sender];
+        require(amount &gt; 0, "kosong");
+
+        // External call sebelum state diperbarui.
+        (bool ok, ) = msg.sender.call{value: amount}("");
+        require(ok, "gagal");
+
+        balanceOf[msg.sender] = 0;
+    }
+}</code></pre>
+        </div>
+
+        <p>Penyerang menaruh kontrak dengan <code>receive()</code> yang memanggil <code>withdraw</code> lagi. Setiap panggilan melihat <code>balanceOf</code> yang masih penuh, mengirim ETH, lalu memanggil ulang. Vault terkuras sebelum baris terakhir pernah dijalankan.</p>
+
+        <div class="code-block">
+          <div class="code-head"><span>Perbaikan berlapis</span><button class="copy-btn" type="button" data-copy-target="code-04-fix">Salin</button></div>
+          <pre><code id="code-04-fix" data-lang="solidity">import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+
+contract Vault is ReentrancyGuard {
+    mapping(address =&gt; uint256) public balanceOf;
+
+    function withdraw() external nonReentrant {
+        uint256 amount = balanceOf[msg.sender];
+        require(amount &gt; 0, "kosong");
+
+        // Effects sebelum interactions.
+        balanceOf[msg.sender] = 0;
+
+        (bool ok, ) = msg.sender.call{value: amount}("");
+        require(ok, "gagal");
+    }
+}</code></pre>
+        </div>
+        <p>Guard saja sudah menutup reentrancy pada fungsi yang ditandai, tetapi tidak menutup reentrancy lintas fungsi yang tidak ikut dijaga. Urutan checks-effects-interactions tetap penting karena ia membuat state konsisten untuk semua jalur, bukan hanya jalur yang diberi guard.</p>
+
+        <h3>Pull payment</h3>
+        <p>Alternatif lain adalah tidak mengirim dana secara langsung. Kontrak mencatat kewajiban, lalu pengguna menarik sendiri di transaksi terpisah. Pola ini menghilangkan panggilan keluar dari jalur utama, dengan biaya UX dan risiko dana tertahan jika penarikan gagal.</p>
+
+        <div class="lab" id="lab-reentrancy">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 02</p>
+            <h3>Jalankan serangan, lalu tutup celahnya.</h3>
+            <p>Vault berisi 4 ETH: 3 ETH milik korban dan 1 ETH milik penyerang. Penyerang memakai kontrak dengan <code>receive()</code> yang memanggil ulang <code>withdraw</code>. Nyalakan mitigasi dan lihat apa yang berubah.</p>
+          </div>
+          <div class="lab-body">
+            <div class="checklist">
+              <ul>
+                <li><label><input type="checkbox" id="re-cei"><span><strong>Checks-effects-interactions</strong><small>Kurangi saldo sebelum mengirim ETH.</small></span></label></li>
+                <li><label><input type="checkbox" id="re-guard"><span><strong>ReentrancyGuard</strong><small>Tolak panggilan ulang selama fungsi berjalan.</small></span></label></li>
+              </ul>
+            </div>
+
+            <dl class="readout-grid" id="re-state">
+              <div><dt>Saldo vault</dt><dd id="re-vault">4,00 ETH</dd></div>
+              <div><dt>Saldo kontrak penyerang</dt><dd id="re-attacker">0,00 ETH</dd></div>
+              <div><dt>Setoran penyerang</dt><dd id="re-deposit">1,00 ETH</dd></div>
+              <div><dt>Laba penyerang</dt><dd id="re-profit">0,00 ETH</dd></div>
+            </dl>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="re-run" type="button">Jalankan serangan</button>
+              <button class="btn btn-quiet" id="re-reset" type="button">Reset</button>
+            </div>
+
+            <div class="term">
+              <div class="term-head"><span>Jejak panggilan</span><span>simulasi</span></div>
+              <pre id="re-log">Belum ada eksekusi.</pre>
+            </div>
+            <p class="status" id="re-status" role="status" aria-live="polite">Siap dijalankan.</p>
+            <p class="lab-note">Guard dan CEI menutup jalur yang berbeda. Guard menghentikan panggilan ulang, CEI membuat panggilan ulang tidak menemukan saldo. Keduanya tetap bisa dikalahkan oleh reentrancy lintas fungsi jika fungsi lain tidak dijaga.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="akses" data-chapter="akses" data-track="true" data-title="Access control">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 05<span class="chapter-type">VEKTOR WAJIB</span></p>
+          <h2>Fungsi yang tidak dijaga adalah fungsi publik.</h2>
+          <p class="chapter-lead">Access control bukan hanya soal siapa yang boleh memanggil. Ia soal siapa yang memegang kekuatan untuk mengubah aturan, memindahkan dana, dan mengganti kode. Kesalahan di sini sering menghasilkan kerugian terbesar karena penyerang tidak perlu menemukan bug matematika. Ia hanya perlu menemukan pintu yang tidak dikunci.</p>
+          <ul class="goals">
+            <li>Memetakan fungsi ke peran yang tepat.</li>
+            <li>Mengenali modifier yang hilang, initializer terbuka, dan role admin yang terlalu luas.</li>
+            <li>Menerapkan prinsip hak minimum dan pemisahan kewenangan.</li>
+            <li>Menguji access control dengan panggilan dari alamat yang salah.</li>
+          </ul>
+        </header>
+
+        <h3>Pola yang tersedia</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Pilihan kontrol akses dan konsekuensinya.</caption>
+            <thead>
+              <tr><th scope="col">Pola</th><th scope="col">Cocok untuk</th><th scope="col">Risiko</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Ownable</code></td><td>Satu admin sederhana, protokol kecil.</td><td>Owner tunggal bisa menjadi titik kegagalan.</td></tr>
+              <tr><td><code>AccessControl</code></td><td>Beberapa peran dengan tugas berbeda.</td><td>Salah memberi <code>DEFAULT_ADMIN_ROLE</code> sama saja memberi semua.</td></tr>
+              <tr><td>Multisig</td><td>Kunci produksi dengan beberapa penandatangan.</td><td>Kunci yang disimpan bersama tetap bisa hilang.</td></tr>
+              <tr><td>Timelock</td><td>Perubahan parameter dan upgrade yang bisa ditinjau.</td><td>Antrean panjang tidak menutup bug yang sudah aktif.</td></tr>
+              <tr><td>Guardian terpisah</td><td>Pause darurat tanpa hak menarik dana.</td><td>Guardian bisa menyalahgunakan pause untuk merugikan pengguna.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="code-head"><span>Peran yang dipisahkan</span><button class="copy-btn" type="button" data-copy-target="code-05-roles">Salin</button></div>
+          <pre><code id="code-05-roles" data-lang="solidity">import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+
+contract Vault is AccessControl {
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+    bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
+
+    // DEFAULT_ADMIN_ROLE sebaiknya dipegang timelock atau multisig.
+    constructor(address admin, address guardian) {
+        _grantRole(DEFAULT_ADMIN_ROLE, admin);
+        _grantRole(GUARDIAN_ROLE, guardian);
+    }
+
+    function pause() external onlyRole(GUARDIAN_ROLE) {
+        _pause();
+    }
+
+    function setPrice(uint256 price) external onlyRole(ORACLE_ROLE) {
+        require(price &gt; 0, "harga nol");
+        lastPrice = price;
+    }
+}</code></pre>
+        </div>
+
+        <h3>Kegagalan yang paling sering</h3>
+        <ul>
+          <li><strong>Modifier lupa dipasang.</strong> Fungsi admin ditulis, modifier dideklarasikan, tetapi tidak ditempel. Compiler tidak mengeluh.</li>
+          <li><strong>Initializer terbuka.</strong> Proxy memakai <code>initialize()</code> tanpa <code>initializer</code> atau <code>_disableInitializers()</code>. Siapa pun bisa menjadi owner pertama.</li>
+          <li><strong><code>tx.origin</code> untuk otorisasi.</strong> Kontrak perantara mewarisi identitas wallet korban.</li>
+          <li><strong>Role admin terlalu luas.</strong> Pemegang <code>DEFAULT_ADMIN_ROLE</code> bisa memberi dirinya peran lain, termasuk peran yang seharusnya terpisah.</li>
+          <li><strong>Fungsi publik yang terlihat jinak.</strong> <code>burn</code>, <code>mint</code>, <code>setFee</code>, atau <code>rescueTokens</code> tanpa pembatasan bisa mengubah ekonomi protokol.</li>
+          <li><strong><code>renounceOwnership</code> tanpa rencana.</strong> Setelah dilepas, fungsi darurat tidak bisa dipanggil lagi. Ini bisa disengaja, tetapi harus diputuskan, bukan tidak sengaja.</li>
+        </ul>
+
+        <div class="warn">
+          <span class="note-label">Owner bukan dewa</span>
+          <p>Jika owner bisa menarik semua dana kapan saja, pengguna harus tahu itu. Dokumentasikan kekuatan admin dan batasi dengan timelock. Kontrak yang "terdesentralisasi" tetapi punya satu kunci yang bisa mengganti implementasi belum terdesentralisasi.</p>
+        </div>
+
+        <div class="lab" id="lab-akses">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 03</p>
+            <h3>Beri kewenangan minimum, bukan kewenangan nyaman.</h3>
+            <p>Lima fungsi, lima pemegang hak. Pilih siapa yang seharusnya bisa memanggil masing-masing. Tidak semua fungsi admin harus dipegang owner yang sama.</p>
+          </div>
+          <div class="lab-body">
+            <div class="stack-task" data-access="mint" data-answer="role-minter">
+              <p><strong><code>mint(address,uint256)</code></strong><small>Menambah supply token reward. Dipanggil oleh kontrak distribusi.</small></p>
+              <select aria-label="Hak untuk mint">
+                <option value="">Pilih pemegang</option>
+                <option value="publik">Siapa saja</option>
+                <option value="owner">Owner tunggal</option>
+                <option value="role-minter">Role MINTER_ROLE</option>
+                <option value="guardian">Guardian</option>
+                <option value="timelock">Timelock</option>
+              </select>
+            </div>
+            <div class="stack-task" data-access="fee" data-answer="timelock">
+              <p><strong><code>setFee(uint256)</code></strong><small>Mengubah biaya protokol. Perubahan langsung bisa dipakai untuk mengambil nilai pengguna.</small></p>
+              <select aria-label="Hak untuk setFee">
+                <option value="">Pilih pemegang</option>
+                <option value="publik">Siapa saja</option>
+                <option value="owner">Owner tunggal</option>
+                <option value="role-minter">Role MINTER_ROLE</option>
+                <option value="guardian">Guardian</option>
+                <option value="timelock">Timelock</option>
+              </select>
+            </div>
+            <div class="stack-task" data-access="pause" data-answer="guardian">
+              <p><strong><code>pause()</code></strong><small>Menghentikan protokol saat insiden. Tidak boleh bisa menarik dana.</small></p>
+              <select aria-label="Hak untuk pause">
+                <option value="">Pilih pemegang</option>
+                <option value="publik">Siapa saja</option>
+                <option value="owner">Owner tunggal</option>
+                <option value="role-minter">Role MINTER_ROLE</option>
+                <option value="guardian">Guardian</option>
+                <option value="timelock">Timelock</option>
+              </select>
+            </div>
+            <div class="stack-task" data-access="supply" data-answer="publik">
+              <p><strong><code>totalSupply()</code></strong><small>Fungsi view untuk membaca supply. Tidak menulis state.</small></p>
+              <select aria-label="Hak untuk totalSupply">
+                <option value="">Pilih pemegang</option>
+                <option value="publik">Siapa saja</option>
+                <option value="owner">Owner tunggal</option>
+                <option value="role-minter">Role MINTER_ROLE</option>
+                <option value="guardian">Guardian</option>
+                <option value="timelock">Timelock</option>
+              </select>
+            </div>
+            <div class="stack-task" data-access="rescue" data-answer="timelock">
+              <p><strong><code>rescueTokens(address)</code></strong><small>Memindahkan token yang tidak sengaja dikirim. Bisa menjadi jalur keluar dana jika salah desain.</small></p>
+              <select aria-label="Hak untuk rescueTokens">
+                <option value="">Pilih pemegang</option>
+                <option value="publik">Siapa saja</option>
+                <option value="owner">Owner tunggal</option>
+                <option value="role-minter">Role MINTER_ROLE</option>
+                <option value="guardian">Guardian</option>
+                <option value="timelock">Timelock</option>
+              </select>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="akses-check" type="button">Periksa matriks</button>
+              <button class="btn btn-quiet" id="akses-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="akses-status" role="status" aria-live="polite">Belum ada pilihan.</p>
+            <p class="lab-note">Guardian memegang pause tanpa akses dana. Timelock memegang perubahan parameter. MINTER_ROLE hanya mencetak sesuai batas. Pemisahan ini membatasi kerusakan jika satu kunci bocor.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="integer" data-chapter="integer" data-track="true" data-title="Integer dan pembulatan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 06<span class="chapter-type">VEKTOR WAJIB</span></p>
+          <h2>Tidak ada angka pecahan di EVM. Hanya pembulatan yang kamu pilih.</h2>
+          <p class="chapter-lead">Solidity tidak punya floating point. Semua nilai token disimpan sebagai integer dengan desimal yang disepakati di luar kontrak. Di sinilah bug lahir: overflow di blok <code>unchecked</code>, casting yang memotong angka, dan pembulatan yang menguntungkan pihak yang salah. Tidak ada pengecualian untuk "hanya satu wei".</p>
+          <ul class="goals">
+            <li>Membedakan aritmetika checked, unchecked, dan casting yang memotong.</li>
+            <li>Menghitung share dan aset dengan arah pembulatan yang benar.</li>
+            <li>Mengenali serangan inflasi share pertama.</li>
+            <li>Menguji batas nilai, bukan hanya nilai tengah.</li>
+          </ul>
+        </header>
+
+        <h3>Sejak Solidity 0.8, overflow dicek</h3>
+        <p>Operasi <code>uint256</code> yang melewati batas akan revert, bukan membungkus ke nol. Ini menghilangkan sebagian besar bug lama, tetapi tidak semuanya. Blok <code>unchecked</code> mematikan pemeriksaan untuk menghemat gas, dan casting antar ukuran tetap memotong bit di atasnya.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Tiga kegagalan angka</span><button class="copy-btn" type="button" data-copy-target="code-06-int">Salin</button></div>
+          <pre><code id="code-06-int" data-lang="solidity">uint8 a = 250;
+a += 10;                    // revert: melewati 255
+
+unchecked {
+    uint8 b = 250;
+    b += 10;                // b menjadi 4, tanpa error
+}
+
+uint256 besar = 300;
+uint8 kecil = uint8(besar); // kecil menjadi 44, tanpa error
+
+uint256 harga = 1_000_000;  // 1 USDC dengan 6 desimal
+uint256 jumlah = 3;
+uint256 total = harga * jumlah; // aman untuk uint256, belum tentu aman untuk uint128</code></pre>
+        </div>
+
+        <h3>Desimal ada di kepala, bukan di tipe</h3>
+        <p><code>uint256</code> tidak tahu bahwa nilainya USDC 6 desimal atau ETH 18 desimal. Kesalahan desimal adalah sumber bug yang membosankan tetapi mahal: menganggap 1 USDC sebagai <code>1</code> padahal seharusnya <code>1_000_000</code>, atau mencampur dua token dengan desimal berbeda tanpa normalisasi.</p>
+        <p>Selalu simpan besaran dalam unit terkecil dan normalisasi saat menampilkan. Saat menerima input dari pengguna, kalikan dengan <code>10 ** decimals</code> sebelum masuk ke perhitungan.</p>
+
+        <h3>Pembulatan menentukan siapa yang menanggung sisa</h3>
+        <p>Pada vault berbasis share, <code>shares = assets * totalShares / totalAssets</code> dan <code>assets = shares * totalAssets / totalShares</code>. Pembagian integer selalu memotong ke bawah. Arah pembulatan harus menguntungkan protokol, bukan pengguna, agar sistem tetap solvent.</p>
+        <ul>
+          <li>Saat pengguna <strong>menyetor</strong>, bulatkan share ke bawah. Pengguna menerima sedikit lebih sedikit share.</li>
+          <li>Saat pengguna <strong>menarik</strong>, bulatkan aset ke bawah. Pengguna menerima sedikit lebih sedikit aset.</li>
+          <li>Saat menghitung <strong>utang</strong>, bulatkan ke atas. Protokol tidak boleh menagih kurang.</li>
+        </ul>
+        <p>Membalik arah ini terlihat tidak berbahaya pada satu transaksi. Setelah ribuan transaksi, selisih satu wei menjadi defisit yang nyata.</p>
+
+        <div class="warn">
+          <span class="note-label">Serangan inflasi share</span>
+          <p>Penyerang pertama menyetor 1 wei, lalu mengirim aset langsung ke vault untuk menaikkan harga share. Korban berikutnya menyetor jumlah besar dan menerima 0 share karena pembulatan ke bawah. Mitigasi: dead shares, minimum deposit, atau virtual offset seperti di ERC-4626. Ini bukan bug overflow, tetapi bug desain angka.</p>
+        </div>
+
+        <div class="lab" id="lab-integer">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 04</p>
+            <h3>Hitung batas dan sisa pembulatan.</h3>
+            <p>Bagian pertama menunjukkan overflow 8-bit. Bagian kedua menghitung share vault dari angka yang kamu masukkan. Perhatikan arah pembulatan dan siapa yang kehilangan satu unit.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row-3">
+              <div class="field">
+                <label for="int-value">Nilai uint8</label>
+                <input id="int-value" type="number" value="250" min="0" max="255" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="int-add">Tambahkan</label>
+                <input id="int-add" type="number" value="10" min="0" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="int-mode">Mode aritmetika</label>
+                <select id="int-mode">
+                  <option value="unchecked">unchecked (membungkus)</option>
+                  <option value="checked">checked (revert)</option>
+                </select>
+              </div>
+            </div>
+            <p class="status" id="int-arith-status" role="status" aria-live="polite">Masukkan angka, hasil muncul otomatis.</p>
+
+            <hr>
+
+            <div class="field-row-3">
+              <div class="field">
+                <label for="int-total">Total aset (unit)</label>
+                <input id="int-total" type="number" value="1000000" min="1" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="int-shares">Total share beredar</label>
+                <input id="int-shares" type="number" value="3" min="1" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="int-deposit">Setoran baru (unit)</label>
+                <input id="int-deposit" type="number" value="1" min="0" inputmode="numeric">
+              </div>
+            </div>
+
+            <dl class="readout-grid" id="int-out">
+              <div><dt>Hasil uint8</dt><dd id="int-result">4</dd></div>
+              <div><dt>Status</dt><dd id="int-verdict">Membungkus</dd></div>
+              <div><dt>Share diterima</dt><dd id="int-minted">0</dd></div>
+              <div><dt>Nilai share</dt><dd id="int-value-out">0 unit</dd></div>
+            </dl>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="int-run" type="button">Hitung ulang</button>
+              <button class="btn btn-quiet" id="int-reset" type="button">Nilai awal</button>
+            </div>
+            <p class="status" id="int-status" role="status" aria-live="polite"></p>
+            <p class="lab-note">Hasil share memakai pembulatan ke bawah, arah yang aman untuk protokol. Coba setoran 1 unit dengan total aset 1.000.000 dan 3 share: share yang diterima 0, dan nilai setoran tidak kembali sebagai share.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="oracle" data-chapter="oracle" data-track="true" data-title="Manipulasi oracle">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 07<span class="chapter-type">VEKTOR WAJIB</span></p>
+          <h2>Kontrak tidak tahu harga. Ia hanya percaya pada sumber.</h2>
+          <p class="chapter-lead">Harga adalah data eksternal. Setiap kali kontrak memakai harga untuk mencetak, meminjamkan, atau melikuidasi, ia menciptakan jalur antara pasar dan dana pengguna. Jika sumbernya bisa digeser dalam satu transaksi, penyerang tidak perlu membobol kontrak. Ia cukup membuat kontrak membaca angka yang salah.</p>
+          <ul class="goals">
+            <li>Membedakan harga spot, TWAP, dan feed agregator.</li>
+            <li>Menghitung biaya menggeser pool dan kapan manipulasi menjadi ekonomis.</li>
+            <li>Memeriksa staleness, desimal, dan urutan update.</li>
+            <li>Memilih oracle sesuai aset dan konteks pemakaian.</li>
+          </ul>
+        </header>
+
+        <h3>Tiga sumber harga</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Kekuatan dan kelemahan masing-masing sumber.</caption>
+            <thead>
+              <tr><th scope="col">Sumber</th><th scope="col">Cara kerja</th><th scope="col">Titik lemah</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Spot pool</td><td>Rasio cadangan pool saat ini.</td><td>Bisa digeser dalam satu transaksi dengan modal besar.</td></tr>
+              <tr><td>TWAP</td><td>Rata-rata harga selama beberapa blok.</td><td>Lebih lambat bereaksi dan butuh likuiditas historis.</td></tr>
+              <tr><td>Chainlink</td><td>Agregator node melaporkan harga dengan heartbeat dan deviasi.</td><td>Staleness, downtime, dan biaya untuk aset kecil.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Manipulasi spot dalam satu transaksi</h3>
+        <p>Pool dengan likuiditas dangkal bisa digeser dengan pinjaman instan. Penyerang membeli aset sampai harga naik, memakai harga baru untuk membuka pinjaman, lalu mengembalikan pinjaman. Setelah transaksi selesai, harga kembali, tetapi utang tetap ada dan kolateral dinilai terlalu tinggi.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Pemeriksaan feed yang sering terlewat</span><button class="copy-btn" type="button" data-copy-target="code-07-oracle">Salin</button></div>
+          <pre><code id="code-07-oracle" data-lang="solidity">import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+
+function getPrice() external view returns (uint256) {
+    (
+        uint80 roundId,
+        int256 answer,
+        ,
+        uint256 updatedAt,
+        uint80 answeredInRound
+    ) = feed.latestRoundData();
+
+    require(answer &gt; 0, "harga tidak valid");
+    require(updatedAt &gt; 0, "belum ada update");
+    require(block.timestamp - updatedAt &lt;= MAX_STALENESS, "harga basi");
+    require(answeredInRound &gt;= roundId, "ronde tidak lengkap");
+
+    // Normalisasi ke 18 desimal. Feed USDC memakai 8 desimal.
+    return uint256(answer) * 1e10;
+}</code></pre>
+        </div>
+        <p>Di Layer 2, tambahkan pemeriksaan status sequencer. Jika sequencer sedang down, harga bisa terlihat segar padahal pasar tidak bisa bereaksi. Chainlink menyediakan feed uptime khusus untuk ini.</p>
+
+        <h3>Desain yang lebih tahan</h3>
+        <ul>
+          <li>Gunakan TWAP dengan jendela yang lebih panjang dari satu blok, dan batas perubahan harga per blok.</li>
+          <li>Batasi jumlah pinjaman atau pencetakan per blok, sehingga manipulasi tidak cukup menguntungkan.</li>
+          <li>Pakai dua sumber dan tolak jika selisihnya melewati ambang.</li>
+          <li>Untuk aset tipis, jangan memakai pool sebagai satu-satunya harga. Gunakan harga administrasi dengan batas dan proses update yang jelas.</li>
+        </ul>
+
+        <div class="lab" id="lab-oracle">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 05</p>
+            <h3>Berapa biaya menggeser harga, dan apakah TWAP peduli?</h3>
+            <p>Pool awal 1.000 ETH dan 2.000.000 USD. Penyerang membeli ETH untuk menaikkan harga. Model memakai rumus constant product dengan biaya 0,3 persen, lalu membandingkan harga spot dengan TWAP sederhana selama jendela yang kamu pilih.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row-3">
+              <div class="field">
+                <label for="or-pool-eth">Cadangan ETH</label>
+                <input id="or-pool-eth" type="number" value="1000" min="1" step="10" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="or-pool-usd">Cadangan USD</label>
+                <input id="or-pool-usd" type="number" value="2000000" min="1000" step="10000" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="or-trade">Pembelian penyerang (USD)</label>
+                <input id="or-trade" type="number" value="200000" min="0" step="1000" inputmode="numeric">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="or-window">Jendela TWAP (blok)</label>
+                <input id="or-window" type="number" value="30" min="1" max="600" step="1" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="or-threshold">Ambang protokol (persen)</label>
+                <input id="or-threshold" type="number" value="2" min="0.1" max="100" step="0.1" inputmode="decimal">
+              </div>
+            </div>
+
+            <dl class="readout-grid" id="or-out">
+              <div><dt>Harga awal</dt><dd id="or-base">2.000 USD</dd></div>
+              <div><dt>Harga spot setelah beli</dt><dd id="or-spot">2.000 USD</dd></div>
+              <div><dt>Deviasi spot</dt><dd id="or-dev">0,00%</dd></div>
+              <div><dt>Deviasi TWAP</dt><dd id="or-twap">0,00%</dd></div>
+              <div><dt>Biaya putar balik</dt><dd id="or-cost">0 USD</dd></div>
+              <div><dt>Keputusan</dt><dd id="or-verdict">Menunggu</dd></div>
+            </dl>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="or-run" type="button">Hitung manipulasi</button>
+              <button class="btn btn-quiet" id="or-reset" type="button">Nilai awal</button>
+            </div>
+            <p class="status" id="or-status" role="status" aria-live="polite"></p>
+            <p class="lab-note">Model TWAP di sini menyederhanakan: deviasi rata-rata dianggap deviasi spot dibagi jumlah blok dalam jendela. TWAP nyata memakai akumulasi harga dan waktu, bukan pembagian sederhana. Angka biaya adalah kerugian putar balik di pool, belum termasuk gas dan bunga pinjaman.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="frontrunning" data-chapter="frontrunning" data-track="true" data-title="Front-running dan MEV">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 08<span class="chapter-type">VEKTOR WAJIB</span></p>
+          <h2>Transaksimu terlihat sebelum dieksekusi.</h2>
+          <p class="chapter-lead">Mempool adalah ruang tunggu publik. Siapa pun yang melihat transaksi bisa menaruh transaksi lain sebelum atau sesudahnya dengan bayaran gas lebih tinggi. Fenomena ini disebut MEV, maximal extractable value. Bagi pengguna, hasilnya sering berupa harga yang lebih buruk, transaksi yang gagal, atau peluang yang diambil orang lain.</p>
+          <ul class="goals">
+            <li>Menjelaskan front-running, back-running, dan sandwich.</li>
+            <li>Melindungi transaksi dengan slippage, deadline, dan jalur privat.</li>
+            <li>Membedakan MEV yang menguntungkan pasar dan yang merugikan pengguna.</li>
+            <li>Mengukur dampak urutan transaksi pada hasil swap.</li>
+          </ul>
+        </header>
+
+        <h3>Anatomi sandwich</h3>
+        <ol class="steps">
+          <li><strong>Penyerang melihat transaksi beli.</strong> Transaksi korban menunggu di mempool dengan batas slippage tertentu.</li>
+          <li><strong>Penyerang membeli lebih dulu.</strong> Harga naik sebelum transaksi korban dieksekusi.</li>
+          <li><strong>Korban membeli di harga yang lebih tinggi.</strong> Jika masih dalam batas slippage, transaksi berhasil.</li>
+          <li><strong>Penyerang menjual setelahnya.</strong> Keuntungan berasal dari selisih harga yang dibayar korban.</li>
+        </ol>
+        <p>Jika korban memasang slippage terlalu ketat, transaksi gagal dan penyerang hanya membayar gas. Jika terlalu longgar, korban menerima harga yang jauh lebih buruk. Perlindungan yang benar bukan "slippage besar agar transaksi selalu berhasil", melainkan batas yang sesuai dengan nilai yang bisa diterima.</p>
+
+        <div class="code-block">
+          <div class="code-head"><span>Batas yang harus ikut transaksi</span><button class="copy-btn" type="button" data-copy-target="code-08-swap">Salin</button></div>
+          <pre><code id="code-08-swap" data-lang="solidity">function swapExactETHForTokens(
+    uint256 amountOutMin,
+    address[] calldata path,
+    address to,
+    uint256 deadline
+) external payable {
+    require(block.timestamp &lt;= deadline, "transaksi kedaluwarsa");
+
+    uint256[] memory amounts = router.swapExactETHForTokens{
+        value: msg.value
+    }(amountOutMin, path, to, deadline);
+
+    require(amounts[amounts.length - 1] &gt;= amountOutMin, "slippage");
+}</code></pre>
+        </div>
+        <p><code>amountOutMin</code> dan <code>deadline</code> harus dihitung di klien dari harga saat itu, bukan ditulis sebagai nol. Nilai nol berarti kamu menerima harga apa pun.</p>
+
+        <h3>Pilihan perlindungan</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Metode mitigasi dan batasnya.</caption>
+            <thead>
+              <tr><th scope="col">Metode</th><th scope="col">Melindungi dari</th><th scope="col">Tidak melindungi dari</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Slippage minimum</td><td>Harga eksekusi yang jauh dari harapan.</td><td>Transaksi gagal berulang dan biaya gas.</td></tr>
+              <tr><td>Deadline</td><td>Transaksi yang dieksekusi terlalu lama setelah ditandatangani.</td><td>Perubahan harga dalam blok yang sama.</td></tr>
+              <tr><td>Private relay</td><td>Transaksi terlihat di mempool publik.</td><td>Penyerang yang menguasai builder atau validator.</td></tr>
+              <tr><td>Commit-reveal</td><td>Niat transaksi diketahui sebelum eksekusi.</td><td>Kebocoran pada tahap reveal.</td></tr>
+              <tr><td>Batch auction</td><td>Urutan yang menguntungkan satu pihak.</td><td>Desain batch yang buruk atau operator nakal.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab" id="lab-frontrunning">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 06</p>
+            <h3>Kirim transaksi ke mempool publik, lalu lihat sandwich.</h3>
+            <p>Kamu membeli ETH senilai 50.000 USD dari pool 1.000 ETH dan 2.000.000 USD. Penyerang memakai 100.000 USD untuk mendahului. Atur toleransi slippage dan bandingkan jalur publik dengan relay privat.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row-3">
+              <div class="field">
+                <label for="fr-amount">Pembelianmu (USD)</label>
+                <input id="fr-amount" type="number" value="50000" min="10" step="100" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="fr-slippage">Toleransi slippage (persen)</label>
+                <input id="fr-slippage" type="number" value="10" min="0" max="50" step="0.1" inputmode="decimal">
+              </div>
+              <div class="field">
+                <label for="fr-attack">Modal penyerang (USD)</label>
+                <input id="fr-attack" type="number" value="100000" min="0" step="1000" inputmode="numeric">
+              </div>
+            </div>
+
+            <dl class="readout-grid" id="fr-out">
+              <div><dt>ETH tanpa sandwich</dt><dd id="fr-clean">2,49 ETH</dd></div>
+              <div><dt>ETH setelah sandwich</dt><dd id="fr-hit">2,49 ETH</dd></div>
+              <div><dt>Batas minimum</dt><dd id="fr-min">2,46 ETH</dd></div>
+              <div><dt>Hasil transaksi</dt><dd id="fr-result">Menunggu</dd></div>
+              <div><dt>Laba penyerang</dt><dd id="fr-profit">0 USD</dd></div>
+            </dl>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="fr-public" type="button">Kirim ke mempool publik</button>
+              <button class="btn btn-quiet" id="fr-private" type="button">Kirim lewat relay privat</button>
+            </div>
+            <p class="status" id="fr-status" role="status" aria-live="polite">Belum ada transaksi.</p>
+            <p class="lab-note">Jika hasil sandwich di bawah batas minimum, transaksi korban revert dan penyerang harus menjual kembali tanpa keuntungan. Itu sebabnya slippage ketat mengurangi kerugian, tetapi juga membuat transaksi lebih mudah gagal saat pasar bergerak.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="flashloan" data-chapter="flashloan" data-track="true" data-title="Flash loan attacks">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 09<span class="chapter-type">VEKTOR WAJIB</span></p>
+          <h2>Flash loan bukan bug. Ia pembesar bug.</h2>
+          <p class="chapter-lead">Flash loan memberi pinjaman tanpa jaminan selama dana dikembalikan dalam transaksi yang sama. Fitur ini sah dan berguna untuk arbitrase, likuidasi, dan refinancing. Masalahnya, siapa pun bisa memakai modal besar tanpa memilikinya. Bug yang tadinya tidak ekonomis menjadi menguntungkan dalam satu blok.</p>
+          <ul class="goals">
+            <li>Menjelaskan mekanisme atomik flash loan dan biayanya.</li>
+            <li>Memisahkan fitur pinjaman dari kerentanan protokol yang diserang.</li>
+            <li>Menghitung ambang profitabilitas serangan.</li>
+            <li>Merancang batas yang membuat serangan tidak lagi menguntungkan.</li>
+          </ul>
+        </header>
+
+        <h3>Bagaimana satu transaksi bisa meminjam jutaan</h3>
+        <ol class="steps">
+          <li><strong>Kontrak meminta pinjaman.</strong> Pool mengirim dana ke kontrak penerima.</li>
+          <li><strong>Kontrak menjalankan strategi.</strong> Arbitrase, likuidasi, atau interaksi dengan protokol lain.</li>
+          <li><strong>Kontrak mengembalikan pokok dan biaya.</strong> Pool memeriksa saldo sebelum transaksi selesai.</li>
+          <li><strong>Jika gagal, seluruh transaksi revert.</strong> Tidak ada utang yang tertinggal, tidak ada dana yang hilang bagi pool.</li>
+        </ol>
+        <p>Biaya Aave V3 ditetapkan 0,05 persen saat deploy dan bisa diubah lewat governance. Bagi penyerang, biaya ini kecil dibandingkan keuntungan dari protokol yang salah menilai kolateral. Bagi protokol yang diserang, flash loan tidak memberi celah baru. Ia hanya menghilangkan kendala modal.</p>
+
+        <div class="code-block">
+          <div class="code-head"><span>Bentuk penerima flash loan</span><button class="copy-btn" type="button" data-copy-target="code-09-flash">Salin</button></div>
+          <pre><code id="code-09-flash" data-lang="solidity">contract Receiver is IFlashLoanSimpleReceiver {
+    function executeOperation(
+        address asset,
+        uint256 amount,
+        uint256 premium,
+        address initiator,
+        bytes calldata params
+    ) external returns (bool) {
+        require(msg.sender == address(POOL), "bukan pool");
+        require(initiator == address(this), "pemrakarsa salah");
+
+        // Strategi di sini. Semua dalam satu transaksi.
+        _runStrategy(asset, amount, params);
+
+        uint256 owed = amount + premium;
+        IERC20(asset).approve(address(POOL), owed);
+        return true;
+    }
+}</code></pre>
+        </div>
+
+        <h3>Rantai serangan yang umum</h3>
+        <p>Pinjaman besar dipakai untuk menggeser harga oracle, membuka posisi dengan kolateral yang dinilai terlalu tinggi, lalu meninggalkan posisi. Biaya pinjaman dan slippage dibayar dari hasil pinjaman baru. Jika protokol membatasi harga per blok, batas pinjaman, atau memakai TWAP, rantai ini terputus di salah satu mata.</p>
+
+        <div class="lab" id="lab-flashloan">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 07</p>
+            <h3>Kapan serangan menjadi ekonomis?</h3>
+            <p>Model sederhana: penyerang meminjam dana, memakai seluruhnya untuk membeli kolateral, menggeser harga oracle, lalu meminjam terhadap kolateral yang dinilai terlalu tinggi. Laba dihitung setelah biaya flash loan dan gas.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row-3">
+              <div class="field">
+                <label for="fl-amount">Pinjaman (USD)</label>
+                <input id="fl-amount" type="number" value="1000000" min="1000" step="10000" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="fl-fee">Biaya flash loan (bps)</label>
+                <input id="fl-fee" type="number" value="5" min="0" max="1000" step="1" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="fl-ltv">LTV pinjaman (persen)</label>
+                <input id="fl-ltv" type="number" value="80" min="1" max="95" step="1" inputmode="numeric">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="fl-inflation">Harga oracle naik (persen)</label>
+                <input id="fl-inflation" type="number" value="40" min="0" max="1000" step="1" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="fl-gas">Gas dan biaya lain (USD)</label>
+                <input id="fl-gas" type="number" value="300" min="0" step="50" inputmode="numeric">
+              </div>
+            </div>
+
+            <dl class="readout-grid" id="fl-out">
+              <div><dt>Nilai kolateral</dt><dd id="fl-collateral">1.400.000 USD</dd></div>
+              <div><dt>Pinjaman baru</dt><dd id="fl-borrow">1.120.000 USD</dd></div>
+              <div><dt>Biaya pinjaman</dt><dd id="fl-cost">500 USD</dd></div>
+              <div><dt>Laba bersih</dt><dd id="fl-profit">0 USD</dd></div>
+            </dl>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="fl-run" type="button">Hitung kelayakan</button>
+              <button class="btn btn-quiet" id="fl-reset" type="button">Nilai awal</button>
+            </div>
+            <p class="status" id="fl-status" role="status" aria-live="polite"></p>
+            <p class="lab-note">Model mengabaikan slippage, biaya swap, dan likuidasi setelah harga kembali. Ia menunjukkan ambang, bukan rencana serangan. Perhatikan bahwa pada LTV 80 persen, kenaikan harga 40 persen sudah cukup membuat pinjaman baru melebihi pokok ditambah biaya.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="signature" data-chapter="signature" data-track="true" data-title="Keamanan tanda tangan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 10<span class="chapter-type">VEKTOR WAJIB</span></p>
+          <h2>Tanda tangan membuktikan niat. Bukan bukti bahwa niat itu masih berlaku.</h2>
+          <p class="chapter-lead">Tanda tangan digital memungkinkan pengguna menyetujui sesuatu tanpa mengirim transaksi. Kontrak memeriksa tanda tangan dan mengeksekusi aksi. Jika pesan tidak mengikat chain, kontrak, pemakai, jumlah, dan waktu, tanda tangan yang sah bisa dipakai ulang di tempat yang salah atau selamanya.</p>
+          <ul class="goals">
+            <li>Membedakan tanda tangan pesan, transaksi, dan permit.</li>
+            <li>Menerapkan domain separator EIP-712 dan nonce.</li>
+            <li>Mengenali malleability, alamat nol, dan replay lintas chain.</li>
+            <li>Menguji signature dengan skenario pemakaian ulang.</li>
+          </ul>
+        </header>
+
+        <h3>Kesalahan yang klasik</h3>
+        <ul>
+          <li><strong>Tanpa nonce.</strong> Tanda tangan yang sama bisa dipakai berkali-kali.</li>
+          <li><strong>Tanpa chain ID.</strong> Tanda tangan dari testnet berlaku di mainnet atau sebaliknya.</li>
+          <li><strong>Tanpa alamat kontrak.</strong> Tanda tangan untuk satu protokol berlaku di protokol lain dengan kode yang sama.</li>
+          <li><strong>Tanpa deadline.</strong> Tanda tangan yang dibuat hari ini masih bisa dipakai bertahun-tahun kemudian.</li>
+          <li><strong>Memakai <code>ecrecover</code> mentah.</strong> Input yang tidak valid bisa mengembalikan <code>address(0)</code>.</li>
+          <li><strong>Tidak memeriksa nilai <code>s</code>.</strong> ECDSA memiliki dua tanda tangan valid untuk pesan yang sama di beberapa implementasi.</li>
+        </ul>
+
+        <div class="code-block">
+          <div class="code-head"><span>Verifikasi yang mengikat konteks</span><button class="copy-btn" type="button" data-copy-target="code-10-sig">Salin</button></div>
+          <pre><code id="code-10-sig" data-lang="solidity">using ECDSA for bytes32;
+
+bytes32 private constant PERMIT_TYPEHASH = keccak256(
+    "Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"
+);
+
+function permit(
+    address owner,
+    address spender,
+    uint256 value,
+    uint256 deadline,
+    bytes calldata signature
+) external {
+    require(block.timestamp &lt;= deadline, "kedaluwarsa");
+
+    bytes32 structHash = keccak256(abi.encode(
+        PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline
+    ));
+
+    bytes32 digest = _hashTypedDataV4(structHash);
+    address signer = ECDSA.recover(digest, signature);
+
+    require(signer != address(0), "signature tidak valid");
+    require(signer == owner, "bukan owner");
+
+    _approve(owner, spender, value);
+}</code></pre>
+        </div>
+        <p><code>_hashTypedDataV4</code> memasukkan nama domain, versi, chain ID, dan alamat verifikasi. Inilah yang membuat tanda tangan terikat pada satu kontrak di satu chain. Gunakan <code>ECDSA.recover</code> dari OpenZeppelin, bukan <code>ecrecover</code> langsung, dan pertimbangkan <code>SignatureChecker</code> untuk mendukung smart account.</p>
+
+        <div class="note">
+          <span class="note-label">ERC-1271 dan smart account</span>
+          <p>Wallet kontrak tidak punya private key yang bisa menghasilkan ECDSA signature biasa. ERC-1271 menambahkan fungsi <code>isValidSignature</code> agar kontrak bisa memverifikasi tanda tangan sesuai aturannya sendiri. Dukungan ini penting untuk account abstraction.</p>
+        </div>
+
+        <div class="lab" id="lab-signature">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 08</p>
+            <h3>Tanda tangani permit, lalu coba pakai ulang.</h3>
+            <p>Lab menyusun hash simulasi dari field EIP-712. Nyalakan pengikatan domain dan nonce, tanda tangani, lalu ubah chain atau pakai nonce yang sama. Hash bukan Keccak sungguhan, tetapi perilaku validasi mengikuti urutan yang sama.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row-3">
+              <div class="field">
+                <label for="sig-owner">Owner</label>
+                <input id="sig-owner" type="text" value="0x1111111111111111111111111111111111111111" spellcheck="false">
+              </div>
+              <div class="field">
+                <label for="sig-spender">Spender</label>
+                <input id="sig-spender" type="text" value="0x2222222222222222222222222222222222222222" spellcheck="false">
+              </div>
+              <div class="field">
+                <label for="sig-value">Nilai</label>
+                <input id="sig-value" type="number" value="1000" min="0" inputmode="numeric">
+              </div>
+            </div>
+            <div class="field-row-3">
+              <div class="field">
+                <label for="sig-nonce">Nonce</label>
+                <input id="sig-nonce" type="number" value="0" min="0" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="sig-chain">Chain ID</label>
+                <input id="sig-chain" type="number" value="11155111" min="1" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="sig-deadline">Deadline (blok)</label>
+                <input id="sig-deadline" type="number" value="1200" min="0" inputmode="numeric">
+              </div>
+            </div>
+
+            <div class="checklist">
+              <ul>
+                <li><label><input type="checkbox" id="sig-domain" checked><span><strong>Ikat domain</strong><small>Masukkan chain ID dan alamat kontrak ke hash.</small></span></label></li>
+                <li><label><input type="checkbox" id="sig-nonce-check" checked><span><strong>Periksa nonce</strong><small>Tolak tanda tangan yang nonce-nya sudah dipakai.</small></span></label></li>
+                <li><label><input type="checkbox" id="sig-deadline-check" checked><span><strong>Periksa deadline</strong><small>Tolak tanda tangan setelah blok 1.200.</small></span></label></li>
+              </ul>
+            </div>
+
+            <div class="sig-output" id="sig-output">
+              <span>Hash</span>
+              <p id="sig-hash">Belum ditandatangani.</p>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="sig-sign" type="button">Tanda tangani</button>
+              <button class="btn btn-quiet" id="sig-use" type="button">Pakai tanda tangan</button>
+              <button class="btn btn-quiet" id="sig-reset" type="button">Reset</button>
+            </div>
+            <p class="status" id="sig-status" role="status" aria-live="polite">Belum ada tanda tangan.</p>
+            <p class="lab-note">Tanda tangani, lalu ubah chain ID dan tekan Pakai. Dengan pengikatan domain, hash berubah dan tanda tangan ditolak. Tanpa nonce, tanda tangan yang sama bisa dipakai dua kali. Deadline mencegah pemakaian di masa depan.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="pola" data-chapter="pola" data-track="true" data-title="Pola pertahanan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 11<span class="chapter-type">PERTAHANAN</span></p>
+          <h2>Mitigasi yang baik mengurangi satu jalur, bukan menambah satu komentar.</h2>
+          <p class="chapter-lead">Tujuh vektor sebelumnya menunjukkan bagaimana dana bisa keluar. Pola pertahanan mengubah urutan, hak, dan bentuk interaksi sehingga jalur itu tidak lagi tersedia. Tidak ada satu pola yang menutup semua. Yang bekerja adalah lapisan yang saling menutup celah dan bisa diuji satu per satu.</p>
+          <ul class="goals">
+            <li>Menerapkan checks-effects-interactions pada alur yang mengirim nilai.</li>
+            <li>Memilih antara push dan pull payment.</li>
+            <li>Membatasi kerusakan dengan pause, rate limit, dan batas parameter.</li>
+            <li>Memisahkan kunci admin, guardian, dan operator.</li>
+          </ul>
+        </header>
+
+        <h3>Enam pola inti</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Pola, tujuan, dan biaya yang ditimbulkan.</caption>
+            <thead>
+              <tr><th scope="col">Pola</th><th scope="col">Menutup</th><th scope="col">Biaya</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Checks-effects-interactions</td><td>Reentrancy dan state setengah jadi.</td><td>Perlu disiplin di setiap fungsi, bukan satu tempat.</td></tr>
+              <tr><td>ReentrancyGuard</td><td>Panggilan ulang pada fungsi yang dijaga.</td><td>Gas tambahan dan tidak menutup fungsi lain.</td></tr>
+              <tr><td>Pull payment</td><td>External call di jalur utama.</td><td>Pengguna harus menarik dana dan bisa gagal.</td></tr>
+              <tr><td>Rate limit</td><td>Pengurasan cepat dalam satu blok.</td><td>Membatasi pengguna sah saat permintaan tinggi.</td></tr>
+              <tr><td>Pause dan circuit breaker</td><td>Kerugian berlanjut saat insiden.</td><td>Kunci terpusat dan risiko penyalahgunaan.</td></tr>
+              <tr><td>Timelock dan multisig</td><td>Perubahan parameter secara instan.</td><td>Respons darurat menjadi lebih lambat.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="code-head"><span>Alur yang aman dan bisa diperiksa</span><button class="copy-btn" type="button" data-copy-target="code-11-safe">Salin</button></div>
+          <pre><code id="code-11-safe" data-lang="solidity">function withdraw(uint256 assets) external nonReentrant whenNotPaused {
+    // Checks
+    require(assets &gt; 0, "nol");
+    uint256 shares = previewWithdraw(assets);
+    require(balanceOf[msg.sender] &gt;= shares, "share kurang");
+
+    // Effects
+    balanceOf[msg.sender] -= shares;
+    totalShares -= shares;
+    totalAssets -= assets;
+
+    // Interactions
+    (bool ok, ) = msg.sender.call{value: assets}("");
+    require(ok, "transfer gagal");
+
+    emit Withdraw(msg.sender, assets, shares);
+}</code></pre>
+        </div>
+
+        <h3>Push atau pull</h3>
+        <p>Push payment mengirim dana langsung di fungsi. Ia nyaman, tetapi membuka external call dan bisa gagal jika penerima menolak ETH. Pull payment mencatat kewajiban dan membiarkan penerima menariknya. Untuk pembayaran massal, pull jauh lebih aman karena satu penerima yang bermasalah tidak menggagalkan seluruh proses.</p>
+
+        <h3>Batas parameter adalah pertahanan</h3>
+        <p>Bug oracle tidak berbahaya jika protokol hanya mengizinkan kenaikan harga 2 persen per blok. Bug likuidasi tidak berbahaya jika bonus likuidasi dibatasi. Angka batas harus berasal dari model ancaman, bukan dari nilai yang "terlihat wajar". Setiap batas perlu alasan, test, dan jalur perubahan yang diawasi.</p>
+        <ul>
+          <li>Batas pinjaman per pengguna dan per blok.</li>
+          <li>Batas perubahan harga oracle per interval.</li>
+          <li>Batas biaya, bonus likuidasi, dan rasio kolateral.</li>
+          <li>Batas jumlah token yang bisa dicetak atau ditarik dalam satu periode.</li>
+        </ul>
+
+        <div class="warn">
+          <span class="note-label">Pause bukan pengganti desain</span>
+          <p>Pause menghentikan kerugian, tetapi juga menghentikan pengguna yang ingin keluar. Jika guardian bisa pause tanpa batas, ia memegang kekuatan yang setara dengan membekukan dana. Tulis aturan pause, durasi maksimum, dan siapa yang bisa membuka kembali.</p>
+        </div>
+
+        <div class="lab" id="lab-cei">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 09</p>
+            <h3>Susun urutan yang tidak memberi kesempatan kedua.</h3>
+            <p>Empat langkah di bawah harus dijalankan dalam urutan checks, effects, interactions. Geser dengan tombol naik dan turun, lalu periksa. Urutan yang salah tetap bisa berjalan, tetapi membuka reentrancy.</p>
+          </div>
+          <div class="lab-body">
+            <ul class="data-list" id="cei-list">
+              <li data-step="send">
+                <span class="row-main"><strong>Kirim ETH ke pemanggil</strong><span class="row-meta">Interaksi dengan kontrak luar</span></span>
+                <span class="row-actions">
+                  <button class="btn btn-small" type="button" data-move="up" aria-label="Naikkan langkah kirim ETH">Naik</button>
+                  <button class="btn btn-small" type="button" data-move="down" aria-label="Turunkan langkah kirim ETH">Turun</button>
+                </span>
+              </li>
+              <li data-step="check">
+                <span class="row-main"><strong>Periksa saldo share</strong><span class="row-meta">Checks, tolak jika tidak cukup</span></span>
+                <span class="row-actions">
+                  <button class="btn btn-small" type="button" data-move="up" aria-label="Naikkan langkah periksa saldo">Naik</button>
+                  <button class="btn btn-small" type="button" data-move="down" aria-label="Turunkan langkah periksa saldo">Turun</button>
+                </span>
+              </li>
+              <li data-step="effect">
+                <span class="row-main"><strong>Kurangi saldo dan total aset</strong><span class="row-meta">Effects, state diperbarui</span></span>
+                <span class="row-actions">
+                  <button class="btn btn-small" type="button" data-move="up" aria-label="Naikkan langkah kurangi saldo">Naik</button>
+                  <button class="btn btn-small" type="button" data-move="down" aria-label="Turunkan langkah kurangi saldo">Turun</button>
+                </span>
+              </li>
+              <li data-step="event">
+                <span class="row-main"><strong>Catat event Withdraw</strong><span class="row-meta">Jejak setelah state konsisten</span></span>
+                <span class="row-actions">
+                  <button class="btn btn-small" type="button" data-move="up" aria-label="Naikkan langkah catat event">Naik</button>
+                  <button class="btn btn-small" type="button" data-move="down" aria-label="Turunkan langkah catat event">Turun</button>
+                </span>
+              </li>
+            </ul>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="cei-check" type="button">Periksa urutan</button>
+              <button class="btn btn-quiet" id="cei-reset" type="button">Acak ulang</button>
+            </div>
+            <p class="status" id="cei-status" role="status" aria-live="polite">Belum diperiksa.</p>
+            <p class="lab-note">Event sebaiknya dicatat setelah state konsisten agar indexer tidak membaca state setengah jadi. Event sebelum external call bisa membuat sistem pemantauan melihat penarikan yang belum tentu berhasil.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="pengujian" data-chapter="pengujian" data-track="true" data-title="Pengujian keamanan">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 12<span class="chapter-type">PERTAHANAN</span></p>
+          <h2>Test yang tidak pernah gagal tidak membuktikan apa pun.</h2>
+          <p class="chapter-lead">Test unit membuktikan bahwa jalur yang kamu pikirkan berjalan. Fuzz membuktikan bahwa jalur yang tidak kamu pikirkan juga dicoba. Invariant membuktikan bahwa properti tertentu bertahan setelah ribuan operasi acak. Ketiganya menjawab pertanyaan berbeda, dan tidak satu pun menggantikan audit.</p>
+          <ul class="goals">
+            <li>Menyusun lapisan test sesuai jenis risiko.</li>
+            <li>Menulis invariant yang benar-benar bisa gagal.</li>
+            <li>Memakai fork test untuk kondisi pasar nyata.</li>
+            <li>Menentukan kapan formal verification masuk akal.</li>
+          </ul>
+        </header>
+
+        <h3>Lapisan pengujian</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Alat, yang diuji, dan batasnya.</caption>
+            <thead>
+              <tr><th scope="col">Lapisan</th><th scope="col">Menemukan</th><th scope="col">Tidak menemukan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Unit test</td><td>Logika dasar, akses, dan batas nilai tertentu.</td><td>Kombinasi input yang tidak ditulis.</td></tr>
+              <tr><td>Fuzz test</td><td>Input acak pada satu fungsi atau satu urutan pendek.</td><td>Interaksi lintas kontrak dan urutan panjang.</td></tr>
+              <tr><td>Invariant test</td><td>Pelanggaran properti setelah banyak panggilan acak.</td><td>Properti yang tidak pernah kamu tulis.</td></tr>
+              <tr><td>Fork test</td><td>Perilaku terhadap state jaringan dan kontrak nyata.</td><td>Kondisi pasar yang belum pernah terjadi.</td></tr>
+              <tr><td>Formal verification</td><td>Pelanggaran aturan pada semua input dalam model.</td><td>Salah spesifikasi dan bug di luar model.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="code-head"><span>Invariant vault di Foundry</span><button class="copy-btn" type="button" data-copy-target="code-12-invariant">Salin</button></div>
+          <pre><code id="code-12-invariant" data-lang="solidity">contract VaultInvariantTest is Test {
+    Vault vault;
+    Handler handler;
+
+    function setUp() public {
+        vault = new Vault();
+        handler = new Handler(vault);
+        targetContract(address(handler));
+    }
+
+    /// Total aset tidak boleh lebih kecil dari total kewajiban share.
+    function invariant_solvent() public view {
+        assertGe(
+            address(vault).balance,
+            vault.totalAssetsOwed()
+        );
+    }
+}</code></pre>
+        </div>
+        <p>Invariant yang baik menyatakan hubungan yang harus selalu benar, bukan nilai yang harus selalu sama. "Total aset lebih besar atau sama dengan kewajiban" adalah invariant. "Total aset 100 ETH" adalah snapshot yang akan berubah setiap deposit.</p>
+
+        <h3>Uji mitigasi dengan menghapusnya</h3>
+        <p>Cara tercepat mengetahui apakah test keamananmu berguna: hapus guard, ubah urutan, atau matikan pemeriksaan, lalu jalankan test. Jika semuanya tetap lulus, test itu tidak menguji mitigasi. Mutation testing otomatis melakukan variasi ini dan melaporkan mutan yang lolos.</p>
+
+        <div class="lab" id="lab-invariant">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 10</p>
+            <h3>Jalankan 600 operasi acak pada vault.</h3>
+            <p>Tiga pengguna menyetor dan menarik dengan urutan acak. Vault mencatat biaya penarikan 0,5 persen. Mode aman mencatat biaya penuh; mode bug membulatkan biaya ke bawah sehingga kewajiban tercatat lebih besar dari saldo nyata.</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row">
+              <div class="field">
+                <label for="inv-mode">Perlakuan biaya penarikan</label>
+                <select id="inv-mode">
+                  <option value="safe">Dipotong penuh (aman)</option>
+                  <option value="bug">Dibulatkan ke bawah (bug)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="inv-seed">Seed urutan</label>
+                <input id="inv-seed" type="number" value="42" min="1" inputmode="numeric">
+              </div>
+            </div>
+
+            <dl class="readout-grid" id="inv-out">
+              <div><dt>Saldo nyata</dt><dd id="inv-assets">0</dd></div>
+              <div><dt>Kewajiban tercatat</dt><dd id="inv-owed">0</dd></div>
+              <div><dt>Operasi</dt><dd id="inv-ops">0</dd></div>
+              <div><dt>Invariant</dt><dd id="inv-verdict">Belum dijalankan</dd></div>
+            </dl>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="inv-run" type="button">Jalankan fuzz</button>
+              <button class="btn btn-quiet" id="inv-reset" type="button">Reset</button>
+            </div>
+            <p class="status" id="inv-status" role="status" aria-live="polite"></p>
+            <p class="lab-note">Selisih satu unit terlihat sepele. Dalam produksi, pola ini muncul sebagai pengguna terakhir yang tidak bisa menarik dananya. Karena itu invariant harus diuji pada urutan operasi, bukan hanya pada satu transaksi.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="owasp" data-chapter="owasp" data-track="true" data-title="OWASP dan triase">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 13<span class="chapter-type">PERTAHANAN</span></p>
+          <h2>Daftar risiko membantu prioritas. Ia tidak menggantikan penilaian.</h2>
+          <p class="chapter-lead">OWASP Smart Contract Top 10 merangkum kategori risiko yang paling sering muncul. Daftar 2026 menambahkan risiko proxy dan upgrade, serta memisahkan kesalahan aritmetika dari overflow. Kategori berguna untuk komunikasi dan cakupan review, tetapi setiap temuan tetap harus dinilai dari konteks protokolmu.</p>
+          <ul class="goals">
+            <li>Mengenali sepuluh kategori OWASP 2026 dan contohnya.</li>
+            <li>Memetakan temuan ke kategori tanpa memaksakan satu label.</li>
+            <li>Menilai severity berdasarkan dampak dan kemungkinan.</li>
+            <li>Membedakan blocker rilis dari perbaikan yang bisa dijadwalkan.</li>
+          </ul>
+        </header>
+
+        <h3>Sepuluh kategori</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>OWASP Smart Contract Top 10 2026 dan bab terkait.</caption>
+            <thead>
+              <tr><th scope="col">Kode</th><th scope="col">Kategori</th><th scope="col">Bab</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>SC01</td><td>Access control</td><td>05</td></tr>
+              <tr><td>SC02</td><td>Business logic</td><td>02, 15, 16</td></tr>
+              <tr><td>SC03</td><td>Price oracle manipulation</td><td>07, 09</td></tr>
+              <tr><td>SC04</td><td>Flash loan facilitated attacks</td><td>09</td></tr>
+              <tr><td>SC05</td><td>Lack of input validation</td><td>03, 05, 10</td></tr>
+              <tr><td>SC06</td><td>Unchecked external calls</td><td>04, 11</td></tr>
+              <tr><td>SC07</td><td>Arithmetic errors dan rounding</td><td>06</td></tr>
+              <tr><td>SC08</td><td>Reentrancy</td><td>04, 11</td></tr>
+              <tr><td>SC09</td><td>Integer overflow dan underflow</td><td>06</td></tr>
+              <tr><td>SC10</td><td>Proxy dan upgradeability</td><td>03, 11</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Daftar 2025 memakai urutan berbeda dan menempatkan insecure randomness serta denial of service di posisi akhir. Keduanya tetap layak diperiksa untuk lotere, game, dan kontrak yang melakukan loop. Jangan memakai daftar sebagai satu-satunya cakupan audit.</p>
+
+        <h3>Severity bukan selera</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Kerangka sederhana untuk memberi prioritas.</caption>
+            <thead>
+              <tr><th scope="col">Tingkat</th><th scope="col">Kriteria</th><th scope="col">Tindakan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Critical</td><td>Dana bisa diambil siapa saja tanpa modal besar, atau admin bisa mengambil semua dana.</td><td>Blocker. Perbaiki dan uji ulang sebelum rilis.</td></tr>
+              <tr><td>High</td><td>Kerugian besar dengan kondisi yang bisa diciptakan penyerang.</td><td>Blocker kecuali ada mitigasi operasional yang terbukti.</td></tr>
+              <tr><td>Medium</td><td>Kerugian terbatas, butuh kondisi pasar atau hak khusus.</td><td>Perbaiki sebelum rilis atau jadwalkan dengan batas.</td></tr>
+              <tr><td>Low</td><td>Gangguan kecil, informasi, atau praktik terbaik.</td><td>Jadwalkan, dokumentasikan risiko.</td></tr>
+              <tr><td>Informational</td><td>Tidak berdampak langsung pada dana.</td><td>Perbaiki bila murah, tidak menghambat rilis.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab" id="lab-triage">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 11</p>
+            <h3>Triase lima temuan ke kategori OWASP.</h3>
+            <p>Setiap temuan berasal dari kode yang berjalan. Pilih kategori yang paling tepat, bukan kategori yang paling terdengar serius. Satu temuan bisa menyentuh dua kategori, tetapi pilih akar penyebabnya.</p>
+          </div>
+          <div class="lab-body">
+            <div class="error-case" data-triage-item="reentrancy" data-answer="SC08">
+              <p><strong>Temuan 1</strong></p>
+              <p><code>withdraw</code> mengirim ETH sebelum mengurangi saldo pemanggil.</p>
+              <select aria-label="Kategori untuk temuan withdraw">
+                <option value="">Pilih kategori</option>
+                <option value="SC01">SC01 Access control</option>
+                <option value="SC02">SC02 Business logic</option>
+                <option value="SC03">SC03 Oracle manipulation</option>
+                <option value="SC04">SC04 Flash loan</option>
+                <option value="SC05">SC05 Input validation</option>
+                <option value="SC06">SC06 Unchecked external calls</option>
+                <option value="SC07">SC07 Arithmetic errors</option>
+                <option value="SC08">SC08 Reentrancy</option>
+                <option value="SC09">SC09 Integer overflow</option>
+                <option value="SC10">SC10 Proxy dan upgrade</option>
+              </select>
+            </div>
+            <div class="error-case" data-triage-item="access" data-answer="SC01">
+              <p><strong>Temuan 2</strong></p>
+              <p><code>setOracle(address)</code> bersifat <code>external</code> tanpa modifier apa pun.</p>
+              <select aria-label="Kategori untuk temuan setOracle">
+                <option value="">Pilih kategori</option>
+                <option value="SC01">SC01 Access control</option>
+                <option value="SC02">SC02 Business logic</option>
+                <option value="SC03">SC03 Oracle manipulation</option>
+                <option value="SC04">SC04 Flash loan</option>
+                <option value="SC05">SC05 Input validation</option>
+                <option value="SC06">SC06 Unchecked external calls</option>
+                <option value="SC07">SC07 Arithmetic errors</option>
+                <option value="SC08">SC08 Reentrancy</option>
+                <option value="SC09">SC09 Integer overflow</option>
+                <option value="SC10">SC10 Proxy dan upgrade</option>
+              </select>
+            </div>
+            <div class="error-case" data-triage-item="oracle" data-answer="SC03">
+              <p><strong>Temuan 3</strong></p>
+              <p>Harga kolateral diambil dari rasio cadangan pool yang bisa digeser dalam satu transaksi.</p>
+              <select aria-label="Kategori untuk temuan harga pool">
+                <option value="">Pilih kategori</option>
+                <option value="SC01">SC01 Access control</option>
+                <option value="SC02">SC02 Business logic</option>
+                <option value="SC03">SC03 Oracle manipulation</option>
+                <option value="SC04">SC04 Flash loan</option>
+                <option value="SC05">SC05 Input validation</option>
+                <option value="SC06">SC06 Unchecked external calls</option>
+                <option value="SC07">SC07 Arithmetic errors</option>
+                <option value="SC08">SC08 Reentrancy</option>
+                <option value="SC09">SC09 Integer overflow</option>
+                <option value="SC10">SC10 Proxy dan upgrade</option>
+              </select>
+            </div>
+            <div class="error-case" data-triage-item="external" data-answer="SC06">
+              <p><strong>Temuan 4</strong></p>
+              <p>Nilai kembali dari <code>token.transfer</code> diabaikan, sehingga transfer yang gagal tetap dianggap berhasil.</p>
+              <select aria-label="Kategori untuk temuan transfer">
+                <option value="">Pilih kategori</option>
+                <option value="SC01">SC01 Access control</option>
+                <option value="SC02">SC02 Business logic</option>
+                <option value="SC03">SC03 Oracle manipulation</option>
+                <option value="SC04">SC04 Flash loan</option>
+                <option value="SC05">SC05 Input validation</option>
+                <option value="SC06">SC06 Unchecked external calls</option>
+                <option value="SC07">SC07 Arithmetic errors</option>
+                <option value="SC08">SC08 Reentrancy</option>
+                <option value="SC09">SC09 Integer overflow</option>
+                <option value="SC10">SC10 Proxy dan upgrade</option>
+              </select>
+            </div>
+            <div class="error-case" data-triage-item="logic" data-answer="SC02">
+              <p><strong>Temuan 5</strong></p>
+              <p>Fungsi likuidasi memeriksa <code>debt &lt; collateral</code> lalu menolak likuidasi, padahal kondisi berisiko adalah <code>debt &gt; collateral</code>.</p>
+              <select aria-label="Kategori untuk temuan likuidasi">
+                <option value="">Pilih kategori</option>
+                <option value="SC01">SC01 Access control</option>
+                <option value="SC02">SC02 Business logic</option>
+                <option value="SC03">SC03 Oracle manipulation</option>
+                <option value="SC04">SC04 Flash loan</option>
+                <option value="SC05">SC05 Input validation</option>
+                <option value="SC06">SC06 Unchecked external calls</option>
+                <option value="SC07">SC07 Arithmetic errors</option>
+                <option value="SC08">SC08 Reentrancy</option>
+                <option value="SC09">SC09 Integer overflow</option>
+                <option value="SC10">SC10 Proxy dan upgrade</option>
+              </select>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="triage-check" type="button">Periksa triase</button>
+              <button class="btn btn-quiet" id="triage-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="triage-status" role="status" aria-live="polite">Belum ada jawaban.</p>
+            <p class="lab-note">Access control yang hilang pada setOracle adalah akar masalah, bukan oracle manipulation. Kategorikan akar penyebab agar mitigasinya tepat: modifier pada setter, bukan TWAP.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="audit" data-chapter="audit" data-track="true" data-title="Audit dan insiden">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 14<span class="chapter-type">PERTAHANAN</span></p>
+          <h2>Audit bukan stempel. Ia percakapan yang harus disiapkan.</h2>
+          <p class="chapter-lead">Audit terbaik terjadi ketika kode sudah stabil, test sudah berjalan, dan model ancaman sudah ditulis. Auditor menemukan apa yang tidak kamu lihat, tetapi ia tidak bisa membaca niat yang tidak terdokumentasi. Setelah rilis, pekerjaan berubah dari mencegah menjadi mendeteksi dan merespons.</p>
+          <ul class="goals">
+            <li>Menyiapkan repositori, dokumentasi, dan ruang lingkup audit.</li>
+            <li>Membaca temuan dan memverifikasi perbaikan, bukan hanya menutup tiket.</li>
+            <li>Memasang monitoring untuk invariant dan hak admin.</li>
+            <li>Menjalankan runbook insiden tanpa panik.</li>
+          </ul>
+        </header>
+
+        <h3>Persiapan audit</h3>
+        <ul>
+          <li><strong>Ruang lingkup:</strong> daftar kontrak, commit hash, dan fitur yang tidak diaudit. Tanpa batas, laporan sulit ditindaklanjuti.</li>
+          <li><strong>Dokumentasi:</strong> alur dana, peran admin, oracle, asumsi, dan parameter yang bisa berubah.</li>
+          <li><strong>Test:</strong> unit, fuzz, invariant, dan fork test yang bisa dijalankan auditor. Sertakan perintahnya.</li>
+          <li><strong>Riwayat:</strong> perubahan besar dan alasan desain. Auditor perlu tahu mengapa sesuatu dibuat begitu.</li>
+          <li><strong>Kontak:</strong> satu orang yang bisa menjawab pertanyaan teknis selama audit.</li>
+        </ul>
+
+        <h3>Temuan dan perbaikan</h3>
+        <p>Setiap temuan punya lokasi, dampak, kondisi, dan rekomendasi. Saat memperbaiki, jangan hanya menambal baris yang disebut. Cari pola yang sama di seluruh kode. Setelah perbaikan, minta auditor memverifikasi commit baru, bukan menganggap perbaikan otomatis benar.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Yang harus disimpan setelah audit.</caption>
+            <thead>
+              <tr><th scope="col">Artefak</th><th scope="col">Isi</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Laporan audit</td><td>Temuan, severity, dan status perbaikan.</td></tr>
+              <tr><td>Commit perbaikan</td><td>Hash yang diverifikasi auditor.</td></tr>
+              <tr><td>Risiko diterima</td><td>Temuan yang tidak diperbaiki, dengan alasan dan mitigasi.</td></tr>
+              <tr><td>Rencana monitoring</td><td>Event, ambang, dan penerima alert.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Monitoring dan invariant on-chain</h3>
+        <p>Pantau hal yang harus selalu benar: total aset terhadap kewajiban, perubahan owner, perubahan oracle, pause, upgrade, dan lonjakan penarikan. Alert harus sampai ke orang yang bisa bertindak, bukan hanya ke dashboard. Untuk protokol besar, pertimbangkan layanan pemantauan dan circuit breaker otomatis dengan batas yang jelas.</p>
+
+        <h3>Runbook insiden</h3>
+        <ol class="steps">
+          <li><strong>Hentikan kerugian.</strong> Pause atau cabut izin jika mekanismenya ada dan aman.</li>
+          <li><strong>Simpan bukti.</strong> Hash transaksi, alamat penyerang, state sebelum dan sesudah, serta log.</li>
+          <li><strong>Pastikan kunci aman.</strong> Rotasi kunci yang mungkin bocor, pisahkan perangkat, dan periksa akses.</li>
+          <li><strong>Berkomunikasi.</strong> Satu kanal resmi, pernyataan yang memisahkan fakta dan dugaan.</li>
+          <li><strong>Pulihkan dengan hati-hati.</strong> Patch, test, audit singkat, lalu rilis bertahap.</li>
+          <li><strong>Tulis postmortem.</strong> Penyebab, timeline, kerugian, dan perubahan sistem.</li>
+        </ol>
+
+        <div class="lab" id="lab-insiden">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 12</p>
+            <h3>Pilih tindakan pertama saat dana keluar.</h3>
+            <p>Alert berbunyi: 400 ETH keluar dari vault dalam tiga menit. Tentukan apakah setiap tindakan dilakukan sekarang, setelah keadaan aman, atau jangan pernah.</p>
+          </div>
+          <div class="lab-body">
+            <div class="stack-task" data-incident="pause" data-answer="now">
+              <p><strong>Pause kontrak jika guardian masih memegang kunci</strong><small>Menghentikan aliran dana keluar, dengan risiko membekukan pengguna.</small></p>
+              <select aria-label="Waktu untuk pause">
+                <option value="">Pilih waktu</option>
+                <option value="now">Sekarang</option>
+                <option value="later">Setelah keadaan aman</option>
+                <option value="never">Jangan pernah</option>
+              </select>
+            </div>
+            <div class="stack-task" data-incident="evidence" data-answer="now">
+              <p><strong>Simpan hash transaksi dan snapshot state</strong><small>Bukti bisa hilang jika node atau dashboard direset.</small></p>
+              <select aria-label="Waktu untuk menyimpan bukti">
+                <option value="">Pilih waktu</option>
+                <option value="now">Sekarang</option>
+                <option value="later">Setelah keadaan aman</option>
+                <option value="never">Jangan pernah</option>
+              </select>
+            </div>
+            <div class="stack-task" data-incident="blame" data-answer="later">
+              <p><strong>Publikasikan penyebab pasti sebelum investigasi</strong><small>Dugaan awal sering salah dan bisa memicu kepanikan.</small></p>
+              <select aria-label="Waktu untuk publikasi penyebab">
+                <option value="">Pilih waktu</option>
+                <option value="now">Sekarang</option>
+                <option value="later">Setelah keadaan aman</option>
+                <option value="never">Jangan pernah</option>
+              </select>
+            </div>
+            <div class="stack-task" data-incident="patch" data-answer="later">
+              <p><strong>Deploy patch langsung ke mainnet tanpa test</strong><small>Perbaikan terburu-buru bisa menambah kerugian.</small></p>
+              <select aria-label="Waktu untuk deploy patch">
+                <option value="">Pilih waktu</option>
+                <option value="now">Sekarang</option>
+                <option value="later">Setelah keadaan aman</option>
+                <option value="never">Jangan pernah</option>
+              </select>
+            </div>
+            <div class="stack-task" data-incident="rotate" data-answer="now">
+              <p><strong>Rotasi kunci admin yang mungkin bocor</strong><small>Jika penyebabnya kunci, penyerang masih punya akses.</small></p>
+              <select aria-label="Waktu untuk rotasi kunci">
+                <option value="">Pilih waktu</option>
+                <option value="now">Sekarang</option>
+                <option value="later">Setelah keadaan aman</option>
+                <option value="never">Jangan pernah</option>
+              </select>
+            </div>
+            <div class="stack-task" data-incident="postmortem" data-answer="later">
+              <p><strong>Tulis postmortem dan perbarui model ancaman</strong><small>Pelajaran harus masuk ke sistem, bukan hanya ke ingatan.</small></p>
+              <select aria-label="Waktu untuk postmortem">
+                <option value="">Pilih waktu</option>
+                <option value="now">Sekarang</option>
+                <option value="later">Setelah keadaan aman</option>
+                <option value="never">Jangan pernah</option>
+              </select>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="insiden-check" type="button">Periksa runbook</button>
+              <button class="btn btn-quiet" id="insiden-reset" type="button">Ulangi</button>
+            </div>
+            <p class="status" id="insiden-status" role="status" aria-live="polite">Belum ada tindakan.</p>
+            <p class="lab-note">Tidak semua tindakan darurat dilakukan sekarang. Yang harus segera adalah menghentikan kerugian, menyimpan bukti, dan mengamankan kunci. Penyebab pasti dan patch menunggu informasi yang cukup.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="defi" data-chapter="defi" data-track="true" data-title="DeFi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 15<span class="chapter-type">EKSPLORASI</span></p>
+          <h2>DeFi adalah kontrak yang saling meminjamkan asumsi.</h2>
+          <p class="chapter-lead">Decentralized finance menggabungkan pasar, pinjaman, dan derivatif tanpa perantara. Kekuatannya berasal dari komposabilitas: kontrak bisa memanggil kontrak lain seperti blok bangunan. Kelemahannya berasal dari hal yang sama. Setiap protokol mewarisi risiko protokol yang ia panggil, dan harga yang salah di satu tempat bisa menjadi kerugian di tempat lain.</p>
+          <ul class="goals">
+            <li>Menjelaskan AMM constant product dan dampak slippage.</li>
+            <li>Membaca LTV, likuidasi, dan bad debt pada protokol pinjaman.</li>
+            <li>Mengenali risiko komposabilitas dan ketergantungan oracle.</li>
+            <li>Menyusun pertanyaan keamanan sebelum berinteraksi dengan protokol baru.</li>
+          </ul>
+        </header>
+
+        <h3>AMM: harga ditentukan oleh cadangan</h3>
+        <p>Automated market maker memegang dua aset dan menjaga hasil kali cadangan tetap konstan. Untuk pool ETH dan USD, <code>x * y = k</code>. Membeli ETH menambah USD dan mengurangi ETH. Harga bergerak semakin cepat ketika cadangan semakin tipis.</p>
+        <div class="code-block">
+          <div class="code-head"><span>Hitung output dengan biaya</span><button class="copy-btn" type="button" data-copy-target="code-15-amm">Salin</button></div>
+          <pre><code id="code-15-amm" data-lang="solidity">// x = cadangan ETH, y = cadangan USD, fee 0,3 persen.
+uint256 amountInWithFee = amountIn * 997;
+uint256 numerator = amountInWithFee * reserveOut;
+uint256 denominator = reserveIn * 1000 + amountInWithFee;
+uint256 amountOut = numerator / denominator;</code></pre>
+        </div>
+        <p>Penyedia likuiditas menyetor kedua aset dan menerima share pool. Mereka mendapat biaya, tetapi menanggung impermanent loss ketika harga kedua aset bergerak menjauh dari rasio awal. Bagi pengguna, slippage adalah biaya tersembunyi yang harus dibatasi dengan <code>amountOutMin</code>.</p>
+
+        <h3>Pinjaman: kolateral, LTV, dan likuidasi</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Istilah yang menentukan risiko posisi.</caption>
+            <thead>
+              <tr><th scope="col">Istilah</th><th scope="col">Arti</th><th scope="col">Risiko</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>LTV</td><td>Batas pinjaman terhadap nilai kolateral.</td><td>LTV tinggi memberi ruang lebih besar untuk bad debt.</td></tr>
+              <tr><td>Threshold likuidasi</td><td>Rasio saat posisi boleh dilikuidasi.</td><td>Terlalu dekat dengan LTV membuat posisi rapuh.</td></tr>
+              <tr><td>Bonus likuidasi</td><td>Diskon untuk pelikuidasi.</td><td>Bonus besar memicu likuidasi berantai saat pasar turun.</td></tr>
+              <tr><td>Utilization</td><td>Bagian likuiditas yang sudah dipinjam.</td><td>Utilization tinggi menyulitkan penarikan.</td></tr>
+              <tr><td>Bad debt</td><td>Utang yang melebihi nilai kolateral setelah likuidasi.</td><td>Ditanggung protokol atau penyedia likuiditas.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Likuidasi bukan hukuman, melainkan mekanisme agar protokol tetap solvent. Ia bergantung pada oracle yang benar, likuiditas pasar, dan insentif yang cukup. Jika harga jatuh terlalu cepat atau oracle terlambat, posisi bisa melewati titik di mana likuidasi masih menutup utang.</p>
+
+        <h3>Komposabilitas memperbesar radius kerusakan</h3>
+        <ul>
+          <li>Vault memakai share dari protokol lain sebagai kolateral. Jika harga share itu salah, pinjaman di vault ikut salah.</li>
+          <li>Protokol A memakai oracle yang membaca pool B. Serangan di pool B menjadi serangan di A.</li>
+          <li>Sebuah aset dipakai di beberapa protokol. Likuidasi besar di satu tempat menekan harga di tempat lain.</li>
+          <li>Admin key yang sama menguasai beberapa kontrak. Satu kebocoran membuka semuanya.</li>
+        </ul>
+
+        <div class="note">
+          <span class="note-label">Pertanyaan sebelum memakai protokol</span>
+          <p>Dari mana harganya? Siapa yang bisa mengubah parameter? Apa yang terjadi jika oracle mati? Apakah ada batas penarikan? Apakah kode bisa di-upgrade? Apakah audit mencakup kontrak yang sedang dipakai? Jika jawabannya tidak jelas, ukuran dana yang kamu taruh harus mencerminkan ketidakjelasan itu.</p>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="dao" data-chapter="dao" data-track="true" data-title="DAO dan governance">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 16<span class="chapter-type">EKSPLORASI</span></p>
+          <h2>Governance adalah access control yang dipecah menjadi suara.</h2>
+          <p class="chapter-lead">DAO memindahkan keputusan dari satu admin ke pemegang token atau anggota. Masalah keamanannya tidak hilang. Ia berpindah ke cara suara dihitung, kapan snapshot diambil, siapa yang bisa mengusulkan, dan seberapa cepat proposal dieksekusi. Tata kelola yang buruk bisa menguras treasury tanpa satu pun bug di kontrak.</p>
+          <ul class="goals">
+            <li>Memetakan alur proposal dari usulan sampai eksekusi.</li>
+            <li>Mengenali serangan pinjaman suara dan pembelian suara.</li>
+            <li>Memakai timelock, quorum, dan veto dengan benar.</li>
+            <li>Membedakan desentralisasi nyata dari desentralisasi di atas kertas.</li>
+          </ul>
+        </header>
+
+        <h3>Alur yang umum</h3>
+        <ol class="steps">
+          <li><strong>Usulan dibuat.</strong> Pemegang token di atas ambang mengajukan proposal dengan target, calldata, dan nilai.</li>
+          <li><strong>Snapshot diambil.</strong> Bobot suara ditentukan pada blok tertentu, bukan saat voting berlangsung.</li>
+          <li><strong>Voting berjalan.</strong> Suara setuju, tidak setuju, atau abstain. Quorum harus terpenuhi.</li>
+          <li><strong>Timelock menahan eksekusi.</strong> Ada jeda untuk meninjau dan membatalkan jika ada masalah.</li>
+          <li><strong>Proposal dieksekusi.</strong> Kontrak governance memanggil target dengan hak treasury.</li>
+        </ol>
+
+        <div class="code-block">
+          <div class="code-head"><span>Snapshot dan timelock</span><button class="copy-btn" type="button" data-copy-target="code-16-dao">Salin</button></div>
+          <pre><code id="code-16-dao" data-lang="solidity">function propose(
+    address[] calldata targets,
+    uint256[] calldata values,
+    bytes[] calldata calldatas,
+    string calldata description
+) external returns (uint256 proposalId) {
+    require(getVotes(msg.sender, block.number - 1) &gt;= proposalThreshold, "suara kurang");
+
+    proposalId = _propose(targets, values, calldatas, description);
+
+    // Jeda wajib sebelum eksekusi. Beri waktu review.
+    _setDeadline(proposalId, block.timestamp + votingPeriod);
+}</code></pre>
+        </div>
+
+        <h3>Serangan yang perlu dikenal</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Pola serangan governance dan mitigasinya.</caption>
+            <thead>
+              <tr><th scope="col">Serangan</th><th scope="col">Cara kerja</th><th scope="col">Mitigasi</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Flash loan voting</td><td>Meminjam token besar, memakai hak suara, lalu mengembalikan dalam blok yang sama.</td><td>Snapshot pada blok sebelum proposal, lock atau escrow saat voting.</td></tr>
+              <tr><td>Vote buying</td><td>Membayar pemegang token untuk memilih sesuai keinginan.</td><td>Delegasi transparan, reputasi, dan insentif jangka panjang.</td></tr>
+              <tr><td>Proposal berbahaya</td><td>Calldata terlihat biasa, tetapi memanggil fungsi upgrade atau transfer.</td><td>Simulasi eksekusi, review publik, dan batas target.</td></tr>
+              <tr><td>Quorum rendah</td><td>Sejumlah kecil token mengendalikan treasury besar.</td><td>Quorum dinamis dan partisipasi yang dipantau.</td></tr>
+              <tr><td>Timelock terlalu pendek</td><td>Tidak ada waktu untuk bereaksi.</td><td>Jeda minimum dan veto committee yang terpisah.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Desentralisasi yang bisa diperiksa</h3>
+        <p>Tanyakan siapa yang memegang <code>DEFAULT_ADMIN_ROLE</code>, siapa yang bisa membatalkan proposal, dan apakah timelock bisa diubah oleh proposal yang sama. Jika satu multisig bisa mengganti aturan sebelum timelock, jeda itu tidak berarti apa-apa. Desentralisasi bukan jumlah pemegang token, melainkan jumlah pihak independen yang harus setuju untuk mengubah hal penting.</p>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="nft" data-chapter="nft" data-track="true" data-title="NFT">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 17<span class="chapter-type">EKSPLORASI</span></p>
+          <h2>NFT adalah token dengan metadata dan izin yang lebih rumit.</h2>
+          <p class="chapter-lead">ERC-721 dan ERC-1155 menambahkan dimensi baru: keunikan token, metadata off-chain, royalti, dan approval marketplace. Setiap dimensi membawa pertanyaan keamanan sendiri. Banyak kerugian NFT tidak berasal dari bug mint, melainkan dari tanda tangan dan izin yang diberikan pengguna kepada situs atau marketplace.</p>
+          <ul class="goals">
+            <li>Mengamankan mint: akses, batas supply, dan harga.</li>
+            <li>Memahami metadata on-chain dan off-chain.</li>
+            <li>Membedakan <code>approve</code> dan <code>setApprovalForAll</code>.</li>
+            <li>Mengenali signature mint dan replay.</li>
+          </ul>
+        </header>
+
+        <h3>Mint yang aman</h3>
+        <div class="code-block">
+          <div class="code-head"><span>Batas supply dan pembayaran</span><button class="copy-btn" type="button" data-copy-target="code-17-mint">Salin</button></div>
+          <pre><code id="code-17-mint" data-lang="solidity">function mint(uint256 quantity) external payable {
+    require(quantity &gt; 0 &amp;&amp; quantity &lt;= MAX_PER_TX, "jumlah salah");
+    require(totalSupply() + quantity &lt;= MAX_SUPPLY, "habis");
+    require(msg.value == quantity * PRICE, "pembayaran salah");
+    require(!paused, "mint berhenti");
+
+    for (uint256 i = 0; i &lt; quantity; i++) {
+        _safeMint(msg.sender, _nextTokenId());
+    }
+}</code></pre>
+        </div>
+        <p><code>_safeMint</code> memanggil <code>onERC721Received</code> pada penerima. Jika penerima adalah kontrak, ia bisa menjalankan kode. Ini bukan masalah selama state sudah konsisten sebelum mint dan tidak ada logika withdrawal di dalam callback.</p>
+
+        <h3>Metadata dan janji permanen</h3>
+        <p><code>tokenURI</code> biasanya menunjuk ke IPFS, Arweave, atau server biasa. Jika menunjuk ke server, pemilik domain bisa mengubah atau menghapus gambar. Jika menunjuk ke IPFS, file tetap ada selama ada yang menyimpan salinannya. Content addressing membuktikan kecocokan file, bukan menjamin ketersediaan selamanya.</p>
+
+        <h3>Approval marketplace</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Izin yang sering diminta marketplace.</caption>
+            <thead>
+              <tr><th scope="col">Izin</th><th scope="col">Cakupan</th><th scope="col">Risiko</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>approve(address, tokenId)</code></td><td>Satu token.</td><td>Terbatas pada token itu.</td></tr>
+              <tr><td><code>setApprovalForAll(address, true)</code></td><td>Semua token koleksi.</td><td>Jika alamat jahat, seluruh koleksi bisa dipindahkan.</td></tr>
+              <tr><td>Signature listing</td><td>Harga dan masa berlaku untuk satu token.</td><td>Tanda tangan tanpa nonce atau deadline bisa dipakai ulang.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Drainer NFT bekerja dengan meminta <code>setApprovalForAll</code> ke alamat penyerang. Setelah izin diberikan, penyerang memindahkan semua token tanpa tanda tangan tambahan. Pengguna tidak perlu menandatangani transaksi jual untuk kehilangan koleksi.</p>
+
+        <div class="warn">
+          <span class="note-label">Periksa alamat, bukan tampilan</span>
+          <p>Marketplace palsu bisa menampilkan tombol "List" yang sebenarnya meminta approval. Baca detail permintaan di wallet: operator, token, dan cakupan. Cabut approval lama secara berkala, terutama setelah berinteraksi dengan situs yang tidak dikenal.</p>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="akun-abstraksi" data-chapter="akun-abstraksi" data-track="true" data-title="Account abstraction">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 18<span class="chapter-type">EKSPLORASI</span></p>
+          <h2>Akun bisa punya aturan sendiri. Itu kekuatan sekaligus permukaan baru.</h2>
+          <p class="chapter-lead">ERC-4337 memisahkan akun dari pemegang private key. Pengguna memakai smart account yang bisa memiliki beberapa penandatangan, batas pengeluaran, pemulihan sosial, dan pembayaran gas oleh pihak lain. Setiap fitur baru itu menambah logika yang harus divalidasi sebelum eksekusi.</p>
+          <ul class="goals">
+            <li>Menjelaskan alur UserOperation dari wallet ke EntryPoint.</li>
+            <li>Membedakan fase validasi dan eksekusi.</li>
+            <li>Mengenali risiko paymaster, replay, dan upgrade akun.</li>
+            <li>Menempatkan EIP-7702 dalam peta akun.</li>
+          </ul>
+        </header>
+
+        <h3>Komponen ERC-4337</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Siapa melakukan apa.</caption>
+            <thead>
+              <tr><th scope="col">Komponen</th><th scope="col">Peran</th><th scope="col">Risiko</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Smart account</td><td>Menyimpan aset dan memvalidasi UserOperation.</td><td>Bug validasi atau upgrade key.</td></tr>
+              <tr><td>EntryPoint</td><td>Kontrak tunggal yang mengeksekusi operasi dan mengelola deposit.</td><td>Asumsi tentang perilaku account dan paymaster.</td></tr>
+              <tr><td>Bundler</td><td>Mengumpulkan UserOperation dan mengirim transaksi.</td><td>Sensor, urutan, dan kebocoran data.</td></tr>
+              <tr><td>Paymaster</td><td>Membayar gas untuk pengguna.</td><td>Penyalahgunaan sponsor dan pengurasan deposit.</td></tr>
+              <tr><td>Factory</td><td>Membuat account baru.</td><td>Alamat deterministik dan inisialisasi ganda.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="code-head"><span>Validasi UserOperation</span><button class="copy-btn" type="button" data-copy-target="code-18-aa">Salin</button></div>
+          <pre><code id="code-18-aa" data-lang="solidity">function validateUserOp(
+    PackedUserOperation calldata userOp,
+    bytes32 userOpHash,
+    uint256 missingAccountFunds
+) external returns (uint256 validationData) {
+    require(msg.sender == address(entryPoint), "bukan EntryPoint");
+
+    // Hash harus mengikat chain dan EntryPoint.
+    require(userOpHash == _hash(userOp), "hash salah");
+    require(!_usedNonces[userOp.nonce], "nonce dipakai");
+
+    address signer = ECDSA.recover(userOpHash, userOp.signature);
+    if (signer != owner) return SIG_VALIDATION_FAILED;
+
+    _usedNonces[userOp.nonce] = true;
+    _payPrefund(missingAccountFunds);
+    return 0;
+}</code></pre>
+        </div>
+        <p>Fase validasi dibatasi: tidak boleh membaca storage yang bisa berubah selama eksekusi, dan tidak boleh memanggil kontrak sembarangan. Pelanggaran aturan ini bisa membuat bundler menolak operasi atau membuka jalur griefing.</p>
+
+        <h3>EIP-7702</h3>
+        <p>EIP-7702 memungkinkan akun EOA memasang kode delegasi ke kontrak. Ini memberi fitur seperti batching dan sponsorship tanpa memindahkan aset ke akun baru. Risikonya mirip dengan proxy: kode yang dipasang bisa berubah, dan tanda tangan delegasi harus terikat chain serta nonce. Wallet perlu menampilkan dengan jelas kode apa yang sedang dipasang.</p>
+
+        <div class="note">
+          <span class="note-label">Pertanyaan keamanan untuk paymaster</span>
+          <p>Siapa yang membayar gas? Apa batas per pengguna dan per hari? Bagaimana paymaster menolak operasi yang tidak sah? Apakah ada cara bagi penyerang untuk membuat validasi mahal? Paymaster yang tidak dibatasi adalah saldo yang bisa dikuras perlahan.</p>
+        </div>
+        <div data-chapter-end"></div>
+      </section>
+
+      <section class="chapter" id="l2" data-chapter="l2" data-track="true" data-title="Layer 2 dan bridge">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 19<span class="chapter-type">EKSPLORASI</span></p>
+          <h2>Layer 2 memindahkan eksekusi, bukan menghilangkan kepercayaan.</h2>
+          <p class="chapter-lead">Rollup menjalankan transaksi di luar Ethereum lalu memposting data atau bukti ke mainnet. Hasilnya lebih murah dan lebih cepat, dengan model keamanan yang berbeda. Bridge menambahkan lapisan lain: aset di satu chain dikunci, lalu representasinya dicetak di chain lain. Di situlah sebagian besar risiko berpusat.</p>
+          <ul class="goals">
+            <li>Membedakan optimistic rollup dan zk rollup.</li>
+            <li>Memahami peran sequencer, finality, dan jendela penarikan.</li>
+            <li>Menilai model kepercayaan bridge.</li>
+            <li>Mengenali bug yang khas di aplikasi lintas chain.</li>
+          </ul>
+        </header>
+
+        <h3>Dua jenis rollup</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Perbandingan singkat.</caption>
+            <thead>
+              <tr><th scope="col">Aspek</th><th scope="col">Optimistic rollup</th><th scope="col">ZK rollup</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Validasi</td><td>Asumsi valid, ada jendela fraud proof.</td><td>Bukti kriptografis diverifikasi on-chain.</td></tr>
+              <tr><td>Penarikan ke L1</td><td>Menunggu jendela tantangan, bisa beberapa hari.</td><td>Lebih cepat setelah bukti diverifikasi.</td></tr>
+              <tr><td>Biaya komputasi</td><td>Lebih murah untuk umum.</td><td>Pembuatan bukti mahal, verifikasi murah.</td></tr>
+              <tr><td>Kompleksitas</td><td>Fraud proof dan data availability.</td><td>Sirkuit, prover, dan trusted setup.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Sequencer dan finality</h3>
+        <p>Sequencer mengurutkan transaksi di L2. Ia bisa lambat, down, atau menyensor transaksi. Sebagian rollup punya jalur paksa untuk memasukkan transaksi lewat L1 jika sequencer bermasalah. Finality di L2 berbeda dari finality di L1: transaksi bisa terlihat selesai di L2 tetapi belum final di L1. Aplikasi yang menunggu setoran lintas chain harus memahami perbedaan ini.</p>
+
+        <h3>Bridge: siapa yang memegang aset</h3>
+        <ul>
+          <li><strong>Canonical bridge:</strong> dikendalikan oleh protokol rollup. Aset dikunci di L1 dan dicetak di L2. Kepercayaan mengarah ke kontrak rollup dan mekanisme exit.</li>
+          <li><strong>Third-party bridge:</strong> validator atau multisig memegang aset. Kepercayaan mengarah ke operator dan kunci mereka.</li>
+          <li><strong>Liquidity network:</strong> penyedia likuiditas membayar di tujuan dan menagih di sumber. Risiko berpindah ke penyedia dan kontrak rute.</li>
+        </ul>
+        <p>Bridge pihak ketiga dengan multisig 3 dari 5 memiliki model kepercayaan yang sangat berbeda dari canonical bridge. Baca dokumentasinya, cek apakah ada audit, dan pahami waktu tunggu penarikan sebelum memindahkan dana besar.</p>
+
+        <div class="warn">
+          <span class="note-label">Alamat yang sama, chain berbeda</span>
+          <p>Kontrak di L2 bisa punya alamat yang sama dengan kontrak di L1, tetapi state dan dananya terpisah. Jangan mengirim aset ke alamat yang "terlihat benar" tanpa memeriksa chain ID dan alamat bridge resmi. Frontend yang salah jaringan adalah penyebab kerugian yang tidak terlihat seperti serangan.</p>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="ipfs" data-chapter="ipfs" data-track="true" data-title="IPFS dan indexing">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 20<span class="chapter-type">EKSPLORASI</span></p>
+          <h2>Data off-chain tetap bagian dari sistem keamanan.</h2>
+          <p class="chapter-lead">Kontrak tidak menyimpan gambar, riwayat lengkap, atau hasil pencarian. Data itu hidup di IPFS, server, atau database indexer. Setiap kali kontrak menunjuk ke sana, ia membuat janji tentang ketersediaan dan konsistensi yang tidak bisa dijamin oleh EVM. Indexer menambahkan masalah lain: reorg dan event yang terlewat.</p>
+          <ul class="goals">
+            <li>Menjelaskan content addressing dan batas IPFS.</li>
+            <li>Memilih antara metadata on-chain dan off-chain.</li>
+            <li>Merancang indexer yang tahan reorg dan gagal sebagian.</li>
+            <li>Menghindari mempercayai data indexer sebagai kebenaran on-chain.</li>
+          </ul>
+        </header>
+
+        <h3>IPFS: alamat berdasarkan isi</h3>
+        <p>File di IPFS diidentifikasi oleh CID yang diturunkan dari isinya. Jika satu byte berubah, CID berubah. Ini membuat integritas mudah diperiksa, tetapi tidak menjamin file tetap tersedia. File hanya ada selama ada node yang menyimpannya. Pinning adalah janji untuk menyimpan, bukan janji abadi.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Pilihan penyimpanan metadata.</caption>
+            <thead>
+              <tr><th scope="col">Pilihan</th><th scope="col">Kelebihan</th><th scope="col">Kekurangan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>On-chain</td><td>Selalu tersedia bersama state kontrak.</td><td>Mahal dan terbatas ukuran.</td></tr>
+              <tr><td>IPFS dengan pinning</td><td>Integritas isi dan desentralisasi penyimpanan.</td><td>Butuh pinning dan gateway yang hidup.</td></tr>
+              <tr><td>Server terpusat</td><td>Murah, mudah diubah.</td><td>Bisa dimatikan atau diubah pemiliknya.</td></tr>
+              <tr><td>Arweave</td><td>Model bayar sekali untuk penyimpanan jangka panjang.</td><td>Biaya awal dan ketergantungan pada jaringan.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Indexing: dari event ke tampilan</h3>
+        <p>Frontend tidak bisa membaca seluruh riwayat kontrak lewat RPC tanpa biaya besar. Indexer mendengarkan event, menyimpannya di database, lalu melayani query. Masalah muncul ketika event terlewat, blok di-reorg, atau kontrak di-upgrade dan nama event berubah.</p>
+        <ul>
+          <li>Simpan <code>blockNumber</code>, <code>blockHash</code>, dan <code>transactionHash</code> untuk setiap event.</li>
+          <li>Tangani reorg dengan menunggu konfirmasi atau memproses ulang dari blok yang stabil.</li>
+          <li>Jangan memakai data indexer sebagai sumber kebenaran untuk keputusan dana. Baca state kontrak langsung.</li>
+          <li>Pantau lag indexer: selisih blok terakhir dengan blok yang sudah diproses.</li>
+        </ul>
+
+        <div class="code-block">
+          <div class="code-head"><span>Event yang cukup untuk indexer</span><button class="copy-btn" type="button" data-copy-target="code-20-event">Salin</button></div>
+          <pre><code id="code-20-event" data-lang="solidity">event Deposited(
+    address indexed owner,
+    uint256 assets,
+    uint256 shares
+);
+
+function deposit(uint256 assets) external {
+    uint256 shares = previewDeposit(assets);
+    _mint(msg.sender, shares);
+    emit Deposited(msg.sender, assets, shares);
+}</code></pre>
+        </div>
+        <p>Field <code>indexed</code> memudahkan filter berdasarkan pemilik, tetapi topik log terbatas. Jangan menaruh data besar di event hanya karena tampilan membutuhkannya. Simpan data minimum yang cukup untuk membangun ulang state turunan.</p>
+
+        <div class="note">
+          <span class="note-label">Ketersediaan adalah bagian dari keamanan</span>
+          <p>Jika frontend mati, pengguna masih bisa berinteraksi lewat kontrak langsung. Jika metadata mati, NFT kehilangan gambar. Jika indexer mati, riwayat transaksi tidak hilang, tetapi tampilan bisa menyesatkan. Rancang jalur cadangan untuk setiap komponen off-chain yang penting.</p>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="zk" data-chapter="zk" data-track="true" data-title="Zero knowledge proof">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 21<span class="chapter-type">EKSPLORASI</span></p>
+          <h2>Membuktikan tanpa mengungkap. Itu alat, bukan tujuan.</h2>
+          <p class="chapter-lead">Zero knowledge proof memungkinkan satu pihak membuktikan bahwa suatu pernyataan benar tanpa mengungkap data yang membuatnya benar. Di Web3, teknologi ini dipakai untuk skalabilitas, privasi, dan verifikasi komputasi. Ia bukan sihir dan bukan pengganti audit. Sirkuit juga kode, dan kode sirkuit bisa salah.</p>
+          <ul class="goals">
+            <li>Menjelaskan prover, verifier, witness, dan statement.</li>
+            <li>Membedakan SNARK dan STARK.</li>
+            <li>Menempatkan zkEVM dan validity proof dalam arsitektur rollup.</li>
+            <li>Mengenali sumber bug pada sistem berbasis ZK.</li>
+          </ul>
+        </header>
+
+        <h3>Empat istilah</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Komponen sistem zero knowledge.</caption>
+            <thead>
+              <tr><th scope="col">Istilah</th><th scope="col">Arti</th><th scope="col">Risiko</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Statement</td><td>Pernyataan yang ingin dibuktikan, misalnya "transisi state ini valid".</td><td>Statement yang salah dirumuskan membuktikan hal yang salah.</td></tr>
+              <tr><td>Witness</td><td>Data rahasia yang dipakai prover untuk membangun bukti.</td><td>Kebocoran witness membuka privasi.</td></tr>
+              <tr><td>Circuit</td><td>Program yang mendefinisikan aturan pembuktian.</td><td>Bug logika, constraint yang hilang, dan underconstrained witness.</td></tr>
+              <tr><td>Verifier</td><td>Kontrak atau program yang memeriksa bukti.</td><td>Verifier key salah atau bisa diganti.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>SNARK dan STARK</h3>
+        <p>SNARK menghasilkan bukti kecil dan verifikasi murah, tetapi sering membutuhkan trusted setup. STARK tidak membutuhkan trusted setup, tetapi bukti lebih besar dan biaya verifikasi lebih tinggi. Pilihan bergantung pada kebutuhan: ukuran bukti, kecepatan, biaya on-chain, dan asumsi kepercayaan yang bisa diterima.</p>
+
+        <h3>ZK rollup dan zkEVM</h3>
+        <p>ZK rollup memakai validity proof untuk membuktikan bahwa transisi state dari blok sebelumnya benar. Operator memposting data dan bukti. Kontrak verifier di L1 memeriksa bukti, lalu state root diperbarui. Jika bukti valid, tidak ada jendela tantangan seperti pada optimistic rollup.</p>
+        <p>zkEVM mencoba menjalankan bytecode EVM di dalam sirkuit. Semakin dekat ke EVM, semakin sulit dan mahal sirkuitnya. Karena itu ada beberapa tingkat kompatibilitas: dari bahasa khusus sampai ekuivalen bytecode. Aplikasi yang memakai opcode atau precompile tertentu perlu memeriksa dukungan sebelum berasumsi bisa dipindahkan.</p>
+
+        <h3>Sumber bug yang khas</h3>
+        <ul>
+          <li><strong>Underconstrained circuit.</strong> Sirkuit tidak memaksa semua aturan, sehingga prover bisa membuat bukti untuk state yang salah.</li>
+          <li><strong>Trusted setup yang bocor.</strong> Jika toxic waste tidak dihancurkan, penyerang bisa memalsukan bukti.</li>
+          <li><strong>Verifier yang bisa di-upgrade.</strong> Bukti valid tidak berarti apa-apa jika verifier key bisa diganti oleh admin.</li>
+          <li><strong>Data availability.</strong> Bukti valid untuk state yang datanya tidak tersedia membuat pengguna tidak bisa keluar.</li>
+          <li><strong>Kebocoran witness.</strong> Metadata, timing, atau log prover bisa membocorkan informasi privat.</li>
+        </ul>
+
+        <div class="note">
+          <span class="note-label">Mulai dari mana</span>
+          <p>Jangan mulai dari membangun zkEVM. Mulai dari satu statement sederhana, misalnya membuktikan bahwa kamu tahu preimage dari sebuah hash, lalu pelajari sirkuit, witness, dan verifier. Setelah itu baru masuk ke aplikasi seperti private voting, KYC tanpa data pribadi, atau proof of reserves. Pahami alatnya sebelum memakai kata "zero knowledge" di produk.</p>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="proyek" data-chapter="proyek" data-track="true" data-title="Mini-audit MiniVault">
+        <header class="chapter-head">
+          <p class="chapter-mark">Bab 22<span class="chapter-type">PROYEK</span></p>
+          <h2>Satu kontrak, lima temuan, satu keputusan rilis.</h2>
+          <p class="chapter-lead">MiniVault dari tahap sebelumnya sengaja kecil, tetapi cukup untuk memuat lima kesalahan yang mewakili tujuh vektor wajib. Di bab ini kamu membaca kode seperti auditor: menemukan, menjelaskan dampak, memperbaiki, lalu memutuskan apakah rilis layak. Gate di akhir bukan kuis. Ia catatan keputusan yang bisa kamu pertahankan di depan orang lain.</p>
+          <ul class="goals">
+            <li>Menemukan lima kelemahan pada satu kontrak kecil.</li>
+            <li>Menjelaskan dampak setiap temuan tanpa melebih-lebihkan.</li>
+            <li>Memperbaiki akar masalah, bukan gejalanya.</li>
+            <li>Menjalankan gate kesiapan dan membaca blocker.</li>
+          </ul>
+        </header>
+
+        <h3>Temuan audit</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Lima temuan pada versi pertama MiniVault.</caption>
+            <thead>
+              <tr><th scope="col">Temuan</th><th scope="col">Dampak</th><th scope="col">Severity</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>withdraw</code> mengirim ETH sebelum mengurangi saldo</td><td>Reentrancy, vault bisa terkuras</td><td>Critical</td></tr>
+              <tr><td><code>setOracle</code> publik tanpa modifier</td><td>Siapa pun bisa mengganti sumber harga</td><td>Critical</td></tr>
+              <tr><td>Harga kolateral dari cadangan pool spot</td><td>Manipulasi dalam satu transaksi lewat flash loan</td><td>High</td></tr>
+              <tr><td>Permit tanpa nonce dan chain ID</td><td>Tanda tangan bisa dipakai ulang atau lintas chain</td><td>High</td></tr>
+              <tr><td>Penarikan membulatkan aset ke atas</td><td>Defisit satu unit per operasi, pengguna terakhir gagal menarik</td><td>Medium</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Perbaikan yang menutup akar masalah</h3>
+        <div class="code-block">
+          <div class="code-head"><span>MiniVault setelah perbaikan</span><button class="copy-btn" type="button" data-copy-target="code-22-fix">Salin</button></div>
+          <pre><code id="code-22-fix" data-lang="solidity">contract MiniVault is ReentrancyGuard, AccessControl, Pausable {
+    bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
+    AggregatorV3Interface public feed;
+    uint256 public price;
+
+    function setOracle(address next) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(next != address(0), "alamat nol");
+        feed = AggregatorV3Interface(next);
+    }
+
+    function withdraw(uint256 assets) external nonReentrant whenNotPaused {
+        uint256 shares = previewWithdraw(assets); // dibulatkan ke atas untuk share
+        require(balanceOf[msg.sender] &gt;= shares, "share kurang");
+
+        balanceOf[msg.sender] -= shares;
+        totalShares -= shares;
+        totalAssets -= assets;
+
+        (bool ok, ) = msg.sender.call{value: assets}("");
+        require(ok, "transfer gagal");
+    }
+
+    function freshPrice() public view returns (uint256) {
+        (, int256 answer, , uint256 updatedAt, ) = feed.latestRoundData();
+        require(answer &gt; 0, "harga invalid");
+        require(block.timestamp - updatedAt &lt;= 1 hours, "harga basi");
+        return uint256(answer) * 1e10;
+    }
+}</code></pre>
+        </div>
+        <p>Perhatikan bahwa perbaikan tidak sekadar menambah <code>nonReentrant</code>. Urutan state diubah, hak oracle dipindah ke role dengan admin yang lebih kuat, harga memakai feed dengan pemeriksaan staleness, dan pembulatan share mengikuti arah yang aman. Setiap perbaikan punya test yang gagal jika baris itu dihapus.</p>
+
+        <h3>Yang belum selesai</h3>
+        <p>Kode di atas masih memiliki pertanyaan terbuka: siapa memegang <code>DEFAULT_ADMIN_ROLE</code>, apakah feed bisa diganti tanpa timelock, apakah ada batas pinjaman per blok, dan bagaimana posisi dilikuidasi jika harga jatuh cepat. Gate di bawah memisahkan hal yang sudah dibuktikan dari hal yang masih berupa niat.</p>
+
+        <div class="lab" id="lab-gate">
+          <div class="lab-head">
+            <p class="lab-kicker">Lab 13</p>
+            <h3>Gate kesiapan keamanan.</h3>
+            <p>Centang hanya yang punya bukti yang bisa ditunjukkan. Isi nama rilis dan commit. Gate akan menampilkan blocker dan memisahkan "siap audit" dari "siap mainnet".</p>
+          </div>
+          <div class="lab-body">
+            <div class="field-row">
+              <div class="field">
+                <label for="gate-name">Nama rilis</label>
+                <input id="gate-name" type="text" value="minivault-audit-01">
+              </div>
+              <div class="field">
+                <label for="gate-commit">Commit hash</label>
+                <input id="gate-commit" type="text" value="HEAD" spellcheck="false">
+              </div>
+            </div>
+
+            <div class="checklist">
+              <ul>
+                <li><label><input type="checkbox" id="gate-test"><span><strong>Unit test lulus</strong><small>Termasuk kasus akses salah, nilai nol, dan batas supply.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-fuzz"><span><strong>Fuzz dan invariant lulus</strong><small>Hasil bisa dijalankan ulang dari commit yang sama.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-access"><span><strong>Access control ditinjau</strong><small>Owner, role, initializer, dan jalur upgrade sudah diperiksa.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-oracle"><span><strong>Oracle aman</strong><small>TWAP atau feed dengan staleness, desimal, dan batas perubahan.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-signature"><span><strong>Signature terikat konteks</strong><small>Domain, chain ID, nonce, deadline, dan alamat nol diperiksa.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-emergency"><span><strong>Pause dan runbook siap</strong><small>Guardian, durasi, kanal komunikasi, dan kontak tertulis.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-monitor"><span><strong>Monitoring aktif</strong><small>Event admin, perubahan oracle, dan invariant utama memicu alert.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-audit"><span><strong>Audit independen selesai</strong><small>Laporan dan verifikasi perbaikan tersimpan di repositori.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-bounty"><span><strong>Kanal disclosure tersedia</strong><small>Alamat kontak dan kebijakan pelaporan bug ditulis publik.</small></span></label></li>
+                <li><label><input type="checkbox" id="gate-rehearsal"><span><strong>Rehearsal di testnet</strong><small>Deploy, pause, upgrade, dan penarikan diuji di jaringan nyata.</small></span></label></li>
+              </ul>
+            </div>
+
+            <div class="lab-actions">
+              <button class="btn btn-primary" id="gate-run" type="button">Jalankan gate</button>
+              <button class="btn btn-quiet" id="gate-reset" type="button">Reset</button>
+            </div>
+            <pre class="release-report" id="gate-report">Laporan akan muncul di sini setelah kamu menekan tombol.</pre>
+            <p class="status" id="gate-status" role="status" aria-live="polite">Belum ada laporan.</p>
+            <p class="lab-note">Siap audit bukan berarti siap mainnet. Audit independen, monitoring, dan rehearsal adalah syarat terpisah. Gate ini menyimpan pilihan di perangkatmu agar bisa dibuka lagi saat bukti bertambah.</p>
+          </div>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="uji" data-chapter="uji" data-track="true" data-title="Uji kompetensi">
+        <header class="chapter-head">
+          <p class="chapter-mark">Ujian<span class="chapter-type">20 SOAL</span></p>
+          <h2>Uji pemahaman serangan, mitigasi, dan bukti.</h2>
+          <p class="chapter-lead">Jawab semua soal, lalu periksa. Setiap jawaban punya penjelasan. Batas lulus 16 dari 20. Skor terbaik disimpan di perangkatmu.</p>
+        </header>
+
+        <div class="quiz-progress">
+          <p>Skor terbaik: <strong id="quiz-best">0 dari 20</strong></p>
+          <p>Batas lulus: <strong>16 dari 20</strong></p>
+        </div>
+        <form id="quiz-form"></form>
+        <div class="lab-actions">
+          <button class="btn btn-primary" id="quiz-submit" type="submit" form="quiz-form">Periksa jawaban</button>
+          <button class="btn btn-quiet" id="quiz-retry" type="button">Ulangi</button>
+        </div>
+        <p class="status" id="quiz-status" role="status" aria-live="polite">Belum ada jawaban yang diperiksa.</p>
+        <div id="quiz-result" aria-live="polite"></div>
+        <p class="lab-note">Ujian ini menguji penalaran, bukan hafalan nama serangan. Kalau kamu lupa nama kategori OWASP, kamu masih bisa lulus selama memahami akar masalah dan mitigasinya.</p>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="glosarium" data-chapter="glosarium" data-title="Glosarium dan cheatsheet">
+        <header class="chapter-head">
+          <p class="chapter-mark">Rujukan<span class="chapter-type">GLOSARIUM</span></p>
+          <h2>Istilah yang akan kamu temui lagi.</h2>
+          <p class="chapter-lead">Definisi singkat untuk istilah keamanan, protokol, dan infrastruktur. Nama tool dan versi bisa berubah; konsepnya lebih stabil.</p>
+        </header>
+
+        <h3>Glosarium</h3>
+        <dl class="glossary">
+          <div><dt>Attack surface</dt><dd>Semua titik yang bisa dipengaruhi pihak luar: fungsi, callback, hak admin, dan dependensi.</dd></div>
+          <div><dt>Threat model</dt><dd>Dokumen yang memetakan aset, aktor, kemampuan, jalur, dan dampak.</dd></div>
+          <div><dt>Trust boundary</dt><dd>Batas antara komponen yang kamu kendalikan dan yang kamu percaya.</dd></div>
+          <div><dt>Reentrancy</dt><dd>Panggilan ulang ke kontrak sebelum state selesai diperbarui.</dd></div>
+          <div><dt>CEI</dt><dd>Checks-effects-interactions. Urutan pengerjaan yang membuat state konsisten sebelum panggilan keluar.</dd></div>
+          <div><dt>Pull payment</dt><dd>Pola mencatat kewajiban lalu membiarkan penerima menariknya sendiri.</dd></div>
+          <div><dt>Access control</dt><dd>Aturan siapa boleh memanggil fungsi atau mengubah state.</dd></div>
+          <div><dt>Role</dt><dd>Kumpulan izin yang diberikan kepada alamat, dikelola oleh admin role.</dd></div>
+          <div><dt>Timelock</dt><dd>Kontrak yang menunda eksekusi keputusan selama periode tertentu.</dd></div>
+          <div><dt>Overflow</dt><dd>Nilai melewati batas tipe dan membungkus atau revert, tergantung mode aritmetika.</dd></div>
+          <div><dt>Rounding</dt><dd>Pemotongan sisa pembagian integer. Arahnya menentukan siapa menanggung kerugian.</dd></div>
+          <div><dt>Share inflation</dt><dd>Serangan yang memanipulasi harga share untuk membuat korban menerima nol share.</dd></div>
+          <div><dt>Oracle</dt><dd>Sumber data eksternal yang dipercaya kontrak, biasanya harga.</dd></div>
+          <div><dt>TWAP</dt><dd>Time-weighted average price, rata-rata harga selama jendela waktu.</dd></div>
+          <div><dt>Staleness</dt><dd>Kondisi ketika data oracle terlalu lama dan tidak lagi mewakili pasar.</dd></div>
+          <div><dt>Front-running</dt><dd>Menaruh transaksi sebelum transaksi lain yang sudah terlihat di mempool.</dd></div>
+          <div><dt>Sandwich</dt><dd>Membeli sebelum korban dan menjual setelahnya untuk mengambil selisih harga.</dd></div>
+          <div><dt>MEV</dt><dd>Maximal extractable value, nilai yang bisa diambil dari pengurutan transaksi.</dd></div>
+          <div><dt>Slippage</dt><dd>Selisih harga eksekusi dari harga yang diharapkan.</dd></div>
+          <div><dt>Flash loan</dt><dd>Pinjaman tanpa jaminan yang harus dikembalikan dalam transaksi yang sama.</dd></div>
+          <div><dt>Atomicity</dt><dd>Sifat transaksi yang berhasil seluruhnya atau revert seluruhnya.</dd></div>
+          <div><dt>EIP-712</dt><dd>Standar tanda tangan data terstruktur dengan domain dan tipe yang jelas.</dd></div>
+          <div><dt>Domain separator</dt><dd>Hash yang mengikat tanda tangan ke nama, versi, chain, dan kontrak.</dd></div>
+          <div><dt>Nonce</dt><dd>Penghitung yang mencegah tanda tangan atau transaksi dipakai ulang.</dd></div>
+          <div><dt>EIP-1271</dt><dd>Standar verifikasi tanda tangan untuk smart account atau kontrak.</dd></div>
+          <div><dt>Invariant</dt><dd>Properti yang harus selalu benar setelah setiap operasi.</dd></div>
+          <div><dt>Fuzzing</dt><dd>Pengujian dengan input acak untuk menemukan jalur tak terduga.</dd></div>
+          <div><dt>Formal verification</dt><dd>Pembuktian properti terhadap model kode, bukan pengujian sampel.</dd></div>
+          <div><dt>Proxy</dt><dd>Pola yang memisahkan storage dan logika agar logika bisa diganti.</dd></div>
+          <div><dt>Upgradeability</dt><dd>Kemampuan mengganti implementasi kontrak, beserta risiko hak adminnya.</dd></div>
+          <div><dt>MEV relay</dt><dd>Jalur privat yang mengirim transaksi tanpa mempublikasikannya ke mempool umum.</dd></div>
+          <div><dt>AMM</dt><dd>Automated market maker, pool yang menentukan harga dari cadangan aset.</dd></div>
+          <div><dt>LTV</dt><dd>Loan-to-value, rasio pinjaman terhadap nilai kolateral.</dd></div>
+          <div><dt>Bad debt</dt><dd>Utang yang tidak lagi tertutup oleh nilai kolateral.</dd></div>
+          <div><dt>DAO</dt><dd>Organisasi yang mengambil keputusan lewat proposal dan suara on-chain.</dd></div>
+          <div><dt>Quorum</dt><dd>Jumlah suara minimum agar hasil voting sah.</dd></div>
+          <div><dt>ERC-4337</dt><dd>Standar account abstraction dengan UserOperation, EntryPoint, bundler, dan paymaster.</dd></div>
+          <div><dt>EIP-7702</dt><dd>Mekanisme agar EOA memasang kode delegasi ke kontrak.</dd></div>
+          <div><dt>Rollup</dt><dd>Lapisan eksekusi yang memposting data atau bukti ke L1.</dd></div>
+          <div><dt>Sequencer</dt><dd>Pihak yang mengurutkan transaksi di Layer 2.</dd></div>
+          <div><dt>Bridge</dt><dd>Mekanisme memindahkan aset atau pesan antar chain.</dd></div>
+          <div><dt>CID</dt><dd>Content identifier di IPFS, diturunkan dari isi file.</dd></div>
+          <div><dt>Indexer</dt><dd>Layanan yang membaca event dan menyimpannya untuk query.</dd></div>
+          <div><dt>Reorg</dt><dd>Penggantian blok oleh rantai lain yang lebih berat.</dd></div>
+          <div><dt>SNARK</dt><dd>Bukti zero knowledge berukuran kecil, sering membutuhkan trusted setup.</dd></div>
+          <div><dt>STARK</dt><dd>Bukti zero knowledge tanpa trusted setup, dengan ukuran bukti lebih besar.</dd></div>
+          <div><dt>zkEVM</dt><dd>EVM yang dieksekusi di dalam sistem pembuktian zero knowledge.</dd></div>
+        </dl>
+
+        <h3>Cheatsheet</h3>
+        <div class="cheat-grid">
+          <div>
+            <h3>Pola aman</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Urutan</span><button class="copy-btn" type="button" data-copy-target="cheat-1">Salin</button></div>
+              <pre><code id="cheat-1" data-lang="text">1. Checks        validasi input dan hak
+2. Effects       update saldo, supply, status
+3. Interactions  panggil kontrak luar
+4. Emit          catat event setelah state konsisten
+
+Jangan pernah mengirim nilai sebelum state selesai.</code></pre>
+            </div>
+          </div>
+          <div>
+            <h3>Checklist fungsi</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Sebelum merge</span><button class="copy-btn" type="button" data-copy-target="cheat-2">Salin</button></div>
+              <pre><code id="cheat-2" data-lang="text">[ ] siapa boleh memanggil?
+[ ] state apa yang berubah?
+[ ] panggilan luar ke mana?
+[ ] nilai kembali dicek?
+[ ] overflow atau casting?
+[ ] pembulatan ke arah mana?
+[ ] event untuk audit?
+[ ] jalur pause atau darurat?</code></pre>
+            </div>
+          </div>
+          <div>
+            <h3>Signature</h3>
+            <div class="code-block">
+              <div class="code-head"><span>EIP-712</span><button class="copy-btn" type="button" data-copy-target="cheat-3">Salin</button></div>
+              <pre><code id="cheat-3" data-lang="text">domain = {
+  name, version, chainId, verifyingContract
+}
+typehash = keccak256("Permit(...)")
+structHash = keccak256(abi.encode(typehash, ...))
+digest = keccak256("\x19\x01", domain, structHash)
+
+cek: signer != 0, nonce, deadline, chain</code></pre>
+            </div>
+          </div>
+          <div>
+            <h3>Oracle</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Pemeriksaan</span><button class="copy-btn" type="button" data-copy-target="cheat-4">Salin</button></div>
+              <pre><code id="cheat-4" data-lang="text">answer &gt; 0
+updatedAt &gt; 0
+block.timestamp - updatedAt &lt;= staleness
+answeredInRound &gt;= roundId
+normalisasi desimal ke 18
+L2: cek sequencer uptime
+batasi perubahan harga per blok</code></pre>
+            </div>
+          </div>
+          <div>
+            <h3>Triage temuan</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Pertanyaan</span><button class="copy-btn" type="button" data-copy-target="cheat-5">Salin</button></div>
+              <pre><code id="cheat-5" data-lang="text">Siapa yang bisa memicu?
+Butuh modal berapa?
+Apa yang bisa hilang?
+Apakah bisa diulang?
+Apakah ada mitigasi operasional?
+Apa bukti bahwa perbaikan bekerja?
+Apa yang terjadi jika perbaikan dihapus?</code></pre>
+            </div>
+          </div>
+          <div>
+            <h3>Insiden</h3>
+            <div class="code-block">
+              <div class="code-head"><span>Urutan</span><button class="copy-btn" type="button" data-copy-target="cheat-6">Salin</button></div>
+              <pre><code id="cheat-6" data-lang="text">1. hentikan kerugian
+2. simpan bukti
+3. amankan kunci
+4. komunikasi resmi
+5. patch dan uji
+6. rilis bertahap
+7. postmortem dan invariant baru</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          <span class="note-label">Cara memakai cheatsheet</span>
+          <p>Cheatsheet bukan pengganti membaca kode. Ia daftar pertanyaan yang harus kamu jawab sebelum merge. Jika satu baris tidak bisa dijawab dengan bukti, fungsi itu belum selesai ditinjau.</p>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <section class="chapter" id="sumber" data-chapter="sumber" data-title="Sumber belajar">
+        <header class="chapter-head">
+          <p class="chapter-mark">Rujukan<span class="chapter-type">SUMBER</span></p>
+          <h2>Sumber belajar.</h2>
+          <p class="chapter-lead">Dokumentasi resmi lebih cepat berubah daripada docs ini. Saat ada perbedaan, dokumentasi versi yang kamu pakai menang. Tautan di bawah adalah titik awal, bukan jaminan bahwa kategori, API, atau rekomendasi akan tetap sama.</p>
+        </header>
+
+        <ul class="sources">
+          <li><a href="https://scs.owasp.org/sctop10/" target="_blank" rel="noopener noreferrer">OWASP Smart Contract Top 10</a><span>Kategori risiko 2026, deskripsi, dan data insiden.</span></li>
+          <li><a href="https://swcregistry.io/" target="_blank" rel="noopener noreferrer">Smart Contract Weakness Registry</a><span>Daftar kelemahan dengan contoh kode dan referensi.</span></li>
+          <li><a href="https://docs.soliditylang.org/" target="_blank" rel="noopener noreferrer">Solidity Documentation</a><span>Aritmetika, tipe, external call, dan perilaku EVM.</span></li>
+          <li><a href="https://docs.openzeppelin.com/contracts/5.x/" target="_blank" rel="noopener noreferrer">OpenZeppelin Contracts 5.x</a><span>ReentrancyGuard, AccessControl, Pausable, ECDSA, dan SafeERC20.</span></li>
+          <li><a href="https://book.getfoundry.sh/forge/tests" target="_blank" rel="noopener noreferrer">Foundry Testing</a><span>Unit test, fuzz, invariant, dan fork testing.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-712" target="_blank" rel="noopener noreferrer">EIP-712</a><span>Tanda tangan data terstruktur dan domain separator.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-1271" target="_blank" rel="noopener noreferrer">EIP-1271</a><span>Verifikasi tanda tangan untuk smart account.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-4337" target="_blank" rel="noopener noreferrer">EIP-4337</a><span>Account abstraction dengan UserOperation dan EntryPoint.</span></li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener noreferrer">EIP-7702</a><span>Delegasi kode untuk EOA.</span></li>
+          <li><a href="https://docs.chain.link/data-feeds" target="_blank" rel="noopener noreferrer">Chainlink Data Feeds</a><span>Feed harga, heartbeat, deviasi, dan alamat per chain.</span></li>
+          <li><a href="https://docs.chain.link/data-feeds/l2-sequencer-feeds" target="_blank" rel="noopener noreferrer">Chainlink L2 Sequencer Feeds</a><span>Pemeriksaan status sequencer di Layer 2.</span></li>
+          <li><a href="https://aave.com/docs/aave-v3/guides/flash-loans" target="_blank" rel="noopener noreferrer">Aave V3 Flash Loans</a><span>Mekanisme, biaya, dan tanggung jawab penerima.</span></li>
+          <li><a href="https://docs.uniswap.org/" target="_blank" rel="noopener noreferrer">Uniswap Documentation</a><span>AMM, slippage, dan antarmuka router.</span></li>
+          <li><a href="https://ethereum.org/en/developers/docs/scaling/" target="_blank" rel="noopener noreferrer">Ethereum Scaling</a><span>Rollup, validium, dan model keamanan Layer 2.</span></li>
+          <li><a href="https://ethereum.org/en/developers/docs/security/" target="_blank" rel="noopener noreferrer">Ethereum Security</a><span>Panduan keamanan kontrak dan kesalahan umum.</span></li>
+          <li><a href="https://docs.ipfs.tech/" target="_blank" rel="noopener noreferrer">IPFS Documentation</a><span>Content addressing, CID, pinning, dan gateway.</span></li>
+          <li><a href="https://thegraph.com/docs/" target="_blank" rel="noopener noreferrer">The Graph Docs</a><span>Subgraph, event indexing, dan query.</span></li>
+          <li><a href="https://docs.zkproof.org/" target="_blank" rel="noopener noreferrer">ZKProof Community</a><span>Standar, makalah, dan penjelasan sistem pembuktian.</span></li>
+          <li><a href="https://github.com/crytic/slither" target="_blank" rel="noopener noreferrer">Slither</a><span>Analisis statis untuk kontrak Solidity.</span></li>
+          <li><a href="https://github.com/crytic/echidna" target="_blank" rel="noopener noreferrer">Echidna</a><span>Fuzzer properti untuk kontrak EVM.</span></li>
+        </ul>
+
+        <div class="warn">
+          <span class="note-label">Batas docs ini</span>
+          <p>Docs ini tidak menggantikan audit, formal verification, atau pengujian pada fork mainnet dengan dana nyata. Kategori OWASP berubah antar tahun. Contoh kode disederhanakan dan tidak siap produksi. Untuk aplikasi yang memegang dana, gunakan audit independen, multisig, monitoring, bug bounty, dan review berkelanjutan.</p>
+        </div>
+        <div data-chapter-end></div>
+      </section>
+
+      <!-- CHAPTERS -->
+
+    </main>
+
+    <div class="toc">
+      <p class="toc-title">DI BAB INI</p>
+      <nav class="toc-nav" id="toc-nav" aria-label="Subbagian bab"></nav>
+      <a class="toc-top" href="#mulai">Kembali ke atas</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p><strong>Benteng</strong> adalah bagian ketujuh dari catatan belajar Web3. Materi berbahasa Indonesia, berjalan lokal, dan tidak mengirim data ke mana pun.</p>
+    <p>Semua lab adalah simulasi. Untuk dana nyata, gunakan audit independen, test yang kuat, multisig, dan monitoring.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
