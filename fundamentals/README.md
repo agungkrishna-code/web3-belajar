@@ -28,7 +28,7 @@ python -m http.server 8765
 - 13 lab interaktif: presisi Number vs BigInt, tipe dan kesamaan, closure, pipeline transaksi, event loop, simulator async, JSON, inspector status HTTP, konversi wei, batas safe integer, narrowing, utility type, dan Git staging.
 - 1 proyek akhir: dashboard `Denominasi` dengan route API, validasi runtime, fetch, AbortController, loading/error/empty state, dan format BigInt.
 - 20 soal uji kompetensi dengan pembahasan setiap jawaban.
-- Pencarian materi, daftar isi per bab, mode terang dan gelap, progres per bab, checklist proyek, dan navigasi mobile.
+- Pencarian materi, daftar isi per bab, mode terang dan gelap, progres per bab, checklist proyek, navigasi mobile, dan toolbar mengambang (daftar isi, lanjut, ke atas).
 
 ## Peta bab
 

@@ -1821,3 +1821,171 @@ function emptyLog(list, text) {
   render();
   reset();
 })();
+
+
+/* ---------- Toolbar mengambang ---------- */
+
+(function initQuickBar() {
+  if (document.querySelector(".quickbar")) return;
+
+  const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+  if (!navLinks.length) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const behavior = reduce ? "auto" : "smooth";
+
+  const bar = document.createElement("div");
+  bar.className = "quickbar";
+  bar.setAttribute("role", "group");
+  bar.setAttribute("aria-label", "Aksi cepat belajar");
+
+  const panel = document.createElement("div");
+  panel.className = "quickbar-panel";
+  panel.id = "quickbar-panel";
+  panel.hidden = true;
+
+  const title = document.createElement("p");
+  title.className = "quickbar-title";
+  title.textContent = "Daftar isi";
+  panel.appendChild(title);
+
+  const list = document.createElement("nav");
+  list.className = "quickbar-list";
+  list.setAttribute("aria-label", "Daftar isi halaman");
+
+  const entries = [];
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    if (href.charAt(0) !== "#" || href.length < 2) return;
+
+    const target = document.getElementById(href.slice(1));
+    if (!target) return;
+
+    const label = link.querySelector(".nav-label");
+    const number = link.querySelector(".nav-num");
+    const name = (label ? label.textContent : link.textContent).replace(/\s+/g, " ").trim();
+    if (!name) return;
+
+    const item = document.createElement("a");
+    item.href = href;
+
+    const num = document.createElement("span");
+    num.className = "quickbar-num";
+    num.textContent = number ? number.textContent.trim() : "";
+
+    const text = document.createElement("span");
+    text.className = "quickbar-name";
+    text.textContent = name;
+
+    item.appendChild(num);
+    item.appendChild(text);
+    item.addEventListener("click", () => setOpen(false));
+
+    list.appendChild(item);
+    entries.push({ link: link, item: item });
+  });
+
+  if (!entries.length) return;
+
+  panel.appendChild(list);
+
+  const actions = document.createElement("div");
+  actions.className = "quickbar-actions";
+
+  const makeButton = (key, label, icon, primary) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quickbar-btn" + (primary ? " is-primary" : "");
+    button.dataset.quick = key;
+    button.setAttribute("aria-label", label);
+    button.title = label;
+    button.innerHTML = icon + '<span class="quickbar-label">' + label + "</span>";
+    actions.appendChild(button);
+    return button;
+  };
+
+  const icons = {
+    list: '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 4h12M2 8h12M2 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>',
+    next: '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v11M3.5 8.5L8 13l4.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+    up: '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 14V3M3.5 7.5L8 3l4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+  };
+
+  const tocButton = makeButton("toc", "Daftar isi", icons.list, false);
+  tocButton.setAttribute("aria-expanded", "false");
+  tocButton.setAttribute("aria-controls", "quickbar-panel");
+
+  const nextButton = makeButton("next", "Lanjut", icons.next, true);
+  const topButton = makeButton("top", "Ke atas", icons.up, false);
+
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    tocButton.setAttribute("aria-expanded", open ? "true" : "false");
+    if (!open) return;
+
+    entries.forEach((entry) => {
+      entry.item.classList.toggle("is-current", entry.link.getAttribute("aria-current") === "true");
+    });
+  };
+
+  tocButton.addEventListener("click", () => {
+    setOpen(panel.hidden);
+  });
+
+  const findCurrentIndex = () => {
+    let index = navLinks.findIndex((link) => link.getAttribute("aria-current") === "true");
+    if (index >= 0) return index;
+
+    const header = document.querySelector(".site-header");
+    const limit = (header ? header.offsetHeight : 0) + 120;
+
+    navLinks.forEach((link, i) => {
+      const href = link.getAttribute("href") || "";
+      const target = href.charAt(0) === "#" ? document.getElementById(href.slice(1)) : null;
+      if (target && target.getBoundingClientRect().top <= limit) index = i;
+    });
+
+    return index;
+  };
+
+  nextButton.addEventListener("click", () => {
+    setOpen(false);
+
+    const index = findCurrentIndex();
+    const next = navLinks[index + 1];
+
+    if (next) {
+      const href = next.getAttribute("href") || "";
+      const target = href.charAt(0) === "#" ? document.getElementById(href.slice(1)) : null;
+      if (target) {
+        target.scrollIntoView({ behavior: behavior, block: "start" });
+        return;
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: behavior });
+    if (typeof toast === "function") toast("Kamu sudah di akhir materi. Kembali ke awal.");
+  });
+
+  topButton.addEventListener("click", () => {
+    setOpen(false);
+    window.scrollTo({ top: 0, behavior: behavior });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (panel.hidden) return;
+    if (bar.contains(event.target)) return;
+    setOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || panel.hidden) return;
+    setOpen(false);
+    tocButton.focus();
+  });
+
+  bar.appendChild(panel);
+  bar.appendChild(actions);
+  document.body.appendChild(bar);
+})();
+

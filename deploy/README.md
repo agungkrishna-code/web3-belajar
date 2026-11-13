@@ -27,7 +27,7 @@ python -m http.server 8765
 - 13 lab interaktif: pemilihan jaringan, RPC bench, kelayakan faucet, env builder, pipeline deploy, kalkulator gas, pelacak konfirmasi, pencocok verifikasi, pembaca explorer, chain guard, call builder, triase error, dan gate rilis.
 - 20 soal uji kompetensi dengan penjelasan setiap jawaban.
 - Progres per bab, skor terbaik, dan checklist gate tersimpan di `localStorage` perangkat.
-- Pencarian materi, daftar isi per bab, mode terang dan gelap, serta navigasi mobile.
+- Pencarian materi, daftar isi per bab, mode terang dan gelap, serta navigasi mobile dan toolbar mengambang (daftar isi, lanjut, ke atas).
 - Contoh kode untuk Foundry, Cast, Remix, Hardhat 3 Ignition, Etherscan V2, Sourcify, Wagmi 2, dan Viem 2.
 
 ## Peta bab

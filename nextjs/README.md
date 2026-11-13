@@ -28,7 +28,7 @@ python -m http.server 8765
 - 12 lab interaktif: stack classifier, batas server/client, config builder, connect wallet, saldo, baca kontrak, kirim transaksi, signature, status transaksi, event feed, pesan error, dan checklist.
 - Satu alur simulasi wallet yang dipakai bersama oleh panel atas dan lab: connect, ganti akun, ganti chain, deposit, signature, dan event.
 - 20 soal uji kompetensi dengan penjelasan setiap jawaban.
-- Pencarian materi, daftar isi per bab, mode terang dan gelap, progres per bab, dan navigasi mobile.
+- Pencarian materi, daftar isi per bab, mode terang dan gelap, progres per bab, navigasi mobile, dan toolbar mengambang (daftar isi, lanjut, ke atas).
 - Contoh kode lengkap untuk config Wagmi, provider, connect, balance, read, write, receipt, signature, verifikasi server, dan event.
 
 ## Peta bab

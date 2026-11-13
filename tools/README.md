@@ -27,7 +27,7 @@ python -m http.server 8765
 - 13 lab interaktif: pipeline, config builder, triase error, Remix VM, komposisi OpenZeppelin, test runner, cheatcode, fuzz, invariant, Anvil, deploy dan resume, Cast, serta trace inspector.
 - Proyek MiniVault lengkap: kontrak, unit test, fuzz test, invariant test, handler, script deploy, dan checklist.
 - 20 soal uji kompetensi dengan penjelasan setiap jawaban.
-- Pencarian materi, daftar isi per bab, mode terang dan gelap, progres per bab, dan navigasi mobile.
+- Pencarian materi, daftar isi per bab, mode terang dan gelap, progres per bab, navigasi mobile, dan toolbar mengambang (daftar isi, lanjut, ke atas).
 
 ## Peta bab
 

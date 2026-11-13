@@ -27,7 +27,7 @@ python -m http.server 8765
 - 13 lab interaktif: permukaan serangan, reentrancy, access control, integer, oracle, front-running, flash loan, signature, urutan CEI, fuzz invariant, triase OWASP, runbook insiden, dan gate kesiapan.
 - 20 soal uji kompetensi dengan penjelasan setiap jawaban.
 - Progres per bab, skor terbaik, dan checklist gate tersimpan di `localStorage` perangkat.
-- Pencarian materi, daftar isi per bab, mode terang dan gelap, serta navigasi mobile.
+- Pencarian materi, daftar isi per bab, mode terang dan gelap, serta navigasi mobile dan toolbar mengambang (daftar isi, lanjut, ke atas).
 - Contoh kode Solidity, Foundry, Aave, Chainlink, EIP-712, ERC-4337, dan catatan arsitektur.
 
 ## Peta bab

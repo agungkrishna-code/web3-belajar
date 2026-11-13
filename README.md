@@ -53,6 +53,7 @@ Setiap folder berisi `index.html`, `styles.css`, `app.js`, dan `README.md` sendi
 - Tidak ada build step dan tidak ada dependensi. Cukup HTML, CSS, dan JavaScript biasa.
 - Lab kriptografi memakai Web Crypto API yang tersedia di browser. Ethereum memakai algoritme berbeda (secp256k1, Keccak-256); perbedaannya dijelaskan di dalam materi.
 - Respons RPC, angka gas, dan hasil deploy di lab adalah simulasi dan diberi label.
+- Setiap docs punya toolbar mengambang di pojok kanan bawah: daftar isi cepat, lanjut ke bab berikutnya, dan kembali ke atas.
 - Font dimuat dari Google Fonts. Tanpa internet, font fallback sistem tetap membuat materi terbaca.
 - Materi ditulis ulang untuk pembelajaran, bukan salinan dokumentasi resmi. Jangan deploy kontrak latihan ke mainnet dengan dana nyata.
 

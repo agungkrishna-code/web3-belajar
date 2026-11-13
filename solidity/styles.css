@@ -3022,3 +3022,218 @@ details p {
     display: none !important;
   }
 }
+
+
+/* ---------- Toolbar mengambang ---------- */
+
+.quickbar {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: calc(100vw - 32px);
+  font-family: var(--font-body);
+}
+
+.quickbar-panel {
+  width: min(320px, calc(100vw - 32px));
+  max-height: min(58vh, 440px);
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: 0 18px 44px rgba(16, 21, 18, 0.18);
+  animation: quickbar-in 140ms ease;
+  overscroll-behavior: contain;
+}
+
+[data-theme="dark"] .quickbar-panel {
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+}
+
+.quickbar-title {
+  margin: 0 0 8px;
+  padding: 2px 8px 9px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quickbar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 6px;
+}
+
+.quickbar-list a {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+  padding: 8px;
+  border-radius: 3px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.quickbar-list a:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+.quickbar-list a.is-current {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.quickbar-num {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.quickbar-list a.is-current .quickbar-num {
+  color: inherit;
+}
+
+.quickbar-actions {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: 0 10px 30px rgba(16, 21, 18, 0.16);
+}
+
+[data-theme="dark"] .quickbar-actions {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.quickbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.quickbar-btn:last-child {
+  border-right: 0;
+}
+
+.quickbar-btn:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+.quickbar-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.quickbar-btn.is-primary {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.quickbar-btn.is-primary:hover {
+  background: var(--accent-hover);
+  color: var(--paper);
+}
+
+.quickbar-btn[aria-expanded="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.quickbar-btn svg {
+  flex: none;
+}
+
+@keyframes quickbar-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 420px) {
+  .quickbar {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .quickbar-btn {
+    min-height: 44px;
+    padding: 8px 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .quickbar-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .quickbar-btn {
+    padding: 8px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quickbar-panel {
+    animation: none;
+  }
+}
+
+@media print {
+  .quickbar {
+    display: none !important;
+  }
+}
+
+
+@media (min-width: 1240px) {
+  .toc {
+    padding-bottom: 88px;
+  }
+}
+
+.toast {
+  bottom: 78px;
+}
+

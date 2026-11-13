@@ -26,7 +26,7 @@ python -m http.server 8765
 - 5 proyek kontrak lengkap: Counter, Todo List, Voting, Simple Wallet, Basic Token.
 - Standar ERC-20, ERC-721, dan ERC-1155, termasuk kode OpenZeppelin dan jebakan integrasi.
 - 20 soal uji kompetensi dengan penjelasan setiap jawaban.
-- Pencarian materi, daftar isi per bab, mode terang dan gelap, progres per bab, dan navigasi mobile.
+- Pencarian materi, daftar isi per bab, mode terang dan gelap, progres per bab, navigasi mobile, dan toolbar mengambang (daftar isi, lanjut, ke atas).
 
 ## Peta bab
 

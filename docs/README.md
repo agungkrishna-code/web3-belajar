@@ -32,7 +32,7 @@ npx serve .
 - 13 bab: 10 konsep fondasi, Web2 vs Web3, studi kasus wallet, dan uji kompetensi.
 - 10 lab interaktif: hash, jaringan node, pasangan kunci, signature, rantai blok, gas, konsensus (PoW dan PoS), RPC, L2, dan klasifikasi on-chain.
 - Progres per bab dan skor terbaik uji kompetensi disimpan di `localStorage` perangkat.
-- Pencarian materi, daftar isi per bab, mode terang dan gelap, serta navigasi mobile.
+- Pencarian materi, daftar isi per bab, mode terang dan gelap, serta navigasi mobile dan toolbar mengambang (daftar isi, lanjut, ke atas).
 - Glosarium, cheatsheet satuan, dan daftar sumber resmi.
 
 ## Peta bab
